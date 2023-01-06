@@ -1,18 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   iterator.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/05 12:36:35 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/05 15:43:51 by aaljaber         ###   ########.fr       */
+/*   Created: 2023/01/06 16:06:51 by aaljaber          #+#    #+#             */
+/*   Updated: 2023/01/06 18:38:47 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./incl/Vector.hpp"
+#ifndef ITERATOR_HPP
+#define ITERATOR_HPP
 
-int main ()
+namespace ft
 {
-	
+	template <typename T>
+	class iterator
+	{
+		private:
+			T	*_data;
+		public:
+			iterator(T *data)_data(data){};
+			~iterator(){};
+	};
 }
+
+#endif
