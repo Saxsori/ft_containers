@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:37:18 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/08 23:13:09 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/08 23:32:04 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ namespace ft
 			size_type			_size;
 			size_type			_capacity; // ? amount of storage space that has been allocated
 			pointer				_data;
-			static size_type	_max_size = 1073741823;
 		public:
 			/*						MEMBER 	FUNCTIONS						*/
 			// ? iterators
@@ -66,7 +65,7 @@ namespace ft
 			iterator	end(){return iterator(_data + _size);}
 			// ? capacity
 			size_type	size()const{return _size;}
-			size_type	max_size()const{return _max_size;}
+			size_type	max_size()const{return std::allocator_traits<allocator_type>::max_size(_allocator);} // * std::allocator_traits used to obtain the max_size value for the allocator_type used by ft::vector
 			size_type	capacity()const{return _capacity;}
 			bool		empty()const{return (_size == 0) ? true : false;}
 			// ? 
