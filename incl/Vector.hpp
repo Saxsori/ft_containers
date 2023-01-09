@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:37:18 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/09 12:03:17 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/09 20:08:17 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,15 +59,15 @@ namespace ft
 			size_type			_capacity; // ? amount of storage space that has been allocated
 		public:
 			/*						MEMBER 	FUNCTIONS						*/
-			// ? iterators
+			// ? iterators ?//
 			// iterator	begin(){return iterator(_data);}
 			// iterator	end(){return iterator(_data + _size);}
-			// ? capacity
+			// ? capacity ? //
 			size_type	size()const{return _size;}
 			size_type	max_size()const{return _allocator.max_size();} // * std::allocator_traits used to obtain the max_size value for the allocator_type used by ft::vector
 			size_type	capacity()const{return _capacity;}
 			bool		empty()const{return (_size == 0) ? true : false;}
-			// ? modifiers
+			// ? modifiers ? //
 			void push_back(const_reference val)
 			{
 				// ? if the vector is full, to reallocate
@@ -90,28 +90,29 @@ namespace ft
 				_allocator.construct(_data + _size, val);
 				_size++;
 			}
-			// ? element access
+			void pop_back() {_size--;}
+			// ? element access ? //
 			reference operator[] (size_type n)
 			{
-				if (n >= _size)
+				if (n >= _capacity)
 					throw std::out_of_range("ft::vector::operator[]: position is out of range");
 				return (_data[n]);
 			}
 			const_reference operator[] (size_type n) const
 			{
-				if (n >= _size)
+				if (n >= _capacity)
 					throw std::out_of_range("ft::vector::operator[]: position is out of range");
 				return (_data[n]);
 			}
 			reference at (size_type n)
 			{
-				if (n >= _size)
+				if (n >= _capacity)
 					throw std::out_of_range("ft::vector::operator[]: position is out of range");
 				return (_data[n]);
 			}
 			const_reference at (size_type n) const
 			{
-				if (n >= _size)
+				if (n >= _capacity)
 					throw std::out_of_range("ft::vector::operator[]: position is out of range");
 				return (_data[n]);
 			}
@@ -119,15 +120,10 @@ namespace ft
 			const_reference front() const{_data[0];}
 			reference back(){return _data[_size - 1];}
 			const_reference back() const{_data[_size - 1];}
-			/* 
-				* noexcept(it can mask errors) means func doesn't throw any exception, 
-				* if exception is thrown from within this func 
-				* the program will terminate, 
-				* used to avoid the overhead of exception handling, 
-				* or for performance reasons or to enable certain optimizations
-			*/
-			pointer data() noexcept{return _data;}
-			const_pointer data() const noexcept{return _data;}
+			pointer data() {return _data;}
+			const_pointer data() const {return _data;}
+			// ? allocator ? //
+			allocator_type get_allocator() const{return _allocator;}
 			/*
 				* the 'explicit' used to prevent implicit type conversions, which it can lead to unintended behavior
 				* ex. ft::Vector<int> myvector = 5; this will run and compile without any error 
