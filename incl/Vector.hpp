@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:37:18 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/08 23:32:04 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/09 07:39:06 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <memory>
 #include <iostream>
 #include <algorithm>
-#include <iterator.hpp>
+// #include <iterator.hpp>
 
 namespace ft
 {
@@ -40,8 +40,7 @@ namespace ft
 	* or if u want to use a custom memory allocation algorithm. 
 
 	*/
-	template <typename T, typename Alloc = std::allocator<T>>
-	class Vector
+	template <class T, class Alloc = std::allocator<T> > class vector
 	{
 		public:
 			/*						MEMBER 	TYPES							*/
@@ -52,23 +51,23 @@ namespace ft
 			typedef value_type*								pointer;
 			typedef const value_type*						const_pointer;
 			typedef	size_t									size_type;
-			typedef	ft::iterator<value_type>				iterator;
+			// typedef	ft::iterator<value_type>				iterator;
 		private:
 			allocator_type		_allocator;
+			pointer				_data;
 			size_type			_size;
 			size_type			_capacity; // ? amount of storage space that has been allocated
-			pointer				_data;
 		public:
 			/*						MEMBER 	FUNCTIONS						*/
 			// ? iterators
-			iterator	begin(){return iterator(_data);}
-			iterator	end(){return iterator(_data + _size);}
+			// iterator	begin(){return iterator(_data);}
+			// iterator	end(){return iterator(_data + _size);}
 			// ? capacity
 			size_type	size()const{return _size;}
-			size_type	max_size()const{return std::allocator_traits<allocator_type>::max_size(_allocator);} // * std::allocator_traits used to obtain the max_size value for the allocator_type used by ft::vector
+			size_type	max_size()const{return _allocator.max_size();} // * std::allocator_traits used to obtain the max_size value for the allocator_type used by ft::vector
 			size_type	capacity()const{return _capacity;}
 			bool		empty()const{return (_size == 0) ? true : false;}
-			// ? 
+			// ? modifiers
 			void push_back(const_reference val)
 			{
 				// ? if the vector is full, to reallocate
@@ -90,7 +89,13 @@ namespace ft
 				// ? adding the val
 				_allocator.construct(_data + _size, val);
 				_size++;
-			}	
+			}
+			// ? element access
+			reference operator[] (size_type n)
+			{
+				// todo throw an exception when it's out of bound
+				return (_data[n]);
+			}
 			/*
 				* the 'explicit' used to prevent implicit type conversions, which it can lead to unintended behavior
 				* ex. ft::Vector<int> myvector = 5; this will run and compile without any error 
@@ -98,8 +103,8 @@ namespace ft
 			*/
 			/*						CONSTRUCTORS						*/
 			// ? default constructor
-			explicit vector (const allocator_type& alloc):_data(NULL), _size(0),_capacity(0),_allocator(alloc){};
-			~Vector(){_allocator.deallocate(_data, ((_capacity == 0) ? 1 : _capacity));}
+			explicit vector (const allocator_type& alloc):_allocator(alloc), _data(NULL), _size(0), _capacity(0){};
+			~vector(){_allocator.deallocate(_data, ((_capacity == 0) ? 1 : _capacity));}
 	};
 }
 
