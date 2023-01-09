@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:37:18 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/09 07:39:06 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/09 12:03:17 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,41 @@ namespace ft
 			// ? element access
 			reference operator[] (size_type n)
 			{
-				// todo throw an exception when it's out of bound
+				if (n >= _size)
+					throw std::out_of_range("ft::vector::operator[]: position is out of range");
 				return (_data[n]);
 			}
+			const_reference operator[] (size_type n) const
+			{
+				if (n >= _size)
+					throw std::out_of_range("ft::vector::operator[]: position is out of range");
+				return (_data[n]);
+			}
+			reference at (size_type n)
+			{
+				if (n >= _size)
+					throw std::out_of_range("ft::vector::operator[]: position is out of range");
+				return (_data[n]);
+			}
+			const_reference at (size_type n) const
+			{
+				if (n >= _size)
+					throw std::out_of_range("ft::vector::operator[]: position is out of range");
+				return (_data[n]);
+			}
+			reference front(){return (_data[0]);}
+			const_reference front() const{_data[0];}
+			reference back(){return _data[_size - 1];}
+			const_reference back() const{_data[_size - 1];}
+			/* 
+				* noexcept(it can mask errors) means func doesn't throw any exception, 
+				* if exception is thrown from within this func 
+				* the program will terminate, 
+				* used to avoid the overhead of exception handling, 
+				* or for performance reasons or to enable certain optimizations
+			*/
+			pointer data() noexcept{return _data;}
+			const_pointer data() const noexcept{return _data;}
 			/*
 				* the 'explicit' used to prevent implicit type conversions, which it can lead to unintended behavior
 				* ex. ft::Vector<int> myvector = 5; this will run and compile without any error 

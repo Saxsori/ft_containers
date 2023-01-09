@@ -6,11 +6,12 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:36:35 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/09 07:40:01 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/09 09:23:50 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./incl/Vector.hpp"
+#include <vector>
 
 int main ()
 {
@@ -24,5 +25,22 @@ int main ()
 	std::cout << "boo[0] " << boo[0] << std::endl;
 	std::cout << "boo[1] " << boo[1] << std::endl;
 	std::cout << "boo[2] " << boo[2] << std::endl;
+	std::vector<int> v;
+	v.push_back(1);
+	try
+	{
+		boo[15];
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << '\n';
+	}
+	
+  try {
+    v.at(3); // access an element outside the range of the vector
+  } catch (const std::out_of_range& e) {
+    std::cerr << e.what() << std::endl;
+  }
+
 	
 }
