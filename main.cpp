@@ -6,16 +6,18 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:36:35 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/09 20:03:25 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/10 07:41:06 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./incl/Vector.hpp"
+#include "./incl/iterator.hpp"
 #include <vector>
+
 
 int main ()
 {
-	std::allocator<int> moo;
+	// std::allocator<int> moo;
 	// ft::vector <int> boo(moo);
 	// boo.push_back(1);
 	// boo.push_back(2);
@@ -35,19 +37,23 @@ int main ()
 	// 	std::cerr << e.what() << '\n';
 	// }
 	
-	std::vector<int> v(moo);
-	v.push_back(1);
-	std::cout << "v[0] " << v[0] << std::endl;
-	std::cout << "size " << v.size() << std::endl;
-	std::cout << "capacity " << v.capacity() << std::endl;
-	v.pop_back();
-	std::cout << "v[0] " << v[0] << std::endl;
-	std::cout << "size " << v.size() << std::endl;
-	std::cout << "capacity " << v.capacity() << std::endl;
-	v.pop_back();
-	std::cout << "v[0] " << v[0] << std::endl;
-	std::cout << "size " << v.size() << std::endl;
-	std::cout << "capacity " << v.capacity() << std::endl;
+	/*  
+	 ! SILLY STD VECTOR 
+	*/
+	// std::allocator<int> moo;
+	// std::vector<int> v(moo);
+	// v.push_back(1);
+	// std::cout << "v[0] " << v[0] << std::endl;
+	// std::cout << "size " << v.size() << std::endl;
+	// std::cout << "capacity " << v.capacity() << std::endl;
+	// v.pop_back();
+	// std::cout << "v[0] " << v[0] << std::endl;
+	// std::cout << "size " << v.size() << std::endl;
+	// std::cout << "capacity " << v.capacity() << std::endl;
+	// v.pop_back();
+	// std::cout << "v[0] " << v[0] << std::endl;
+	// std::cout << "size " << v.size() << std::endl;
+	// std::cout << "capacity " << v.capacity() << std::endl;
 
 	// try 
 	// {
@@ -57,6 +63,12 @@ int main ()
 	// {
 	// 	std::cerr << e.what() << std::endl;
 	// }
+	
+	ft::vector<int> boo;
+	boo.push_back(1);
+	boo.push_back(2);
+	for(size_t i = 0; i < boo.size(); i++)
+		std::cout << *(boo.begin() + i) << std::endl;
 
 	
 }

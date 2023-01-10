@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:37:18 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/09 20:08:17 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/10 07:39:49 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <memory>
 #include <iostream>
 #include <algorithm>
-// #include <iterator.hpp>
+#include "./iterator.hpp"
 
 namespace ft
 {
@@ -51,7 +51,7 @@ namespace ft
 			typedef value_type*								pointer;
 			typedef const value_type*						const_pointer;
 			typedef	size_t									size_type;
-			// typedef	ft::iterator<value_type>				iterator;
+			typedef	ft::iterator<value_type>				iterator;
 		private:
 			allocator_type		_allocator;
 			pointer				_data;
@@ -60,13 +60,13 @@ namespace ft
 		public:
 			/*						MEMBER 	FUNCTIONS						*/
 			// ? iterators ?//
-			// iterator	begin(){return iterator(_data);}
-			// iterator	end(){return iterator(_data + _size);}
+			iterator	begin(void){return iterator(_data);}
+			iterator	end(void){return iterator(_data + _size);}
 			// ? capacity ? //
-			size_type	size()const{return _size;}
-			size_type	max_size()const{return _allocator.max_size();} // * std::allocator_traits used to obtain the max_size value for the allocator_type used by ft::vector
-			size_type	capacity()const{return _capacity;}
-			bool		empty()const{return (_size == 0) ? true : false;}
+			size_type	size(void)const{return _size;}
+			size_type	max_size(void)const{return _allocator.max_size();} // * std::allocator_traits used to obtain the max_size value for the allocator_type used by ft::vector
+			size_type	capacity(void)const{return _capacity;}
+			bool		empty(void)const{return (_size == 0) ? true : false;}
 			// ? modifiers ? //
 			void push_back(const_reference val)
 			{
@@ -90,7 +90,7 @@ namespace ft
 				_allocator.construct(_data + _size, val);
 				_size++;
 			}
-			void pop_back() {_size--;}
+			void pop_back(void) {_size--;}
 			// ? element access ? //
 			reference operator[] (size_type n)
 			{
@@ -116,14 +116,14 @@ namespace ft
 					throw std::out_of_range("ft::vector::operator[]: position is out of range");
 				return (_data[n]);
 			}
-			reference front(){return (_data[0]);}
-			const_reference front() const{_data[0];}
-			reference back(){return _data[_size - 1];}
-			const_reference back() const{_data[_size - 1];}
-			pointer data() {return _data;}
-			const_pointer data() const {return _data;}
+			reference front(void){return (_data[0]);}
+			const_reference front(void) const{_data[0];}
+			reference back(void){return _data[_size - 1];}
+			const_reference back(void) const{_data[_size - 1];}
+			pointer data(void) {return _data;}
+			const_pointer data(void) const {return _data;}
 			// ? allocator ? //
-			allocator_type get_allocator() const{return _allocator;}
+			allocator_type get_allocator(void) const{return _allocator;}
 			/*
 				* the 'explicit' used to prevent implicit type conversions, which it can lead to unintended behavior
 				* ex. ft::Vector<int> myvector = 5; this will run and compile without any error 
@@ -131,8 +131,9 @@ namespace ft
 			*/
 			/*						CONSTRUCTORS						*/
 			// ? default constructor
-			explicit vector (const allocator_type& alloc):_allocator(alloc), _data(NULL), _size(0), _capacity(0){};
-			~vector(){_allocator.deallocate(_data, ((_capacity == 0) ? 1 : _capacity));}
+			explicit vector (const allocator_type& alloc):_allocator(alloc), _data(NULL), _size(0), _capacity(0){}
+			explicit vector (void):_data(NULL), _size(0), _capacity(0){}
+			~vector(void){_allocator.deallocate(_data, ((_capacity == 0) ? 1 : _capacity));}
 	};
 }
 
