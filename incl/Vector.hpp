@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:37:18 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/10 07:39:49 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/11 12:02:38 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,13 @@ namespace ft
 				_allocator.construct(_data + _size, val);
 				_size++;
 			}
-			void pop_back(void) {_size--;}
+			void pop_back(void) 
+			{
+				// * the destroy is used to remove the element (calling the destructor) with keeping the memory 
+				if (_size > 0)
+					_allocator.destroy(_data + (_size - 1));
+				_size--;
+			}
 			// ? element access ? //
 			reference operator[] (size_type n)
 			{
@@ -133,7 +139,50 @@ namespace ft
 			// ? default constructor
 			explicit vector (const allocator_type& alloc):_allocator(alloc), _data(NULL), _size(0), _capacity(0){}
 			explicit vector (void):_data(NULL), _size(0), _capacity(0){}
-			~vector(void){_allocator.deallocate(_data, ((_capacity == 0) ? 1 : _capacity));}
+			// ? value constructor
+			explicit vector(size_type count, const_reference value = T(), const allocator_type& alloc = allocator_type())
+			{
+				_allocator.allocate(_data, count);
+				for (size_t i = 0; i < count; i++)
+					_data[i] = value;
+				_size = count;
+				_capacity = count;
+			}
+			// ? copy constructor
+			explicit vector(const vector& other)
+			{
+				if (_capacity > 0)
+					_allocator.dellocate(_data, _capacity);
+				_allocator.allocate(_data, other.capacity());
+				std::copy(_data, other.data() + other.size(), other.data());
+				_size = other.size();
+				_capacity = other.capacity();
+				_allocator = other.get_allocator();
+			}
+			template <class InputIterator>
+			explicit vector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()):_data(NULL),_size(0),_capacity(0)
+			{
+				(void)alloc;
+				_capacity = last - first;
+				_data = _allocator.allocate(_capacity);
+				InputIterator it = first;
+				for (size_t i = 0; it != last; i++)
+				{
+					std::cout << i << std::endl;
+					_allocator.construct(_data + (_capacity - 1), *(it++));
+				}
+				_size = _capacity;
+			}
+			~vector(void)
+			{
+				if (_size)
+				{
+					for (size_t i = 0; i < _size; i++)
+						_allocator.destroy(_data + i);
+				}
+				if (_data)
+					_allocator.deallocate(_data, _capacity);
+			}
 	};
 }
 

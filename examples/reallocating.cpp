@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 21:11:33 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/08 22:57:45 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/10 14:59:54 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ void	add(int val)
 
 int main ()
 {
-	IntWrapper w = 5;
-	std::cout << w.getValue() << std::endl; 
+	// IntWrapper w = 5;
+	// std::cout << w.getValue() << std::endl; 
 	// array = NULL;
 	// s = 0;
 	// c = 0;
@@ -65,4 +65,5 @@ int main ()
 	// 	std::cout << n[i] << std::endl;
 	// std::cout << "size " << s << std::endl;
 	// std::cout << "capacity " << c << std::endl;
+	
 }

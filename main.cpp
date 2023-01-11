@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:36:35 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/10 07:41:06 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/11 11:40:56 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,16 @@
 #include "./incl/iterator.hpp"
 #include <vector>
 
+std::allocator<int> alloc;
+class IntWrapper {
+public:
+  IntWrapper(int value) : value_(value) {}
+  int getValue() const { return value_; }
+  ~IntWrapper(void){std::cout << "destructor" << std::endl;}
+
+private:
+  int value_;
+};
 
 int main ()
 {
@@ -40,21 +50,26 @@ int main ()
 	/*  
 	 ! SILLY STD VECTOR 
 	*/
-	// std::allocator<int> moo;
-	// std::vector<int> v(moo);
-	// v.push_back(1);
-	// std::cout << "v[0] " << v[0] << std::endl;
+	std::allocator<int> moo;
+	IntWrapper noo(5);
+	std::vector<IntWrapper> v;
+	v.push_back(noo);
+	std::cout << "v[0] " << v[0].getValue() << std::endl;
+	std::cout << "size " << v.size() << std::endl;
+	std::cout << "capacity " << v.capacity() << std::endl;
+	// v.pop_back();
+	// std::cout << "v[0] " << v[0].getValue() << std::endl;
 	// std::cout << "size " << v.size() << std::endl;
 	// std::cout << "capacity " << v.capacity() << std::endl;
 	// v.pop_back();
-	// std::cout << "v[0] " << v[0] << std::endl;
-	// std::cout << "size " << v.size() << std::endl;
-	// std::cout << "capacity " << v.capacity() << std::endl;
-	// v.pop_back();
-	// std::cout << "v[0] " << v[0] << std::endl;
+	// std::cout << "v[0] " << v[0].getValue() << std::endl;
 	// std::cout << "size " << v.size() << std::endl;
 	// std::cout << "capacity " << v.capacity() << std::endl;
 
+	std::cout << (*(v.begin())).getValue() << std::endl;
+	ft::vector<IntWrapper> boo(v.begin(), v.end(), moo);
+	std::vector<IntWrapper> boo1(v.begin(), v.end(), moo);
+	
 	// try 
 	// {
 	// 	v.at(3); // access an element outside the range of the vector
@@ -64,11 +79,12 @@ int main ()
 	// 	std::cerr << e.what() << std::endl;
 	// }
 	
-	ft::vector<int> boo;
-	boo.push_back(1);
-	boo.push_back(2);
-	for(size_t i = 0; i < boo.size(); i++)
-		std::cout << *(boo.begin() + i) << std::endl;
+	// ft::vector<int> boo;
+	// boo.push_back(1);
+	// boo.push_back(2);
+	
+	// for(size_t i = 0; i < boo.size(); i++)
+	// 	std::cout << *(boo.begin() + i) << std::endl;
 
 	
 }
