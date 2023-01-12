@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:37:18 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/12 06:07:03 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/12 07:29:16 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ namespace ft
 			pointer				_data;
 			size_type			_size;
 			size_type			_capacity; // ? amount of storage space that has been allocated
-			pointer				_fill(size_type n, const_reference &val);
+			pointer				_fill(size_type n, const_reference val);
 		public:
 			/*						MEMBER 	FUNCTIONS						*/
 			// !						ITERATORS						// 
@@ -100,15 +100,16 @@ namespace ft
 					else if (n < _size)
 					{
 						for (size_t i = n - 1; i < _size; i++)
-							this->pop_back(val);
+							this->pop_back();
 					}
 				}
 				else
 				{
 					reserve(n);
 					for (size_t i = _size - 1; i < n; i++)
-						this->push_back(val);	
+						this->push_back(val);
 				}
+				_size = n;
 			}
 			void	shrink_to_fit(void)
 			{
@@ -281,7 +282,7 @@ namespace ft
 				}
 				_size = _capacity;
 			}
-			
+
 			// !						DESTRUCTOR						//
 			~vector(void)
 			{

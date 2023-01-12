@@ -1,0 +1,37 @@
+In file included from ../vector_tests/rend().cpp:1:
+In file included from ../vector_tests/../system/system_methods.ipp:2:
+In file included from ../vector_tests/../system/lib.hpp:12:
+In file included from /usr/bin/../lib/gcc/aarch64-linux-gnu/10/../../../../include/c++/10/array:35:
+/usr/bin/../lib/gcc/aarch64-linux-gnu/10/../../../../include/c++/10/bits/c++0x_warning.h:32:2: error: This file requires compiler and library support for the ISO C++ 2011 standard. This support must be enabled with the -std=c++11 or -std=gnu++11 compiler options.
+#error This file requires compiler and library support \
+ ^
+In file included from ../vector_tests/rend().cpp:1:
+../vector_tests/../system/system_methods.ipp:6:23: error: use of undeclared identifier 'nullptr'
+        gettimeofday(&start, nullptr);
+                             ^
+../vector_tests/../system/system_methods.ipp:37:12: error: no member named 'to_string' in namespace 'std'
+        a += std::to_string(static_cast<int>(pid));
+             ~~~~~^
+../vector_tests/../system/system_methods.ipp:68:41: error: no member named 'to_string' in namespace 'std'
+        (t1 >= t2) ? printElement(GREEN + std::to_string(t2) + "ms" + RESET) : printElement(REDD + std::to_string(t2) + "ms" + RESET);
+                                          ~~~~~^
+../vector_tests/../system/system_methods.ipp:68:98: error: no member named 'to_string' in namespace 'std'
+        (t1 >= t2) ? printElement(GREEN + std::to_string(t2) + "ms" + RESET) : printElement(REDD + std::to_string(t2) + "ms" + RESET);
+                                                                                                   ~~~~~^
+../vector_tests/../system/system_methods.ipp:69:39: error: no member named 'to_string' in namespace 'std'
+        (t1 > t2) ? printElement(REDD + std::to_string(t1) + "ms" + RESET) : printElement(GREEN + std::to_string(t1) + "ms" + RESET);
+                                        ~~~~~^~~~^
+../vector_tests/../system/system_methods.ipp:69:97: error: no member named 'to_string' in namespace 'std'
+        (t1 > t2) ? printElement(REDD + std::to_string(t1) + "ms" + RESET) : printElement(GREEN + std::to_string(t1) + "ms" + RESET);
+                                                                                                  ~~~~~^
+In file included from ../vector_tests/rbegin().cpp:2:
+../vector_tests/__service.ipp:3:10: fatal error: '../incl/Vector.hpp' file not found
+#include VECTOR
+         ^~~~~~
+../vector_tests/../system/../../config.hpp:8:18: note: expanded from macro 'VECTOR'
+#define VECTOR                  "../incl/Vector.hpp"
+                                ^~~~~~~~~~~~~~~~~~~~
+8 errors generated.
+d.
+          ^~~~~~~~~~~~~~~~~~~~
+8 errors generated.
