@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 16:06:51 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/10 07:42:36 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/11 16:05:36 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,19 @@ namespace ft
 			~iterator(void){}
 			pointer		getPointer(void){return _ptr;}
 			/*						OVERLOADS						*/
+			// * Dereference operator
+			reference	operator[](int pos){return (*(_ptr + pos));}
+			pointer		operator->(void){return _ptr;}
+			reference	operator*(void){return *_ptr;}
+			// * Increment/decrement operators
 			iterator&	operator++(void){_ptr++; return *this;}
 			iterator&	operator--(void){_ptr--; return *this;}
 			iterator	operator++(int){iterator *temp = this; _ptr++; return (*temp);}
 			iterator	operator--(int){iterator *temp = this; _ptr--; return (*temp);}
-			iterator	operator-(int pos){_ptr = _ptr - pos; return (*this);}
-			iterator	operator+(int pos){_ptr = _ptr + pos; return (*this);}
-			reference	operator[](int pos){return (*(_ptr + pos));}
-			pointer		operator->(void){return _ptr;}
-			reference		operator*(void){return *_ptr;}
+			
+			iterator	operator-(difference_type n){_ptr = _ptr - n; return (*this);}
+			iterator	operator+(difference_type n){_ptr = _ptr + n; return (*this);}
+			
 		private:
 			pointer	_ptr;
 	};
