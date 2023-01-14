@@ -12,6 +12,7 @@
 ### Iterators:
 - [Iterators in C++](https://www.youtube.com/watch?v=SgcHcbQ0RCQ)
 - [Writing an ITERATOR in C++](https://www.youtube.com/watch?v=F9eDv-YIOQ0)
+- [C++ STD library <iterator>](https://learn.microsoft.com/en-us/cpp/standard-library/iterator?view=msvc-170)
 ### Allocators:
 - [std::allocator() in C++ with Examples
 ](https://www.geeksforgeeks.org/stdallocator-in-cpp-with-examples/)
