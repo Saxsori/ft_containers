@@ -30,6 +30,6 @@
 *.exe
 *.out
 *.app
-ircserv
+ft_containers
 
 .DS_Store
