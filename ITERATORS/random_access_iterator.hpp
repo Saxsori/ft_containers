@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 20:43:38 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/14 22:22:04 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/14 22:26:01 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ namespace ft
 			
 		private:
 			pointer			_ptr;
-			difference_type	_pos;
 	};
 }
 

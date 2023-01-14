@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:37:18 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/14 20:57:24 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/14 22:41:49 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,10 @@ namespace ft
 		public:
 			/*						MEMBER 	FUNCTIONS						*/
 			// !						ITERATORS						// 
-			iterator	begin(void){return iterator(_data);}
-			iterator	end(void){return iterator(_data + _size);}
+			iterator		begin(void){return iterator(_data);}
+			iterator		end(void){return iterator(_data + _size);}
+			const_iterator	begin(void)const{return const_iterator(_data);}
+			const_iterator	end(void)const{return const_iterator(_data + _size);}
 			
 			// !						CAPACITY						//
 			size_type	size(void)const{return _size;}
@@ -182,7 +184,7 @@ namespace ft
 			template <class InputIterator>
 			void	assign(InputIterator first, InputIterator last)// todo the loop of using destroy then construct can be in another func
 			{
-				if ((size_type)(std::distance(first, last)) <= _size)
+				if ((size_type)(ft::distance(first, last)) <= _size)
 				{
 					for (InputIterator it = first; it != last; it++)
 					{
@@ -192,7 +194,7 @@ namespace ft
 				}
 				else
 				{
-					reserve(last - first);
+					reserve(ft::distance(first, last));
 					for (InputIterator it = first; it != last; it++)
 					{
 						_allocator.destroy(_data++);

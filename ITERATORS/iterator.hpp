@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 16:06:51 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/14 21:36:22 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/14 22:42:16 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,16 @@ namespace ft
 		typedef const T*						pointer;
 		typedef random_access_iterator_tag		iterator_category;
 	};
+
+	template<class InputIterator>
+	typename iterator_traits<InputIterator>::difference_type distance (InputIterator first, InputIterator last)
+	{
+		InputIterator tmp(first);
+		for (typename iterator_traits<InputIterator>::difference_type i = 0; tmp != last; ++tmp, ++i)
+			return (i);
+		return (0);
+	}
+
 }
 
 #endif
