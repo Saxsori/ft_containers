@@ -125,7 +125,8 @@ void runNonCompilable(std::string func_filename, char** argv, char** env) {
 //    std::string cxx_flags = _CXX_FLAGS;
     std::string cxx_flags = "";
     std::string exec_name = _EXEC_NAME;
-    std::string test = cxx + " " + cxx_flags + " 2>&1 >/dev/null " + "-o " + exec_name + " " + func_filename;
+    // std::string test = cxx + " " + cxx_flags + " 2>&1 >/dev/null " + "-o " + exec_name + " " + func_filename;
+    std::string test = cxx + " " + cxx_flags + " -o " + exec_name + " " + func_filename;
     FILE *pipe = popen(test.c_str(), "r");
 
     while (std::fgets(buffer, sizeof buffer, pipe) != NULL) {

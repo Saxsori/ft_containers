@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:37:18 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/12 07:29:16 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/12 13:05:57 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ namespace ft
 			typedef value_type*								pointer;
 			typedef const value_type*						const_pointer;
 			typedef	ft::iterator<value_type>				iterator;
-			typedef	ft::iterator<const value_type>			const_iterator;
+			typedef	ft::iterator<value_type>				const_iterator;
 
 		private:
 			allocator_type		_allocator;
@@ -61,6 +61,7 @@ namespace ft
 			size_type			_size;
 			size_type			_capacity; // ? amount of storage space that has been allocated
 			pointer				_fill(size_type n, const_reference val);
+			void				_destroy(pointer data, size_type size);
 		public:
 			/*						MEMBER 	FUNCTIONS						*/
 			// !						ITERATORS						// 
@@ -181,7 +182,7 @@ namespace ft
 			template <class InputIterator>
 			void	assign(InputIterator first, InputIterator last)// todo the loop of using destroy then construct can be in another func
 			{
-				if ((last - first) <= _size)
+				if ((size_type)(std::distance(first, last)) <= _size)
 				{
 					for (InputIterator it = first; it != last; it++)
 					{
@@ -199,7 +200,7 @@ namespace ft
 					}
 				}
 			}
-			
+
 			// !						ELEMENT ACCESS						//
 			reference operator[] (size_type n)
 			{
@@ -247,7 +248,8 @@ namespace ft
 			// ? value constructor
 			explicit vector(size_type count, const_reference value = T(), const allocator_type& alloc = allocator_type())
 			{
-				_allocator.allocate(_data, count);
+				(void)alloc;
+				_allocator.allocate(count, _data);
 				for (size_t i = 0; i < count; i++)
 					_data[i] = value; // todo: use constrcut instead
 				_size = count;
@@ -262,7 +264,7 @@ namespace ft
 						_allocator.destroy(_data + i);
 					_allocator.dellocate(_data, _capacity);
 				}
-				_allocator.allocate(_data, other.capacity());
+				_allocator.allocate(other.capacity(), _data);
 				std::copy(_data, other.data() + other.size(), other.data());
 				_size = other.size();
 				_capacity = other.capacity();
@@ -272,6 +274,7 @@ namespace ft
 			template <class InputIterator>
 			explicit vector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()):_data(NULL),_size(0),_capacity(0)
 			{
+				(void)alloc;
 				_capacity = last - first;
 				_data = _allocator.allocate(_capacity);
 				InputIterator it = first;
@@ -295,6 +298,16 @@ namespace ft
 					_allocator.deallocate(_data, _capacity);
 			}
 	};
+
+	template <class T>
+	size_t distance (ft::iterator<T> begin, ft::iterator<T> last)
+	{
+		ft::iterator<T> it = last;
+		for (size_t i = 0; it != last; i++)
+			it++;
+		return (i);
+	}
 }
+
 
 #endif
