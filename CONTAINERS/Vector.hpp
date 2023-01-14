@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:37:18 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/12 13:05:57 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/14 20:57:24 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <memory>
 #include <iostream>
 #include <algorithm>
-#include "./iterator.hpp"
+#include "../ITERATORS/random_access_iterator.hpp"
 
 namespace ft
 {
@@ -44,16 +44,16 @@ namespace ft
 	{
 		public:
 			/*						MEMBER 	TYPES							*/
-			typedef	T										value_type;
-			typedef	Alloc									allocator_type;
-			typedef	typename Alloc::size_type				size_type;
-			typedef typename Alloc::difference_type			difference_type;
-			typedef value_type&								reference;
-			typedef	const value_type&						const_reference;
-			typedef value_type*								pointer;
-			typedef const value_type*						const_pointer;
-			typedef	ft::iterator<value_type>				iterator;
-			typedef	ft::iterator<value_type>				const_iterator;
+			typedef	T													value_type;
+			typedef	Alloc												allocator_type;
+			typedef	typename Alloc::size_type							size_type;
+			typedef typename Alloc::difference_type						difference_type;
+			typedef value_type&											reference;
+			typedef	const value_type&									const_reference;
+			typedef value_type*											pointer;
+			typedef const value_type*									const_pointer;
+			typedef	ft::random_access_iterator<value_type>				iterator;
+			typedef	ft::random_access_iterator<const value_type>		const_iterator;
 
 		private:
 			allocator_type		_allocator;
@@ -299,14 +299,14 @@ namespace ft
 			}
 	};
 
-	template <class T>
-	size_t distance (ft::iterator<T> begin, ft::iterator<T> last)
-	{
-		ft::iterator<T> it = last;
-		for (size_t i = 0; it != last; i++)
-			it++;
-		return (i);
-	}
+// 	template <class T>
+// 	size_t distance (ft::iterator<T> begin, ft::iterator<T> last)
+// 	{
+// 		ft::iterator<T> it = last;
+// 		for (size_t i = 0; it != last; i++)
+// 			it++;
+// 		return (i);
+// 	}
 }
 
 

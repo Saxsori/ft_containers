@@ -6,11 +6,11 @@
 #    By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/05 12:34:58 by aaljaber          #+#    #+#              #
-#    Updated: 2023/01/11 20:23:20 by aaljaber         ###   ########.fr        #
+#    Updated: 2023/01/14 20:41:51 by aaljaber         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC = ./TestCases/memory.cpp
+SRC = ./TESTCASES/memory.cpp
 
 OBJ = ${SRC:.cpp=.o}
 

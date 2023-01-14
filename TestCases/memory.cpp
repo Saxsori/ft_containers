@@ -6,12 +6,11 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 15:40:23 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/12 07:53:59 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/14 20:58:23 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incl/Vector.hpp"
-#include "../incl/iterator.hpp"
+#include "../CONTAINERS/Vector.hpp"
 #include <vector>
 
 class IntWrapper {
