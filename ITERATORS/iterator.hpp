@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 16:06:51 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/14 21:14:26 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/14 21:36:22 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,25 @@ namespace ft
 		typedef Category		iterator_category;
 	};
 	
-	struct input_iterator_tag {};
-	struct output_iterator_tag {};
-	struct forward_iterator_tag : public input_iterator_tag {};
-	struct bidirectional_iterator_tag : public forward_iterator_tag {};
-	struct random_access_iterator_tag : public bidirectional_iterator_tag {};
+	struct input_iterator_tag {}; // used to read the elements of a container, but not to modify them.
+	struct output_iterator_tag {}; // used to write the elements of a container, but not to read them.
+	struct forward_iterator_tag : public input_iterator_tag {}; // used to read and write the elements of a container, and can be incremented (but not decremented).
+	struct bidirectional_iterator_tag : public forward_iterator_tag {}; // used to read and write the elements of a container, and can be incremented and decremented.
+	struct random_access_iterator_tag : public bidirectional_iterator_tag {}; // used to read and write the elements of a container, and can be incremented, decremented and moved to a specific position in constant time.
 	
+	/*
+		std::iterator_traits is a template class that provides a way to obtain information 
+		about the properties of an iterator, such as its value type, difference type, and category. 
+		It is typically used as a base class for other iterator-related templates, such as std::distance.
+		It can be used to obtain the type information of an iterator by providing the type of the iterator 
+		as a template argument
+	*/
+
+	/*
+		The primary template of std::iterator_traits. It provides a general way to obtain information about an iterator of any type. 
+		It uses template specialization to handle the cases where the iterator class does not provide the required information, 
+		for example, for built-in pointers or for older-style iterators.
+	*/
 	template <class Iterator>
 	struct iterator_traits 
 	{
@@ -48,6 +61,11 @@ namespace ft
 		typedef typename	Iterator::reference					reference;
 	};
 
+	/*
+		A template specialization of std::iterator_traits for pointer to const types.
+		It provides information about iterators of type const T*, such as the type of the elements 
+		the pointer points to, the difference type, reference type, pointer type, and iterator category.
+	*/
 	template <class T>
 	struct iterator_traits<T*>
 	{
@@ -58,6 +76,9 @@ namespace ft
 		typedef random_access_iterator_tag		iterator_category;
 	};
 
+	/*
+		Another template specialization of std::iterator_traits for pointer types. It provides information about iterators of type T*
+	*/
 	template <class T>
 	struct iterator_traits<const T*> 
 	{
@@ -67,7 +88,6 @@ namespace ft
 		typedef const T*						pointer;
 		typedef random_access_iterator_tag		iterator_category;
 	};
-
 }
 
 #endif
