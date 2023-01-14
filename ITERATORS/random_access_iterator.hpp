@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 20:43:38 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/14 21:19:21 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/14 21:19:55 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,12 @@ namespace ft
 	template <class T>
 	class random_access_iterator : public ft::iterator<T, ft::random_access_iterator_tag>
 	{
+		public:
+			typedef T										value_type;
+			typedef T*										pointer;
+			typedef T&										reference;
+			typedef std::ptrdiff_t							difference_type;
+			typedef ft::random_access_iterator_tag			iterator_category;
 		public:			
 			/*						CONSTRUCTORS						*/
 			random_access_iterator(void):_ptr(NULL){}
