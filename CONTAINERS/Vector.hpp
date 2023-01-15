@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:37:18 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/15 14:50:40 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/15 19:37:41 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 #include <iostream>
 #include <algorithm>
 #include "../ITERATORS/random_access_iterator.hpp"
+#include "./container_utils.hpp"
+
 
 namespace ft
 {
@@ -161,8 +163,9 @@ namespace ft
 					_allocator.destroy(_data + (_size - 1));
 				_size--;
 			}
-			void	assign(size_type n, const_reference val)// todo the loop of using destroy then construct can be in another func
+			void	assign(size_type n, const_reference val)
 			{
+				// todo the loop of using destroy then construct can be in another func
 				if (n <= _size)
 				{
 					for (size_t i = 0; i < _size; i++)
@@ -182,8 +185,9 @@ namespace ft
 				}
 			}
 			template <class InputIterator>
-			void	assign(InputIterator first, InputIterator last)// todo the loop of using destroy then construct can be in another func
+			typename ft::enable_if<!ft::is_integral<InputIterator>::value, void>::type assign(InputIterator first, InputIterator last)
 			{
+				// todo the loop of using destroy then construct can be in another func
 				if ((size_type)(ft::distance(first, last)) <= _size)
 				{
 					for (InputIterator it = first; it != last; it++)
