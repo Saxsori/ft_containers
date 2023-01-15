@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:37:18 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/14 22:41:49 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/15 14:50:40 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,10 +228,10 @@ namespace ft
 					throw std::out_of_range("ft::vector::operator[]: position is out of range");
 				return (_data[n]);
 			}
-			reference front(void){return (_data[0]);}
-			const_reference front(void) const{_data[0];}
+			reference front(void){return _data[0];}
+			const_reference front(void) const{return _data[0];}
 			reference back(void){return _data[_size - 1];}
-			const_reference back(void) const{_data[_size - 1];}
+			const_reference back(void) const{return _data[_size - 1];}
 			pointer data(void) {return _data;}
 			const_pointer data(void) const {return _data;}
 			
@@ -260,31 +260,29 @@ namespace ft
 			// ? copy constructor
 			explicit vector(const vector& other)
 			{
+				_allocator = other.get_allocator();
 				if (_capacity > 0)
 				{
 					for (size_t i = 0; i < _size; i++)
 						_allocator.destroy(_data + i);
-					_allocator.dellocate(_data, _capacity);
+					_allocator.deallocate(_data, _capacity);
 				}
 				_allocator.allocate(other.capacity(), _data);
-				std::copy(_data, other.data() + other.size(), other.data());
+				for (size_t i = 0; i < other.size(); i++)
+					_allocator.construct(_data + i, other[i]);
 				_size = other.size();
 				_capacity = other.capacity();
-				_allocator = other.get_allocator();
 			}
 			// ? range constructor
 			template <class InputIterator>
 			explicit vector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()):_data(NULL),_size(0),_capacity(0)
 			{
 				(void)alloc;
-				_capacity = last - first;
+				_capacity = ft::distance(first, last);
 				_data = _allocator.allocate(_capacity);
 				InputIterator it = first;
 				for (size_t i = 0; it != last; i++)
-				{
-					std::cout << i << std::endl;
 					_allocator.construct(_data + (_capacity - 1), *(it++)); // construct a new object that holds the same state as the old one
-				}
 				_size = _capacity;
 			}
 
@@ -300,15 +298,6 @@ namespace ft
 					_allocator.deallocate(_data, _capacity);
 			}
 	};
-
-// 	template <class T>
-// 	size_t distance (ft::iterator<T> begin, ft::iterator<T> last)
-// 	{
-// 		ft::iterator<T> it = last;
-// 		for (size_t i = 0; it != last; i++)
-// 			it++;
-// 		return (i);
-// 	}
 }
 
 
