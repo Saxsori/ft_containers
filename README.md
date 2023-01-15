@@ -19,3 +19,6 @@
 
 ### Template:
 - [Template params and args](https://en.cppreference.com/w/cpp/language/template_parameters)
+
+### SFINAE:
+[Substitution Failure Is Not An Error (SFINAE) in C++](https://www.geeksforgeeks.org/substitution-failure-is-not-an-error-sfinae-in-cpp/)
