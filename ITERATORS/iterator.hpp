@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 16:06:51 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/15 19:20:37 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/16 12:17:33 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ namespace ft
 	template <class Category, class T, class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T&>
 	struct iterator
 	{
-		typedef T			value_type;
+		typedef T				value_type;
 		typedef Distance		difference_type;
 		typedef Pointer			pointer;
 		typedef Reference		reference;
@@ -55,9 +55,9 @@ namespace ft
 		typedef typename	Iterator::iterator_category			iterator_category;
 		typedef typename	Iterator::value_type				value_type;
 		typedef typename	Iterator::difference_type			difference_type;
-		typedef 			difference_type				distance_type;
-		typedef typename	Iterator::pointer				pointer;
-		typedef typename	Iterator::reference				reference;
+		typedef 			difference_type						distance_type;
+		typedef typename	Iterator::pointer					pointer;
+		typedef typename	Iterator::reference					reference;
 	};
 
 	/*
@@ -68,10 +68,10 @@ namespace ft
 	template <class T>
 	struct iterator_traits<T*>
 	{
-		typedef T						value_type;
-		typedef std::ptrdiff_t					difference_type;
-		typedef T&						reference;
-		typedef T*						pointer;
+		typedef T									value_type;
+		typedef std::ptrdiff_t						difference_type;
+		typedef T&									reference;
+		typedef T*									pointer;
 		typedef random_access_iterator_tag			iterator_category;
 	};
 
@@ -91,10 +91,12 @@ namespace ft
 	template<class InputIterator>
 	typename iterator_traits<InputIterator>::difference_type distance (InputIterator first, InputIterator last)
 	{
-		InputIterator tmp(first);
-		for (typename iterator_traits<InputIterator>::difference_type i = 0; tmp != last; ++tmp, ++i)
-			return (i);
-		return (0);
+		InputIterator tmp = first;
+		typename iterator_traits<InputIterator>::difference_type i = 0;
+		for (; tmp != last; ++tmp)
+			++i;
+		// std::cout << "distance: " << i << std::endl;
+		return (i);
 	}
 
 }

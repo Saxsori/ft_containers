@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 20:43:38 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/14 22:26:01 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/16 11:14:47 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,12 @@ namespace ft
 			~random_access_iterator(void){}
 			random_access_iterator(const random_access_iterator &other){*this = other;}
 			/*						OPERATORS						*/
-			random_access_iterator&	operator=(const random_access_iterator &other){_ptr = other._ptr; return *this;}
+			random_access_iterator&	operator=(const random_access_iterator &other)
+			{
+				if (this != &other)
+					_ptr = other._ptr;
+				return (*this);
+			}
 			/*						MEMBERS						*/
 			pointer		getPointer(void){return _ptr;}
 			/*						OVERLOADS						*/

@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:37:18 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/15 19:37:41 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/16 13:37:09 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ namespace ft
 		public:
 			/*						MEMBER 	FUNCTIONS						*/
 			// !						ITERATORS						// 
-			iterator		begin(void){return iterator(_data);}
-			iterator		end(void){return iterator(_data + _size);}
+			iterator		begin(void){return iterator(&_data[0]);}
+			iterator		end(void){return iterator(&_data[_size]);}
 			const_iterator	begin(void)const{return const_iterator(_data);}
 			const_iterator	end(void)const{return const_iterator(_data + _size);}
 			
@@ -80,6 +80,8 @@ namespace ft
 			void		reserve(size_type n)
 			{
 				pointer new_data;
+				// std::cout << "reserve called" << std::endl;
+				// std::cout << "n: " << n << std::endl;
 				if (n > _capacity)
 				{
 					new_data = _allocator.allocate(n);
@@ -168,15 +170,17 @@ namespace ft
 				// todo the loop of using destroy then construct can be in another func
 				if (n <= _size)
 				{
-					for (size_t i = 0; i < _size; i++)
+					for (size_t i = 0; i < n; i++)
 					{
 						_allocator.destroy(_data + i);
 						_allocator.construct(_data + i, val);
 					}
+					_size = n;
 				}
 				else
 				{
 					reserve(n);
+					_size = n;
 					for (size_t i = 0; i < _size; i++)
 					{
 						_allocator.destroy(_data + i);
@@ -188,23 +192,26 @@ namespace ft
 			typename ft::enable_if<!ft::is_integral<InputIterator>::value, void>::type assign(InputIterator first, InputIterator last)
 			{
 				// todo the loop of using destroy then construct can be in another func
+					// std::cout << "assign(InputIterator first, InputIterator last)" << std::endl;
 				if ((size_type)(ft::distance(first, last)) <= _size)
 				{
-					for (InputIterator it = first; it != last; it++)
+					int i = 0;for (InputIterator it = first; it != last; it++)
 					{
-						_allocator.destroy(_data++);
-						_allocator.construct(_data++, *it);
+						_allocator.destroy(_data);
+						_allocator.construct(&_data[i++], *it);
 					}
 				}
 				else
 				{
+					InputIterator *begin = &first;
 					reserve(ft::distance(first, last));
-					for (InputIterator it = first; it != last; it++)
+					int i = 0;for (InputIterator it = *begin; it != last; it++)
 					{
-						_allocator.destroy(_data++);
-						_allocator.construct(_data++, *it);
+						_allocator.destroy(_data);
+						_allocator.construct(&_data[i++], *it);
 					}
 				}
+				_size = ft::distance(first, last);
 			}
 
 			// !						ELEMENT ACCESS						//
@@ -255,9 +262,13 @@ namespace ft
 			explicit vector(size_type count, const_reference value = T(), const allocator_type& alloc = allocator_type())
 			{
 				(void)alloc;
-				_allocator.allocate(count, _data);
+				_data = _allocator.allocate(count);
+				// std::cout << "value constructor" << std::endl;
 				for (size_t i = 0; i < count; i++)
-					_data[i] = value; // todo: use constrcut instead
+				{
+					_allocator.construct(_data + i, value);
+					// _data[i] = value; // todo: use constrcut instead
+				}
 				_size = count;
 				_capacity = count;
 			}
