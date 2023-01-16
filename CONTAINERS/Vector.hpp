@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:37:18 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/16 13:37:09 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/16 20:32:18 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,36 @@ namespace ft
 			pointer				_data;
 			size_type			_size;
 			size_type			_capacity; // ? amount of storage space that has been allocated
-			pointer				_fill(size_type n, const_reference val);
-			void				_destroy(pointer data, size_type size);
+			void				_refill(size_type n, const_reference val)
+			{
+				for (size_t i = 0; i < n; i++)
+				{
+					_allocator.destroy(_data + i);
+					_allocator.construct(_data + i, val);
+				}
+			}
+			void				_refill(size_type n, pointer new_data, pointer old_data)
+			{
+				for (size_type i = 0; i < n; i++)
+				{
+					_allocator.construct(new_data + i, old_data[i]);
+					_allocator.destroy(old_data + i);
+				}
+			}
+			template <class InputIterator>
+			void				_refill(InputIterator begin, InputIterator end)
+			{
+				int i = 0;for (InputIterator it = begin; it != end; it++)
+				{
+					_allocator.destroy(_data);
+					_allocator.construct(&_data[i++], *it);
+				}
+			}
+			void				_destroy(pointer data, size_type size)
+			{
+				for (size_type i = 0; i < size; i++)
+					_allocator.destroy(data + i);
+			}
 		public:
 			/*						MEMBER 	FUNCTIONS						*/
 			// !						ITERATORS						// 
@@ -73,29 +101,23 @@ namespace ft
 			const_iterator	end(void)const{return const_iterator(_data + _size);}
 			
 			// !						CAPACITY						//
-			size_type	size(void)const{return _size;}
-			size_type	max_size(void)const{return _allocator.max_size();} // * std::allocator_traits used to obtain the max_size value for the allocator_type used by ft::vector
-			size_type	capacity(void)const{return _capacity;}
-			bool		empty(void)const{return (_size == 0) ? true : false;}
-			void		reserve(size_type n)
+			size_type		size(void)const{return _size;}
+			size_type		max_size(void)const{return _allocator.max_size();} // * std::allocator_traits used to obtain the max_size value for the allocator_type used by ft::vector
+			size_type		capacity(void)const{return _capacity;}
+			bool			empty(void)const{return (_size == 0) ? true : false;}
+			void			reserve(size_type n)
 			{
 				pointer new_data;
-				// std::cout << "reserve called" << std::endl;
-				// std::cout << "n: " << n << std::endl;
 				if (n > _capacity)
 				{
 					new_data = _allocator.allocate(n);
-					for (size_t i = 0; i < _size; i++)
-					{
-						_allocator.construct(new_data + i, _data[i]); // ? construct a new object that holds the same state as the old one
-						_allocator.destroy(_data + i);
-					}
+					_refill(_size, new_data, _data);
 					_allocator.deallocate(_data, _capacity);
 					_data = new_data;
 					_capacity = n;
 				}
 			}
-			void		resize(size_type n, const_reference val)
+			void			resize(size_type n, const_reference val)
 			{
 				if (n < _capacity)
 				{
@@ -118,25 +140,9 @@ namespace ft
 				}
 				_size = n;
 			}
-			void	shrink_to_fit(void)
-			{
-				pointer	new_data;
-				if (_capacity > _size)
-				{
-					new_data = _allocator.allocate(_size);
-					for (size_t i = 0; i < _size; i++)
-					{
-						_allocator.construct(new_data + i, _data[i]); // ? construct a new object that holds the same state as the old one
-						_allocator.destroy(_data + i);
-					}
-					_allocator.deallocate(_data, _capacity);
-					_data = new_data;
-					_capacity = _size;
-				}
-			}
 			
 			// !						MODIFIERS						//
-			void push_back(const_reference val) // todo : this can be short using reserve
+			void 			push_back(const_reference val) // todo : this can be short using reserve
 			{
 				// ? if the vector is full, to reallocate
 				if (_size == _capacity)
@@ -148,72 +154,114 @@ namespace ft
 						* since this process can be a time-consuming 
 						* so it will improve the performance by reducing the time and resources required to manage the memory used by the vector
 					*/
-					pointer newData = _allocator.allocate((_capacity == 0) ? 1 : (_capacity * 2));
-					std::copy(_data, _data + _size, newData);
-					_allocator.deallocate(_data, ((_capacity == 0) ? 1 : _capacity));
-					_data = newData;
-					_capacity = (_capacity == 0) ? 1 : (_capacity * 2);
+					// pointer newData = _allocator.allocate((_capacity == 0) ? 1 : (_capacity * 2));
+					// std::copy(_data, _data + _size, newData);
+					// _allocator.deallocate(_data, ((_capacity == 0) ? 1 : _capacity));
+					// _data = newData;
+					// _capacity = (_capacity == 0) ? 1 : (_capacity * 2);
+					reserve((_capacity == 0) ? 1 : (_capacity * 2));
 				}
 				// ? adding the val
 				_allocator.construct(_data + _size, val); // construct a new object that holds the same state as the old one
 				_size++;
 			}
-			void pop_back(void)
+			void 			pop_back(void)
 			{
 				// * the destroy is used to remove the element (calling the destructor) with keeping the memory
 				if (_size > 0)
 					_allocator.destroy(_data + (_size - 1));
 				_size--;
 			}
-			void	assign(size_type n, const_reference val)
+			void			assign(size_type n, const_reference val)
 			{
 				// todo the loop of using destroy then construct can be in another func
 				if (n <= _size)
-				{
-					for (size_t i = 0; i < n; i++)
-					{
-						_allocator.destroy(_data + i);
-						_allocator.construct(_data + i, val);
-					}
-					_size = n;
-				}
+					_refill(n, val);
 				else
 				{
 					reserve(n);
-					_size = n;
-					for (size_t i = 0; i < _size; i++)
-					{
-						_allocator.destroy(_data + i);
-						_allocator.construct(_data + i, val);
-					}
+					_refill(n, val);
 				}
+				_size = n;
 			}
 			template <class InputIterator>
 			typename ft::enable_if<!ft::is_integral<InputIterator>::value, void>::type assign(InputIterator first, InputIterator last)
 			{
 				// todo the loop of using destroy then construct can be in another func
-					// std::cout << "assign(InputIterator first, InputIterator last)" << std::endl;
 				if ((size_type)(ft::distance(first, last)) <= _size)
-				{
-					int i = 0;for (InputIterator it = first; it != last; it++)
-					{
-						_allocator.destroy(_data);
-						_allocator.construct(&_data[i++], *it);
-					}
-				}
+					_refill(first, last);
 				else
 				{
 					InputIterator *begin = &first;
 					reserve(ft::distance(first, last));
-					int i = 0;for (InputIterator it = *begin; it != last; it++)
-					{
-						_allocator.destroy(_data);
-						_allocator.construct(&_data[i++], *it);
-					}
+					_refill(*begin, last);
 				}
 				_size = ft::distance(first, last);
 			}
-
+			void			clear(void)
+			{
+				for (size_t i = 0; i < _size; i++)
+					_allocator.destroy(_data + i);
+				_size = 0;
+			}
+			void swap(vector& x)
+			{
+				vector temp = *this;
+				*this = x;
+				x = temp;
+			}
+			iterator 		insert(iterator position, const_reference val)
+			{
+				size_type pos_num;
+				for (pos_num = 0; pos_num < _size; pos_num++)
+				{
+					if (_data + pos_num == position.getPointer())
+						break;
+				}
+				if (pos_num >= _size)
+					reserve(pos_num);
+				if (pos_num == _size)
+					push_back(val);
+				else
+				{
+					for (size_t i = 0; i < pos_num; i++)
+					{
+						if (i == pos_num)
+							_allocator.construct(_data + i, val);
+						else
+							_allocator.construct(_data + i, _data[i + 1]);
+					}
+				}
+				return (iterator(_data + pos_num));
+			}
+			void			insert(iterator position, size_type n, const value_type& val)
+			{
+				for (size_t i = 0; i < n; i++)
+					insert(position, val);
+			}
+			template <class InputIterator>
+    		void			insert(iterator position, InputIterator first, InputIterator last)
+			{
+				for (InputIterator *begin = &first; *begin != last;)
+					insert(position, *(*begin++));
+			}
+			iterator		erase(iterator position)
+			{
+				size_type pos_num;
+				for (pos_num = 0; pos_num < _size; pos_num++)
+				{
+					if (_data + pos_num == position.getPointer())
+						break;
+				}
+				_allocator.destroy(_data + pos_num);
+				return (iterator(_data + pos_num));
+			}
+			iterator 		erase(iterator first, iterator last)
+			{
+				for (iterator *begin = &first; *begin != last;)
+					erase(*(*begin++));
+				return (iterator(_data + _size));
+			}
 			// !						ELEMENT ACCESS						//
 			reference operator[] (size_type n)
 			{
@@ -243,8 +291,6 @@ namespace ft
 			const_reference front(void) const{return _data[0];}
 			reference back(void){return _data[_size - 1];}
 			const_reference back(void) const{return _data[_size - 1];}
-			pointer data(void) {return _data;}
-			const_pointer data(void) const {return _data;}
 			
 			// !						ALLOCATOR						//
 			allocator_type get_allocator(void) const{return _allocator;}
@@ -276,13 +322,7 @@ namespace ft
 			explicit vector(const vector& other)
 			{
 				_allocator = other.get_allocator();
-				if (_capacity > 0)
-				{
-					for (size_t i = 0; i < _size; i++)
-						_allocator.destroy(_data + i);
-					_allocator.deallocate(_data, _capacity);
-				}
-				_allocator.allocate(other.capacity(), _data);
+				_data = _allocator.allocate(other.capacity());
 				for (size_t i = 0; i < other.size(); i++)
 					_allocator.construct(_data + i, other[i]);
 				_size = other.size();
@@ -313,6 +353,64 @@ namespace ft
 					_allocator.deallocate(_data, _capacity);
 			}
 	};
+	
+	// !						NON-MEMBER FUNCTION OVERLOADS						//
+	// ? relational operators
+	template <class T, class Alloc>
+	bool operator== (const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs)
+	{
+		if (lhs.size() != rhs.size())
+			return (false);
+		for (size_t i = 0; i < lhs.size(); i++)
+			if (lhs[i] != rhs[i])
+				return (false);
+		return (true);
+	}
+	template <class T, class Alloc>
+	bool operator!= (const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs){return !(lhs == rhs);}
+	template <class T, class Alloc>
+	bool operator<  (const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs)
+	{
+		if (lhs.size() < rhs.size())
+			return (true);
+		return (false);
+	}
+	template <class T, class Alloc>
+	bool operator>  (const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs){return !(rhs < lhs);}
+	template <class T, class Alloc>
+	bool operator<= (const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs)
+	{
+		if (lhs.size() <= rhs.size())
+			return (true);
+		return (false);
+	}
+	template <class T, class Alloc>
+	bool operator>= (const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs){return !(rhs <= lhs);}
+	// ? swap
+	template <class T, class Alloc>
+	void swap (ft::vector<T,Alloc>& x, ft::vector<T,Alloc>& y)
+	{
+		ft::vector<T, Alloc> tmp = x;
+		x = y;
+		y = tmp;
+	}
+	template<typename T1, typename T2>
+    typename ft::random_access_iterator<T1>::difference_type operator-(const ft::random_access_iterator<T1> lhs, const ft::random_access_iterator<T2> rhs){return (lhs.getPointer() - rhs.getPointer());}
+	// template<typename T1, typename T2>
+    // typename ft::random_access_iterator<T1>::difference_type operator+(const ft::random_access_iterator<T1> lhs, const ft::random_access_iterator<T2> rhs){return (lhs.getPointer() + rhs.getPointer());}
+	// template<typename T1, typename T2>
+    // bool operator!=(const ft::random_access_iterator<T1> lhs, const ft::random_access_iterator<T2> rhs){return (lhs.getPointer() == rhs.getPointer());}
+	// template<typename T1, typename T2>
+    // bool operator==(const ft::random_access_iterator<T1> lhs, const ft::random_access_iterator<T2> rhs){return (!(lhs.getPointer() == rhs.getPointer()));}
+	// template<typename T1, typename T2>
+	// bool operator<(const ft::random_access_iterator<T1> lhs, const ft::random_access_iterator<T2> rhs){return (lhs.getPointer() < rhs.getPointer());}
+	// template<typename T1, typename T2>
+	// bool operator>(const ft::random_access_iterator<T1> lhs, const ft::random_access_iterator<T2> rhs){return (lhs.getPointer() > rhs.getPointer());}
+	// template<typename T1, typename T2>
+	// bool operator<=(const ft::random_access_iterator<T1> lhs, const ft::random_access_iterator<T2> rhs){return (lhs.getPointer() <= rhs.getPointer());}
+	// template<typename T1, typename T2>
+	// bool operator>=(const ft::random_access_iterator<T1> lhs, const ft::random_access_iterator<T2> rhs){return (lhs.getPointer() >= rhs.getPointer());}
+
 }
 
 

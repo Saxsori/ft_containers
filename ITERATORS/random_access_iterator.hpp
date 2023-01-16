@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 20:43:38 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/16 11:14:47 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/16 20:02:53 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #define RANDOM_ACCESS_ITERATOR_HPP
 
 #include "iterator.hpp"
-
 namespace ft
 {
 	template <class T>
@@ -40,7 +39,7 @@ namespace ft
 				return (*this);
 			}
 			/*						MEMBERS						*/
-			pointer		getPointer(void){return _ptr;}
+			pointer		getPointer(void)const{return _ptr;}
 			/*						OVERLOADS						*/
 			// * Dereference operator
 			reference	operator[](int pos){return (*(_ptr + pos));}
