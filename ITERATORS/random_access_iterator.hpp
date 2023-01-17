@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 20:43:38 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/16 20:02:53 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/17 17:24:44 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,27 @@ namespace ft
 		private:
 			pointer			_ptr;
 	};
+	
+	/*						NON-MEMBER OVERLOADS						*/
+	template<typename T1, typename T2>
+    typename ft::random_access_iterator<T1>::difference_type operator-(const ft::random_access_iterator<T1> lhs, const ft::random_access_iterator<T2> rhs){return (lhs.getPointer() - rhs.getPointer());}
+	template<typename T1, typename T2>
+    typename ft::random_access_iterator<T1>::difference_type operator+(const ft::random_access_iterator<T1> lhs, const ft::random_access_iterator<T2> rhs){return (lhs.getPointer() + rhs.getPointer());}
+	template<typename T1, typename T2>
+    bool operator!=(const ft::random_access_iterator<T1> lhs, const ft::random_access_iterator<T2> rhs){return (!(lhs.getPointer() == rhs.getPointer()));}
+	template<typename T1, typename T2>
+    bool operator==(const ft::random_access_iterator<T1> lhs, const ft::random_access_iterator<T2> rhs){return (lhs.getPointer() == rhs.getPointer());}
+	template<typename T1, typename T2>
+	bool operator<(const ft::random_access_iterator<T1> lhs, const ft::random_access_iterator<T2> rhs){return (lhs.getPointer() < rhs.getPointer());}
+	template<typename T1, typename T2>
+	bool operator>(const ft::random_access_iterator<T1> lhs, const ft::random_access_iterator<T2> rhs){return (lhs.getPointer() > rhs.getPointer());}
+	template<typename T1, typename T2>
+	bool operator<=(const ft::random_access_iterator<T1> lhs, const ft::random_access_iterator<T2> rhs){return (lhs.getPointer() <= rhs.getPointer());}
+	template<typename T1, typename T2>
+	bool operator>=(const ft::random_access_iterator<T1> lhs, const ft::random_access_iterator<T2> rhs){return (lhs.getPointer() >= rhs.getPointer());}
+	template<typename T1>
+	ft::random_access_iterator<T1> operator+(typename ft::random_access_iterator<T1>::difference_type val, const ft::random_access_iterator<T1> rhs){return (val + rhs.getPointer());}
+
 }
 
 #endif

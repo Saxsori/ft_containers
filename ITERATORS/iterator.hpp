@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 16:06:51 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/16 20:14:09 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/17 06:18:02 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,9 @@ namespace ft
 	template<class InputIterator>
 	typename iterator_traits<InputIterator>::difference_type distance (InputIterator first, InputIterator last)
 	{
-		InputIterator tmp = first;
-		std::cout << "distance: " << std::endl;
+		InputIterator *tmp = &first;
 		typename iterator_traits<InputIterator>::difference_type i = 0;
-		for (; tmp != last; ++tmp)
+		for (; *tmp != last; ++*tmp)
 			++i;
 		return (i);
 	}

@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 15:44:20 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/16 16:49:15 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/17 08:59:18 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 #include <iostream>
 #include <vector>
 #include "./printSize.hpp"
+#define TESTED_TYPE int
+
 
 int main ()
 {
@@ -46,8 +48,36 @@ int main ()
 	// 	std::cerr << e.what() << std::endl;
 	// }
 
-	ft::vector<TESTED_TYPE> vct(7);
 	// ft::vector<TESTED_TYPE> vct(7);
+	// // ft::vector<TESTED_TYPE> vct(7);
+	// for (unsigned long int i = 0; i < vct.size(); ++i)
+	// {
+	// 	vct.at(i) = (vct.size() - i) * 3;
+	// 	std::cout << "vct[]: " << vct[i] << std::endl;
+	// }
+	// ft::printSize(vct);
+
+	// std::cout << "lol" << std::endl;
+	// ft::vector<TESTED_TYPE> const vct_c(vct);
+
+	// std::cout << "front(): " << vct.front() << " " << vct_c.front() << std::endl;
+	// std::cout << "back(): " << vct.back() << " " <<  vct_c.back() << std::endl;
+
+	// for (unsigned long int i = 0; i < vct_c.size(); ++i)
+	// 	std::cout << "vct_c.at(): " << vct_c.at(i) << std::endl;
+	// try {
+	// 	std::cout << vct_c.at(10) << std::endl;
+	// }
+	// catch (std::out_of_range &e) {
+	// 	std::cout << "Catch out_of_range exception!" << std::endl;
+	// }
+	// catch (std::exception &e) {
+	// 	std::cout << "Catch exception: " << e.what() << std::endl;
+	// }
+	// ft::printSize(vct_c);
+
+	ft::vector<TESTED_TYPE> vct(7);
+
 	for (unsigned long int i = 0; i < vct.size(); ++i)
 	{
 		vct.at(i) = (vct.size() - i) * 3;
@@ -55,7 +85,6 @@ int main ()
 	}
 	ft::printSize(vct);
 
-	std::cout << "lol" << std::endl;
 	ft::vector<TESTED_TYPE> const vct_c(vct);
 
 	std::cout << "front(): " << vct.front() << " " << vct_c.front() << std::endl;

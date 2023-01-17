@@ -6,14 +6,15 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 15:40:23 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/11 17:14:35 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/17 09:08:40 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incl/Vector.hpp"
-#include "../incl/iterator.hpp"
+#include "../CONTAINERS/Vector.hpp"
+#include "../ITERATORS/iterator.hpp"
 #include <vector>
-
+#include "./printSize.hpp"
+#include <list>
 class IntWrapper {
 public:
   IntWrapper(int value) : value_(value) {}
@@ -23,6 +24,8 @@ public:
 private:
   int value_;
 };
+#define TESTED_TYPE int
+
 
 int main ()
 {
@@ -98,4 +101,49 @@ int main ()
 	// std::cout << "Size of second: " << int (second.capacity()) << '\n';
 	// std::cout << "[0] of second: " << int (second[0]) << '\n';
 
+	std::list<TESTED_TYPE> lst;
+	std::list<TESTED_TYPE>::iterator lst_it;
+	for (int i = 1; i < 5; ++i)
+		lst.push_back(i * 3);
+
+	std::vector<TESTED_TYPE> vct1(lst.begin(), lst.end());
+	// ft::printSize(vct1);
+	ft::vector<TESTED_TYPE> vct(lst.begin(), lst.end());
+	
+	// ft::printSize(vct);
+
+	lst_it = lst.begin();
+	for (int i = 1; lst_it != lst.end(); ++i)
+		*lst_it++ = i * 5;
+	
+	vct.assign(lst.begin(), lst.end());
+	vct1.assign(lst.begin(), lst.end());
+	
+	// ft::printSize(vct);
+	// ft::printSize(vct1);
+	
+	vct.insert(vct.end(), lst.rbegin(), lst.rend());
+	vct1.insert(vct1.end(), lst.rbegin(), lst.rend());
+	
+	ft::printSize(vct);
+	ft::printSize(vct1);
+
+		
+	std::list<TESTED_TYPE> lst3;
+	std::list<TESTED_TYPE>::iterator lst_it3;
+	for (int i = 1; i < 5; ++i)
+		lst.push_back(i * 3);
+
+	ft::vector<TESTED_TYPE> vct6(lst3.begin(), lst3.end());
+	printSize(vct6);
+
+	lst_it3 = lst3.begin();
+	for (int i = 1; lst_it3 != lst3.end(); ++i)
+		*lst_it3++ = i * 5;
+	vct6.assign(lst3.begin(), lst3.end());
+	ft::printSize(vct6);
+
+	vct6.insert(vct6.end(), lst3.rbegin(), lst3.rend());
+	ft::printSize(vct6);
+	return (0);
 }
