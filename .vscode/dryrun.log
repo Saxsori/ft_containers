@@ -1,0 +1,6 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory `/Users/abrar/Desktop/ft_containers'
+c++ -Wall -Werror -Wextra -std=c++98 -g   -c -o TESTCASES/modifiers.o TESTCASES/modifiers.cpp
+c++ -Wall -Werror -Wextra -std=c++98 -g ./TESTCASES/modifiers.o -o ft_containers
+make: Leaving directory `/Users/abrar/Desktop/ft_containers'
+ 
