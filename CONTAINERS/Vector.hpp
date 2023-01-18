@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Vector.hpp                                         :+:      :+:    :+:   */
+/*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaljaber <aaljaber@student.42abudhabi.a    +#+  +:+       +#+        */
+/*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:37:18 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/17 21:31:41 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/18 14:30:36 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <iostream>
 #include <algorithm>
 #include "../ITERATORS/random_access_iterator.hpp"
-#include "./container_utils.hpp"
+#include "./TOOLS/type_traits.hpp"
 #include "../ITERATORS/reverse_iterator.hpp"
 
 namespace ft
@@ -215,39 +215,80 @@ namespace ft
 			}
 			iterator 		insert(iterator position, const_reference val)
 			{
-				size_type pos_num;
-				for (pos_num = 0; pos_num < _size; pos_num++)
+				size_type pos_num = (position.getPointer() - &_data[0]) == -1 ? _size : (position.getPointer() - &_data[0]);
+				// std::cout << "pos_num = " << pos_num << std::endl;
+				// std::cout << "size = " << _size << std::endl;
+				if ((size_type)pos_num > _capacity)
 				{
-					if (_data + pos_num == position.getPointer())
-						break;
-				}
-				if (pos_num >= _size)
+					// std::cout << "reverse" << std::endl;
 					reserve(pos_num);
-				if (pos_num == _size)
-					push_back(val);
-				else
+				}
+				if ((size_type)pos_num == _size)
 				{
-					for (size_t i = 0; i < pos_num; i++)
+					// std::cout << "push_back " << val << std::endl;
+					push_back(val);
+				}
+				else if ((size_type)pos_num < _size)
+				{
+					if (_capacity == _size)
+						reserve(_capacity * 2);
+					for (int i = _size; i >= 0; i--)
 					{
-						if (i == pos_num)
+						// std::cout << "loop = " << i << std::endl;
+						if (i == (int)pos_num)
+						{
+							// std::cout << "val = " << val << std::endl;
 							_allocator.construct(_data + i, val);
+						}
+						else if (i < (int)pos_num)
+						{
+							// std::cout << _data[i] << " pos " << i << " is going to be copied in " << i << std::endl;
+							_allocator.construct(_data + i, _data[i]);
+							_allocator.destroy(_data + i);
+						}
 						else
-							_allocator.construct(_data + i, _data[i + 1]);
+						{
+							if (i > 0)
+							{
+								// std::cout << _data[i - 1] << " pos " << i - 1 << " is going to be moved to " << i << std::endl;
+								_allocator.construct(_data + i, _data[i - 1]);
+								_allocator.destroy(_data + i - 1);								
+							}
+						}
 					}
+					_size++;
 				}
 				return (iterator(_data + pos_num));
 			}
 			void			insert(iterator position, size_type n, const value_type& val)
 			{
-				for (size_t i = 0; i < n; i++)
-					insert(position, val);
+				size_type pos_num = (position.getPointer() - &_data[0]) == -1 ? _size : (position.getPointer() - &_data[0]);
+				if (pos_num == _size)
+				{
+					for (size_type i = 0; i < n; i++)
+						push_back(val);
+				}
+				else
+				{
+					for (size_type i = 0; i < n; i++)
+					{
+						// std::cout << "i = " << i << std::endl;
+						// std::cout << "val = " << val << std::endl;
+						insert(begin() + pos_num, val);
+					}
+				}
 			}
 			template <class InputIterator>
     		void			insert(iterator position, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last)
 			{
-				InputIterator temp = first;
-				for (size_type i = 0; temp != last; i++, temp++)
-					insert(position, *temp);
+				size_type pos_num = (position.getPointer() - &_data[0]) == -1 ? _size : (position.getPointer() - &_data[0]);
+				size_type i = 0;
+				// std::cout << "pos num " << pos_num << std::endl;
+				for (InputIterator it = first; it != last; it++, i++)
+				{
+					insert(_data + pos_num, *it);
+					pos_num++;
+				}
 			}
 			iterator		erase(iterator position)
 			{
@@ -257,14 +298,20 @@ namespace ft
 					if (_data + pos_num == position.getPointer())
 						break;
 				}
+				// std::cout << "pos_num: " << pos_num << std::endl;
 				_allocator.destroy(_data + pos_num);
+				if (pos_num == 0)
+					std::copy(_data + 1, _data + _size, _data);
+				else if (pos_num < _size - 1)
+					std::copy(_data + (pos_num + 1), _data + _size, _data + pos_num);
+				_size--;
 				return (iterator(_data + pos_num));
 			}
 			iterator 		erase(iterator first, iterator last)
 			{
-				for (iterator *begin = &first; *begin != last;)
-					erase((*begin++));
-				return (iterator(_data + _size));
+				std::copy(last.getPointer(), _data + _size, first.getPointer());
+				_size -= ft::distance(first, last);
+				return (iterator(first));
 			}
 			// !						ELEMENT ACCESS						//
 			reference operator[] (size_type n)
@@ -306,8 +353,8 @@ namespace ft
 				* so without the explicit keyword, the class allows implicit type conversions from int to vector
 			*/
 			// ? default constructor
-			explicit vector (const allocator_type& alloc):_allocator(alloc), _data(NULL), _size(0), _capacity(0){}
-			explicit vector (void):_data(NULL), _size(0), _capacity(0){}
+			explicit vector (const allocator_type& alloc = allocator_type()):_allocator(alloc), _data(NULL), _size(0), _capacity(0){}
+			// explicit vector (void):_data(NULL), _size(0), _capacity(0){}
 			// ? fill constructor
 			explicit vector(size_type count, const_reference value = T(), const allocator_type& alloc = allocator_type()):_data(NULL), _size(0), _capacity(0)
 			{
@@ -323,7 +370,7 @@ namespace ft
 				_capacity = count;
 			}
 			// ? copy constructor
-			explicit vector(const vector& other){*this = other;}
+			vector(const vector& other){*this = other;}
 			vector	&operator=(const vector& other)
 			{
 				_allocator = other.get_allocator();
@@ -336,7 +383,7 @@ namespace ft
 			}
 			// ? range constructor
 			template <class InputIterator>
-			explicit vector(typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last, const allocator_type& alloc = allocator_type()):_data(NULL),_size(0),_capacity(0)
+			vector(typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last, const allocator_type& alloc = allocator_type()):_data(NULL),_size(0),_capacity(0)
 			{
 				(void)alloc;
 				InputIterator it = first;
@@ -361,9 +408,10 @@ namespace ft
 	};
 	
 	// !						NON-MEMBER FUNCTION OVERLOADS						//
+	
 	// ? relational operators
-	template <class T, class Alloc>
-	bool operator== (const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs)
+	template <class T>
+	bool operator== (const ft::vector<T>& lhs, const ft::vector<T>& rhs)
 	{
 		if (lhs.size() != rhs.size())
 			return (false);
@@ -372,24 +420,29 @@ namespace ft
 				return (false);
 		return (true);
 	}
-	template <class T, class Alloc>
-	bool operator!= (const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs){return !(lhs == rhs);}
-	template <class T, class Alloc>
-	bool operator<  (const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs)
+	
+	template <class T>
+	bool operator!= (const ft::vector<T>& lhs, const ft::vector<T>& rhs){return !(lhs == rhs);}
+	
+	template <class T>
+	bool operator<  (const ft::vector<T>& lhs, const ft::vector<T>& rhs)
 	{
 		if (lhs.size() < rhs.size())
 			return (true);
 		return (false);
 	}
-	template <class T, class Alloc>
-	bool operator>  (const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs){return !(rhs < lhs);}
-	template <class T, class Alloc>
+	
+	template <class T>
+	bool operator>  (const ft::vector<T>& lhs, const ft::vector<T>& rhs){return !(rhs < lhs);}
+	
+	template <class T>
 	bool operator<= (const ft::vector<T>& lhs, const ft::vector<T>& rhs)
 	{
 		if (lhs.size() <= rhs.size())
 			return (true);
 		return (false);
 	}
+	
 	template <class T>
 	bool operator>= (const ft::vector<T>& lhs, const ft::vector<T>& rhs){return !(rhs <= lhs);}
 	

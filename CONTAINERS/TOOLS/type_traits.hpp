@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   container_utils.hpp                                :+:      :+:    :+:   */
+/*   type_traits.hpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 14:56:53 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/15 19:14:04 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/18 18:32:23 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,8 @@ namespace ft
 		it can be used in this way : 
 		template <class = typename enable_if<is_integral<T>::value>::type> 
 	*/
-	
 	template <bool B, class T = void> struct enable_if {};
 	template <class T> struct enable_if<true, T> { typedef T type; };
-	
 	
 	
 	/*
