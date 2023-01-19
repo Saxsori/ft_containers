@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   printSize.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: aaljaber <aaljaber@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 15:07:53 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/16 15:10:31 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/19 11:35:30 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define PRINTSIZE_HPP
 
 #define TESTED_TYPE int
-#include "../CONTAINERS/Vector.hpp"
+#include "../CONTAINERS/vector.hpp"
 #include <vector>
 #define T_SIZE_TYPE typename ft::vector<T>::size_type
 #define T_SIZE_TYPE_STD typename std::vector<T>::size_type

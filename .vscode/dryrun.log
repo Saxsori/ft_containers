@@ -1,0 +1,6 @@
+make --dry-run --keep-going --print-directory
+make: Entering directory `/Users/abrar/Desktop/42-Devcontainer/42-Devcontainer/src/Cursus/ft_containers'
+c++ -Wall -Werror -Wextra -std=c++98 -g   -c -o TESTCASES/It.o TESTCASES/It.cpp
+c++ -Wall -Werror -Wextra -std=c++98 -g ./TESTCASES/It.o -o ft_containers
+make: Leaving directory `/Users/abrar/Desktop/42-Devcontainer/42-Devcontainer/src/Cursus/ft_containers'
+ 

@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 20:43:38 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/17 17:58:58 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/19 22:12:27 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,22 @@ namespace ft
 			/*						CONSTRUCTORS						*/
 			random_access_iterator(void):_ptr(NULL){}
 			random_access_iterator(pointer ptr):_ptr(ptr){}
+			/*
+				to solve the compilation error when trying to construct a random_access_iterator from a const_iterator
+				and vice versa 
+				this solved the problem I had on the following line:
+				ft::vector<TESTED_TYPE>::const_iterator it_bar(foo.begin());
+				and 
+				ft::vector<TESTED_TYPE>::const_iterator it_foo = foo.begin();
+			*/
+			template <class U> random_access_iterator(const random_access_iterator<U> &other):_ptr(NULL){_ptr = other.getPointer();}
 			~random_access_iterator(void){}
-			random_access_iterator(const random_access_iterator &other){*this = other;}
+			random_access_iterator(const random_access_iterator &other):_ptr(NULL){*this = other;}
 			/*						OPERATORS						*/
 			random_access_iterator&	operator=(const random_access_iterator &other)
 			{
 				if (this != &other)
-					_ptr = other._ptr;
+					_ptr = other.getPointer();
 				return (*this);
 			}
 			/*						MEMBERS						*/
@@ -43,16 +52,16 @@ namespace ft
 			/*						OVERLOADS						*/
 			// * Dereference operator
 			reference	operator[](int pos){return (*(_ptr + pos));}
-			pointer		operator->(void){return _ptr;}
-			reference	operator*(void){return *_ptr;}
+			pointer		operator->(void)const{return _ptr;}
+			reference	operator*(void)const{return *_ptr;}
 			// * Increment/decrement operators
 			random_access_iterator&	operator++(void){_ptr++; return *this;}
 			random_access_iterator&	operator--(void){_ptr--; return *this;}
 			random_access_iterator	operator++(int){random_access_iterator temp = *this; _ptr++; return (temp);}
 			random_access_iterator	operator--(int){random_access_iterator temp = *this; _ptr--; return (temp);}
 			// * Arithmetic operators	
-			random_access_iterator	operator-(difference_type n){return (_ptr - n);}
-			random_access_iterator	operator+(difference_type n){return (_ptr + n);}
+			random_access_iterator	operator-(difference_type n)const{return (_ptr - n);}
+			random_access_iterator	operator+(difference_type n)const{return (_ptr + n);}
 			// * Compound assignment operators
 			random_access_iterator& operator+=(difference_type n) {_ptr += n; return (*this);}
 			random_access_iterator& operator-=(difference_type n) {_ptr -= n; return (*this);}
@@ -69,6 +78,20 @@ namespace ft
 	};
 	
 	/*						NON-MEMBER OVERLOADS						*/
+	// int + iterator
+	template<typename T1>
+	ft::random_access_iterator<T1> operator+(typename ft::random_access_iterator<T1>::difference_type val, const ft::random_access_iterator<T1> rhs){return (val + rhs.getPointer());}
+	// int - iterator
+	template<typename T1>
+	ft::random_access_iterator<T1> operator-(typename ft::random_access_iterator<T1>::difference_type val, const ft::random_access_iterator<T1> rhs){return (val - rhs.getPointer());}
+	template<typename T>
+    bool operator==(const ft::random_access_iterator<T> lhs, const ft::random_access_iterator<T> rhs){return (lhs.getPointer() == rhs.getPointer());}
+	/*
+		these 3 overloads are needed to solve the compilation error when trying to compare a iterator with a const_iterator
+		and vice versa 
+		this solved the problem I had on the following line:
+		ft::vector<TESTED_TYPE>::const_iterator == ft::vector<TESTED_TYPE>::iterator
+	*/	
 	template<typename T1, typename T2>
     typename ft::random_access_iterator<T1>::difference_type operator-(const ft::random_access_iterator<T1> lhs, const ft::random_access_iterator<T2> rhs){return (lhs.getPointer() - rhs.getPointer());}
 	template<typename T1, typename T2>
@@ -85,8 +108,6 @@ namespace ft
 	bool operator<=(const ft::random_access_iterator<T1> lhs, const ft::random_access_iterator<T2> rhs){return (lhs.getPointer() <= rhs.getPointer());}
 	template<typename T1, typename T2>
 	bool operator>=(const ft::random_access_iterator<T1> lhs, const ft::random_access_iterator<T2> rhs){return (lhs.getPointer() >= rhs.getPointer());}
-	template<typename T1>
-	ft::random_access_iterator<T1> operator+(typename ft::random_access_iterator<T1>::difference_type val, const ft::random_access_iterator<T1> rhs){return (val + rhs.getPointer());}
 
 }
 

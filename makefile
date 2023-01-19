@@ -6,11 +6,11 @@
 #    By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/05 12:34:58 by aaljaber          #+#    #+#              #
-#    Updated: 2023/01/17 18:32:49 by aaljaber         ###   ########.fr        #
+#    Updated: 2023/01/19 12:49:32 by aaljaber         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC = ./TESTCASES/erase.cpp
+SRC = ./TESTCASES/lol.cpp  
 
 OBJ = ${SRC:.cpp=.o}
 

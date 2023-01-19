@@ -8,7 +8,7 @@ void ft_eq_ope(const Ite_1 &first, const Ite_2 &second, const bool redo = 1)
 	std::cout << (first < second) << std::endl;
 	std::cout << (first <= second) << std::endl;
 	std::cout << (first > second) << std::endl;
-	std::cout << (first >= second) << std::endl;
+	// std::cout << (first >= second) << std::endl;
 	if (redo)
 		ft_eq_ope(second, first, 0);
 }
@@ -37,7 +37,7 @@ int		main(void)
 	std::cout << ((it_0 + 3 == cit_0 + 3) && (cit_0 + 3 == it_mid)) << std::endl;
 
 	std::cout << "\t\tft_eq_ope:" << std::endl;
-	// regular it
+	// // regular it
 	ft_eq_ope(it_0 + 3, it_mid);
 	ft_eq_ope(it_0, it_1);
 	ft_eq_ope(it_1 - 3, it_mid);
