@@ -25,3 +25,8 @@
 - [Substitution Failure Is Not An Error (SFINAE) in C++](https://www.geeksforgeeks.org/substitution-failure-is-not-an-error-sfinae-in-cpp/)
 - [std::enable_if](https://cplusplus.com/reference/type_traits/enable_if/)
 - [std::is_integral](https://learn.microsoft.com/en-us/cpp/standard-library/is-integral-class?view=msvc-170)
+
+### BST
+- [Binary Search Tree(BST)](https://www.programiz.com/dsa/binary-search-tree)
+- [BST Algorithm Visualizations](https://www.cs.usfca.edu/~galles/visualization/BST.html)
+- [BST GOG docs](https://www.geeksforgeeks.org/binary-search-tree-data-structure/)
