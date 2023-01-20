@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 15:43:23 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/20 21:05:47 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/20 22:48:00 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ namespace ft
 			typedef T													mapped_type;
 			typedef ft::pair<const Key, T>								value_type;
 			typedef Compare												key_compare;
-			typedef value_comp											value_compare;
 			typedef Allocator											allocator_type;
 			typedef	allocator_type::reference							reference;
 			typedef	allocator_type::const_reference						const_reference;
@@ -58,13 +57,55 @@ namespace ft
 			typedef ft::reverse_iterator<const_iterator>				const_reverse_iterator;
 			
 			/*  			Constructors and destructor			*/
-			explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
+			explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()):_comp(comp), _alloc(alloc){_tree = ft::binary_search_tree<value_type, key_compare>(_comp);}
+			explicit map(const &map x){*this = x;}
+			~map(){clear();}
+			map& operator=(const map& x)
 			{
-				(void)comp;
-				(void)alloc;
+				clear();
+				_alloc = x.get_allocator();
+				// _tree = x._tree;
+				return *this;
 			}
+			/*  			Nested class value_compare			*/
+			/*
+				* This class can be used to compare two elements to get whether the key of the first one goes before the second.
+				? Function objects, also known as functors, are objects that can be used like functions.
+				? object that can be invoked like a function, which typically acheive their goals by overloading 
+				? the function call operator ().
+				? They are used to encapsulate a function, or a set of functions, into a single object, which
+				? can be used to costmize the behavior of other functions.
+				* The arguments taken by this functor are of type value_type, which is a pair <const key_type,mapped_type>.
+				* The puplic member function operator() takes two arguments of type value_type and returns a bool.
+				* Notice that the value_copare has no default constructor, therfore no objects can be directly
+				* created from this nested class outside the map class.					
+			*/
+			class value_compare
+			{
+				friend class map;
+				protected:
+					Compare comp;
+					value_compare(Compare c) : comp(c) {}
+				public:
+					typedef bool result_type;
+					typedef value_type first_argument_type;
+					typedef value_type second_argument_type;
+					typedef bool result_type;
+					bool operator()(const value_type& x, const value_type& y) const
+					{
+						return comp(x.first, y.first);
+					}
+			};
+			// Return value comparison object
+			value_compare value_comp() const{return value_compare(_comp);}
+
+			/*				get_allocator					*/
+			allocator_type get_allocator() const{return allocator_type();}
 			
-			
+			private:
+				// key_compare 										_comp;
+				allocator_type 										_alloc;
+				ft::binary_search_tree<value_type, key_compare>		_tree;
 	};
 
 }

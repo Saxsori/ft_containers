@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:37:18 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/20 12:24:01 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/20 23:04:11 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,6 +202,7 @@ namespace ft
 			}
 			void			swap(vector& x)
 			{
+				// encupsulating the data in a temp variable 
 				pointer tmp_data = _data;
 				allocator_type tmp_allocator = _allocator;
 				size_type tmp_size = _size;
