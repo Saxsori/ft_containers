@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 14:31:56 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/18 19:56:27 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/19 23:24:42 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,11 @@ namespace ft
 	{
 		while (first1!=last1)
 		{
-			if (first2==last2 || *first2<*first1)
+			if (first2==last2 || *first2<*first1) // if it's ended or the second is less than the first
 				return (false);
-			else if (*first1<*first2)
+			else if (*first1<*first2) // if the first is less than the second 
 				return (true);
-			++first1;
+			++first1; // if they are equal
 			++first2;
 		}
 		return (first2!=last2);

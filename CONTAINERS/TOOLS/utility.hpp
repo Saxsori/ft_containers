@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 18:37:21 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/18 19:12:01 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/20 12:27:39 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,5 @@ namespace ft
 		pair objects can be constructed from other pair objects containing different types, if the respective types are implicitly convertible.
 	*/
 	template <class T1, class T2>
-	pair<T1,T2> make_pair (T1 x, T2 y){return (pair<T1,T2>(x,y));}
+	pair<T1,T2> make_pair(T1 x, T2 y){return (pair<T1,T2>(x,y));}
 }

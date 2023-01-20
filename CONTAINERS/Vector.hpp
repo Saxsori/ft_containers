@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:37:18 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/19 20:10:50 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/20 12:24:01 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,7 +200,7 @@ namespace ft
 					_allocator.destroy(_data + i);
 				_size = 0;
 			}
-			void swap(vector& x)
+			void			swap(vector& x)
 			{
 				pointer tmp_data = _data;
 				allocator_type tmp_allocator = _allocator;
@@ -217,7 +217,7 @@ namespace ft
 				x._size = tmp_size;
 				x._capacity = tmp_capacity;
 			}
-			iterator 		insert(iterator position, const_reference val)
+			iterator		insert(iterator position, const_reference val)
 			{
 				size_type pos_num = (position.getPointer() - &_data[0]) == -1 ? _size : (position.getPointer() - &_data[0]);
 				if ((size_type)pos_num > _capacity)
@@ -242,7 +242,7 @@ namespace ft
 				}
 				return (iterator(_data + pos_num));
 			}
-			void			insert(iterator position, size_type n, const value_type& val)
+			void		insert(iterator position, size_type n, const value_type& val)
 			{
 				size_type pos_num = (position.getPointer() - &_data[0]) == -1 ? _size : (position.getPointer() - &_data[0]);
 				if (pos_num == _size)
@@ -289,6 +289,7 @@ namespace ft
 				_size -= ft::distance(first, last);
 				return (iterator(first));
 			}
+
 			// !						ELEMENT ACCESS						//
 			reference operator[](size_type n)
 			{
@@ -381,31 +382,30 @@ namespace ft
 	
 	// ? relational operators
 	template <class T>
-	bool operator== (const ft::vector<T>& lhs, const ft::vector<T>& rhs)
+	bool operator==(const ft::vector<T>& lhs, const ft::vector<T>& rhs)
 	{
 		if (lhs.size() != rhs.size())
 			return (false);
 		return (ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
 	}
 	template <class T>
-	bool operator!= (const ft::vector<T>& lhs, const ft::vector<T>& rhs){return (!(lhs == rhs));}	
+	bool operator!=(const ft::vector<T>& lhs, const ft::vector<T>& rhs){return (!(lhs == rhs));}	
 	template <class T>
-	bool operator<  (const ft::vector<T>& lhs, const ft::vector<T>& rhs){return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));}
+	bool operator<(const ft::vector<T>& lhs, const ft::vector<T>& rhs){return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));}
 	template <class T>
-	bool operator>  (const ft::vector<T>& lhs, const ft::vector<T>& rhs){return (rhs < lhs);}
+	bool operator>(const ft::vector<T>& lhs, const ft::vector<T>& rhs){return (rhs < lhs);}
 	template <class T>
-	bool operator<= (const ft::vector<T>& lhs, const ft::vector<T>& rhs)
+	bool operator<=(const ft::vector<T>& lhs, const ft::vector<T>& rhs)
 	{
 		if (lhs.size() == rhs.size())
 			return (true);
 		return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
 	}
 	template <class T>
-	bool operator>= (const ft::vector<T>& lhs, const ft::vector<T>& rhs){return (rhs <= lhs);}
-	
+	bool operator>=(const ft::vector<T>& lhs, const ft::vector<T>& rhs){return (rhs <= lhs);}
 	// ? swap
 	template <class T>
-	void swap (ft::vector<T>& x, ft::vector<T>& y)
+	void swap(ft::vector<T>& x, ft::vector<T>& y)
 	{
 		ft::vector<T> tmp = x;
 		x = y;

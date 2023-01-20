@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 20:43:38 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/19 22:12:27 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/20 12:21:58 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ namespace ft
 	template<typename T1>
 	ft::random_access_iterator<T1> operator-(typename ft::random_access_iterator<T1>::difference_type val, const ft::random_access_iterator<T1> rhs){return (val - rhs.getPointer());}
 	template<typename T>
-    bool operator==(const ft::random_access_iterator<T> lhs, const ft::random_access_iterator<T> rhs){return (lhs.getPointer() == rhs.getPointer());}
+	bool operator==(const ft::random_access_iterator<T> lhs, const ft::random_access_iterator<T> rhs){return (lhs.getPointer() == rhs.getPointer());}
 	/*
 		these 3 overloads are needed to solve the compilation error when trying to compare a iterator with a const_iterator
 		and vice versa 
