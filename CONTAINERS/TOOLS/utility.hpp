@@ -6,14 +6,16 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 18:37:21 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/20 12:27:39 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/20 15:59:40 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#ifndef UTILITY_HPP
+# define UTILITY_HPP
 
 namespace ft
 {
 	// pair
-
 	/*
 		*  Class pair is a simple container class whose instances can hold two elements
 		*  of arbitrary types T1 and T2.
@@ -68,3 +70,4 @@ namespace ft
 	template <class T1, class T2>
 	pair<T1,T2> make_pair(T1 x, T2 y){return (pair<T1,T2>(x,y));}
 }
+#endif

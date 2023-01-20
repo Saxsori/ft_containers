@@ -6,12 +6,11 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:36:35 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/11 16:16:52 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/20 18:21:57 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incl/Vector.hpp"
-#include "../incl/iterator.hpp"
+#include "../CONTAINERS/vector.hpp"
 #include <vector>
 
 std::allocator<int> alloc;
@@ -27,5 +26,17 @@ private:
 
 int main ()
 {
+	ft::vector<int> myvector;
+	ft::vector<int>::iterator it;
+	std::vector<int> stdvector;
+	std::vector<int>::iterator stdit;
 	
+	std::cout << "myvector size: " << myvector.size() << std::endl;
+	std::cout << "stdvector size: " << stdvector.size() << std::endl;
+	stdvector.begin();
+	myvector.begin();
+	std::cout << "myvector size: " << myvector.size() << std::endl;
+	int *noo = NULL;
+	std::cout << &noo[0] << std::endl;
+
 }
