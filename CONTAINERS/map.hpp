@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 15:43:23 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/20 22:48:00 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/20 23:07:17 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ namespace ft
 			typedef ft::reverse_iterator<const_iterator>				const_reverse_iterator;
 			
 			/*  			Constructors and destructor			*/
-			explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()):_comp(comp), _alloc(alloc){_tree = ft::binary_search_tree<value_type, key_compare>(_comp);}
+			explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()):_comp(comp), _alloc(alloc){_tree = ft::binary_search_tree<value_type, key_compare, allocator_type>(_comp);}
 			explicit map(const &map x){*this = x;}
 			~map(){clear();}
 			map& operator=(const map& x)
@@ -104,8 +104,8 @@ namespace ft
 			
 			private:
 				// key_compare 										_comp;
-				allocator_type 										_alloc;
-				ft::binary_search_tree<value_type, key_compare>		_tree;
+				allocator_type 														_alloc;
+				ft::binary_search_tree<value_type, key_compare, allocator_type>		_tree;
 	};
 
 }
