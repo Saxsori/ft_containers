@@ -26,7 +26,7 @@
 - [std::enable_if](https://cplusplus.com/reference/type_traits/enable_if/)
 - [std::is_integral](https://learn.microsoft.com/en-us/cpp/standard-library/is-integral-class?view=msvc-170)
 
-### Binary Search Tree AVL
+### Binary Search Tree
 - [Binary Search Tree(BST)](https://www.programiz.com/dsa/binary-search-tree)
 - [BST Algorithm Visualizer](https://www.cs.usfca.edu/~galles/visualization/BST.html)
 - [AVLT Algorithm Visualizer](https://www.cs.usfca.edu/~galles/visualization/AVLtree.html)
