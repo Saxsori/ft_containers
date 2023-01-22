@@ -29,7 +29,7 @@
 ### Binary Search Tree AVL
 - [Binary Search Tree(BST)](https://www.programiz.com/dsa/binary-search-tree)
 - [BST Algorithm Visualizer](https://www.cs.usfca.edu/~galles/visualization/BST.html)
-- [AVLT Algorithm Visualize](https://www.cs.usfca.edu/~galles/visualization/AVLtree.html)
+- [AVLT Algorithm Visualizer](https://www.cs.usfca.edu/~galles/visualization/AVLtree.html)
 - [[YT VID] AVL Tree - Insertion, Rotations, Examples](https://www.youtube.com/watch?v=YWqla0UX-38&list=PLdo5W4Nhv31bbKJzrsKfMpo_grxuLl8LU&index=61)
 - [[YT VID] AVL Tree - Insertion](https://www.youtube.com/watch?v=_8qqlVH5NC0&list=PLdo5W4Nhv31bbKJzrsKfMpo_grxuLl8LU&index=62)
 
