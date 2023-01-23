@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:09:17 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/23 00:37:50 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/23 12:35:09 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,16 +151,140 @@ namespace ft
 				node->parent = NULL;
 				return (node);
 			}
+			template <class T>
+			void	_reinsert_oldChild(ft::node<T> *old_child, ft::node<T> *new_root)
+			{
+				while (true)
+				{
+					if (_comp(new_root->data, old_child->data))
+					{
+						if (new_root->right)
+							new_root = new_root->right;
+						else
+						{
+							new_root->right = old_child;
+							old_child->parent = new_root;
+							return ;
+						}
+					}
+					else
+					{
+						if (new_root->left)
+							new_root = new_root->left;
+						else
+						{
+							new_root->left = old_child;
+							old_child->parent = new_root;
+							return ;
+						}
+					}
+				}
+			}
+			template <class T>
+			void	_recolor(ft::node<T> *node)
+			{
+				node->color = (node->color == BLACK) ? RED : BLACK;
+			}
+			template <class T>
+			void	_rebalance(ft::node<T> *new_node)
+			{
+				while (true)
+				{
+					if (new_node->parent == NULL)
+					{
+						new_node->color = BLACK;
+						break;
+					}
+					if (new_node->parent->color == BLACK)
+						break;
+					else if (new_node->parent->color == RED)
+					{
+						if (new_node->parent == new_node->parent->parent->left)
+						{
+							/*
+								these are two possible cases where the uncle is in the left side and the father is in the right	
+											grandpa									grandpa
+											/		\           or 					/		\
+										father		uncle						father		uncle
+										/											\
+									newnode											newnode
+							*/
+							if (new_node->parent->parent->right == NULL || (new_node->parent->parent->right && new_node->parent->parent->right->color == BLACK))
+							{
+								// rotate
+								// recolor the median and the parent of the median
+								if (new_node == new_node->parent->right)
+									left_rotate(new_node, new_node->parent);
+								right_rotate(new_node->parent, new_node->parent->parent);
+								_recolor(new_node->parent->right);
+								_recolor(new_node->parent);
+								break;
+							}
+							else if (new_node->parent->parent->right->color == RED)
+							{
+								// recolor uncle and father
+								// recolor grandpa if not root, if root exit
+								// if grandpa is not root, make it newnode
+								_recolor(new_node->parent->parent->right);
+								_recolor(new_node->parent->parent->left);
+								if (new_node->parent->parent != _root)
+								{
+									_recolor(new_node->parent->parent);
+									new_node = new_node->parent->parent;
+								}
+								else
+									break;
+							}
+						}
+						else if (new_node->parent == new_node->parent->parent->right)
+						{
+							/*
+								these are two possible cases where my uncle is in the right side and my father is in the left
+											grandpa									grandpa
+											/		\								/		\
+										uncle		father			or			father		uncle
+														\									/
+														new_node							new_node		
+							*/
+							// std::cout << "newnode" << new_node->data << std::endl;
+							// std::cout << "newnode" << new_node->parent->data << std::endl;
+							if (new_node->parent->parent->left == NULL || (new_node->parent->parent->left && new_node->parent->parent->left->color == BLACK))
+							{
+								std::cout << "here" << std::endl;
+								// rotate
+								// _recolor the median and the parent of the median
+								if (new_node == new_node->parent->left)
+									right_rotate(new_node, new_node->parent);
+								left_rotate(new_node->parent, new_node->parent->parent);
+								_recolor(new_node->parent->left);
+								_recolor(new_node->parent);
+								break;
+							}
+							else if (new_node->parent->parent->left->color == RED)
+							{
+								// _recolor uncle and father
+								// _recolor grandpa if not root, if root exit
+								// if grandpa is not root, make it new_node
+								_recolor(new_node->parent->parent->right);
+								_recolor(new_node->parent->parent->left);
+								if (new_node->parent->parent != _root)
+								{
+									_recolor(new_node->parent->parent);
+									new_node = new_node->parent->parent;
+								}
+								else
+									break;
+							}
+						}
+					}
+				}
+			}
+			
 		public:
 			
 			binary_search_tree():_root(NULL),_comp(){};
 			~binary_search_tree(){};
 			ft::node<data_type>			*root() const {return _root;}
-			template <class T>
-			void	recolor(ft::node<T> *node)
-			{
-				node->color = (node->color == BLACK) ? RED : BLACK;
-			}
 			template <class T>
 			void	left_rotate(ft::node<T> *median, ft::node<T> *old_root)
 			{
@@ -175,16 +299,18 @@ namespace ft
 						old_root->parent->right = median;
 				}
 				else
-				{
-					std::cout << "new root" << std::endl;
 					_root = median;
-				}
 				old_root->parent = median;
 				old_root->right = NULL;
 				if (old_child)
 				{
-					old_root->right = old_child;
-					old_child->parent = old_root;
+					if (old_root->right)					
+						_reinsert_oldChild(old_child, old_root->right);
+					else
+					{
+						old_root->right = old_child;
+						old_child->parent = old_root;
+					}
 				}
 			}
 			template <class T>
@@ -201,25 +327,32 @@ namespace ft
 						old_root->parent->right = median;
 				}
 				else
-				{
-					std::cout << "new root" << std::endl;
 					_root = median;
-				}
 				old_root->parent = median;
 				old_root->left = NULL;
 				if (old_child)
 				{
-					old_root->left = old_child;
-					old_child->parent = old_root;
+					if (old_root->left)					
+						_reinsert_oldChild(old_child, old_root->left);
+					else
+					{
+						old_root->left = old_child;
+						old_child->parent = old_root;
+					}
 				}
 			}
 			void						insert(data_type data)
 			{
+				std::cout << "inserting " << data << std::endl;
 				if (!_root)
+				{
 					_root = _createNode(data);
+					_root->color = BLACK;
+				}
 				else
 				{
 					ft::node<data_type>	*traversal = _root;
+					ft::node<data_type>	*new_node = _root;
 					while (true)
 					{
 						if (_comp(data, traversal->data))
@@ -228,6 +361,7 @@ namespace ft
 							{
 								traversal->left = _createNode(data);
 								traversal->left->parent = traversal;
+								new_node = traversal->left;
 								break;
 							}
 							else
@@ -239,12 +373,14 @@ namespace ft
 							{
 								traversal->right = _createNode(data);
 								traversal->right->parent = traversal;
+								new_node = traversal->right;
 								break;
 							}
 							else
 								traversal = traversal->right;
 						}
 					}
+					_rebalance(new_node);
 				}
 			}
 	};
