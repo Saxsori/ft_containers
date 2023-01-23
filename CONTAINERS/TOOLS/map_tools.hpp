@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:09:17 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/22 21:54:15 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/23 00:37:50 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ namespace ft
 		node(ft::node<T> &node):data(node.data), parent(node.parent), left(node.left), right(node.right), color(node.color){}
 	};
 	
+	
 	/*
 	
 		if !root
@@ -54,32 +55,72 @@ namespace ft
 						break;
 					else if newnode.parent.color == red
 					{
-						if newnode.parent == newnode.parent.parent.left
+						these are two possible cases where my uncle is in the left side and my father is in the right	
+									grandpa									grandpa
+									/		\           or 					/		\
+								father		uncle						father		uncle
+								/											\
+							newnode											newnode
+						if (newnode.parent == newnode.parent.parent.left)
 						{
 							if (newnode.parent.parent.right.color == red)
 							{
 								// recolor uncle and father
 								// recolor grandpa if not root, if root exit
 								// if grandpa is not root, make it newnode
+								recolor(newnode.parent.parent.right)
+								recolor(newnode.parent.parent.left)
+								if (newnode.parent.parent != root)
+								{
+									recolor(newnode.parent.parent)
+									newnode = newnode.parent.parent
+								}
+								else
+									break;
 							}
 							else if (newnode.parent.parent.right.color == black)
 							{
 								// rotate
 								// recolor the median and the parent of the median
+								if (newnode == newnode.parent.right)
+									left rotate(newnode, newnode.parent)
+								right rotate(newnode.parent, newnode.parent.parent)
+								recolor(newnode.parent)
+								recolor(newnode.parent.parent)
 							}
 						}
-						else if newnode.parent == newnode.parent.parent.right
+						these are two possible cases where my uncle is in the right side and my father is in the left
+									grandpa									grandpa
+									/		\								/		\
+								uncle		father			or			father		uncle
+												\									/
+												newnode							newnode		
+						else if (newnode.parent == newnode.parent.parent.right)
 						{
 							if (newnode.parent.parent.left.color == red)
 							{
 								// recolor uncle and father
 								// recolor grandpa if not root, if root exit
 								// if grandpa is not root, make it newnode
+								recolor(newnode.parent.parent.right)
+								recolor(newnode.parent.parent.left)
+								if (newnode.parent.parent != root)
+								{
+									recolor(newnode.parent.parent)
+									newnode = newnode.parent.parent
+								}
+								else
+									break;
 							}
 							else if (newnode.parent.parent.left.color == black)
 							{
 								// rotate
 								// recolor the median and the parent of the median
+								if (newnode == newnode.parent.left)
+									right rotate(newnode, newnode.parent)
+								left rotate(newnode.parent, newnode.parent.parent)
+								recolor(newnode.parent)
+								recolor(newnode.parent.parent)
 							}
 						}
 					}
@@ -109,12 +150,69 @@ namespace ft
 				node->right = NULL;
 				node->parent = NULL;
 				return (node);
-		}
+			}
 		public:
 			
 			binary_search_tree():_root(NULL),_comp(){};
 			~binary_search_tree(){};
 			ft::node<data_type>			*root() const {return _root;}
+			template <class T>
+			void	recolor(ft::node<T> *node)
+			{
+				node->color = (node->color == BLACK) ? RED : BLACK;
+			}
+			template <class T>
+			void	left_rotate(ft::node<T> *median, ft::node<T> *old_root)
+			{
+				ft::node<T> *old_child = median->left;
+				median->left = old_root;
+				median->parent = old_root->parent;
+				if (old_root->parent)
+				{
+					if (old_root->parent->left == old_root)
+						old_root->parent->left = median;
+					else if (old_root->parent->right == old_root)
+						old_root->parent->right = median;
+				}
+				else
+				{
+					std::cout << "new root" << std::endl;
+					_root = median;
+				}
+				old_root->parent = median;
+				old_root->right = NULL;
+				if (old_child)
+				{
+					old_root->right = old_child;
+					old_child->parent = old_root;
+				}
+			}
+			template <class T>
+			void	right_rotate(ft::node<T> *median, ft::node<T> *old_root)
+			{
+				ft::node<T> *old_child = median->right;
+				median->right = old_root;
+				median->parent = old_root->parent;
+				if (old_root->parent)
+				{
+					if (old_root->parent->left == old_root)
+						old_root->parent->left = median;
+					else if (old_root->parent->right == old_root)
+						old_root->parent->right = median;
+				}
+				else
+				{
+					std::cout << "new root" << std::endl;
+					_root = median;
+				}
+				old_root->parent = median;
+				old_root->left = NULL;
+				if (old_child)
+				{
+					old_root->left = old_child;
+					old_child->parent = old_root;
+				}
+			}
 			void						insert(data_type data)
 			{
 				if (!_root)

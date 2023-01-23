@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 23:07:57 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/22 20:04:41 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/23 00:39:25 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,15 +96,28 @@ int main()
 	typedef	std::pair<int, std::string>::first_type first_type;
 	ft::binary_search_tree<first_type, value_compare> bst;
 	std::cout << std::endl;
-	bst.insert(4);
-	bst.insert(1);
 	bst.insert(3);
-	bst.insert(5);
-	bst.insert(0);
+	bst.insert(8);
+	bst.insert(9);
+	bst.insert(7);
+	// bst.insert(0);
 	ft::node<first_type> *node = bst.root();
 	// std::cout << "Root: " << node->data << std::endl;
 	printTree(node, NULL, false);
 	std::cout << std::endl;
-	
+	bst.left_rotate(bst.root()->right, bst.root());
+	std::cout << "Root: " << bst.root()->data << std::endl;
+	node = bst.root();
+	printTree(node, NULL, false);
+	std::cout << std::endl;
+	std::cout << std::endl;
+	ft::binary_search_tree<first_type, value_compare> bst2;
+	bst2.insert(3);
+	bst2.insert(-2);
+	bst2.insert(-3);
+	bst2.insert(-1);
+	printTree(bst2.root(), NULL, false);
+	bst2.right_rotate(bst2.root()->left, bst2.root());
+	printTree(bst2.root(), NULL, false);
 	return 0;
 }
