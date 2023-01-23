@@ -26,11 +26,14 @@
 - [std::enable_if](https://cplusplus.com/reference/type_traits/enable_if/)
 - [std::is_integral](https://learn.microsoft.com/en-us/cpp/standard-library/is-integral-class?view=msvc-170)
 
-### Binary Search Tree AVL
+### Binary Search Tree
 - [Binary Search Tree(BST)](https://www.programiz.com/dsa/binary-search-tree)
 - [BST Algorithm Visualizer](https://www.cs.usfca.edu/~galles/visualization/BST.html)
 - [AVLT Algorithm Visualizer](https://www.cs.usfca.edu/~galles/visualization/AVLtree.html)
-- [[YT VID] AVL Tree - Insertion, Rotations, Examples](https://www.youtube.com/watch?v=YWqla0UX-38&list=PLdo5W4Nhv31bbKJzrsKfMpo_grxuLl8LU&index=61)
+- [[YT VID] AVL Tree - Intro](https://www.youtube.com/watch?v=YWqla0UX-38&list=PLdo5W4Nhv31bbKJzrsKfMpo_grxuLl8LU&index=61)
+The AVL tree Videos will be needed to understand the Red-Black tree
 - [[YT VID] AVL Tree - Insertion](https://www.youtube.com/watch?v=_8qqlVH5NC0&list=PLdo5W4Nhv31bbKJzrsKfMpo_grxuLl8LU&index=62)
+- [[YT VID] R-B Tree - Intro](https://youtu.be/3RQtq7PDHog)
+- [[YT VID] R-B Tree - Insertion](https://www.youtube.com/watch?v=qA02XWRTBdw&list=PLdo5W4Nhv31bbKJzrsKfMpo_grxuLl8LU&index=65)
 
 
