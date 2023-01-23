@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:09:17 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/23 12:35:09 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/23 16:43:03 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,10 +214,18 @@ namespace ft
 								// rotate
 								// recolor the median and the parent of the median
 								if (new_node == new_node->parent->right)
+								{
 									left_rotate(new_node, new_node->parent);
-								right_rotate(new_node->parent, new_node->parent->parent);
-								_recolor(new_node->parent->right);
-								_recolor(new_node->parent);
+									right_rotate(new_node, new_node->parent);
+									_recolor(new_node);
+									_recolor(new_node->right);		
+								}
+								else
+								{
+									right_rotate(new_node->parent, new_node->parent->parent);
+									_recolor(new_node->parent->right);
+									_recolor(new_node->parent);									
+								}
 								break;
 							}
 							else if (new_node->parent->parent->right->color == RED)
@@ -246,18 +254,23 @@ namespace ft
 														\									/
 														new_node							new_node		
 							*/
-							// std::cout << "newnode" << new_node->data << std::endl;
-							// std::cout << "newnode" << new_node->parent->data << std::endl;
 							if (new_node->parent->parent->left == NULL || (new_node->parent->parent->left && new_node->parent->parent->left->color == BLACK))
 							{
-								std::cout << "here" << std::endl;
 								// rotate
 								// _recolor the median and the parent of the median
 								if (new_node == new_node->parent->left)
+								{
 									right_rotate(new_node, new_node->parent);
-								left_rotate(new_node->parent, new_node->parent->parent);
-								_recolor(new_node->parent->left);
-								_recolor(new_node->parent);
+									left_rotate(new_node, new_node->parent);
+									_recolor(new_node);
+									_recolor(new_node->left);
+								}
+								else
+								{
+									left_rotate(new_node->parent, new_node->parent->parent);
+									_recolor(new_node->parent->left);
+									_recolor(new_node->parent);
+								}
 								break;
 							}
 							else if (new_node->parent->parent->left->color == RED)
@@ -279,11 +292,27 @@ namespace ft
 					}
 				}
 			}
+			/* This function traverses tree
+			in post order to delete each
+			and every node of the tree */
+			template <typename first_type>
+			void _deleteTree(ft::node<first_type>* node)
+			{
+				if (node == NULL) return;
+			
+				/* first delete both subtrees */
+				_deleteTree(node->left);
+				_deleteTree(node->right);
+				
+				/* then delete the node */
+				std::cout << "\n Deleting node: " << node->data;
+				_allocData.destroy(&node->data);
+				_allocNode.deallocate(node, 1);
+			}
 			
 		public:
-			
 			binary_search_tree():_root(NULL),_comp(){};
-			~binary_search_tree(){};
+			~binary_search_tree(){_deleteTree(_root);}
 			ft::node<data_type>			*root() const {return _root;}
 			template <class T>
 			void	left_rotate(ft::node<T> *median, ft::node<T> *old_root)
@@ -343,7 +372,6 @@ namespace ft
 			}
 			void						insert(data_type data)
 			{
-				std::cout << "inserting " << data << std::endl;
 				if (!_root)
 				{
 					_root = _createNode(data);
