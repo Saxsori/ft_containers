@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 23:07:57 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/23 17:01:15 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/24 18:45:27 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,20 +98,62 @@ int main()
 	typedef	std::pair<int, std::string>::first_type first_type;
 	ft::binary_search_tree<first_type, value_compare> bst;
 	
-	bst.insert(10);
-	bst.insert(18);
-	bst.insert(7);
+	// bst.insert(10);
+	// bst.insert(18);
+	// bst.insert(7);
+	// bst.insert(15);
+	// bst.insert(16);
+	// bst.insert(30);
+	// bst.insert(25);
+	// bst.insert(40);
+	// bst.insert(60);
+	// bst.insert(2);
+	// bst.insert(1);
+	// bst.insert(70);
+	/*******************************************/
+	
+	bst.insert(50);
+	bst.insert(20);
 	bst.insert(15);
-	bst.insert(16);
-	bst.insert(30);
-	bst.insert(25);
-	bst.insert(40);
-	bst.insert(60);
-	bst.insert(2);
-	bst.insert(1);
+	bst.insert(35);
+	bst.insert(65);
+	bst.insert(55);
 	bst.insert(70);
+	bst.insert(68);
+	bst.insert(80);
+	bst.insert(90);
 	std::cout << std::endl;
 	printTree(bst.root(), NULL, false);
 	std::cout << std::endl;
+	
+
+	bst.erase(55);
+	bst.erase(20);
+	bst.erase(90);
+	bst.erase(80);
+	// std::cout << std::endl;
+	// printTree(bst.root(), NULL, false);
+	// std::cout << std::endl;
+	bst.erase(50);
+	bst.erase(35);
+	bst.erase(15);
+	bst.erase(65);
+	bst.erase(70);
+	bst.erase(68);
+	std::cout << std::endl;
+	printTree(bst.root(), NULL, false);
+	std::cout << std::endl;
+	// bst.erase(10);
+	// bst.erase(7);
+	// bst.erase(18);
+	// bst.erase(15);
+	// bst.erase(16);
+	// bst.erase(30);
+	// bst.erase(25);
+	// bst.erase(40);
+	// bst.erase(60);
+	// bst.erase(2);
+	// bst.erase(1);
+	// bst.erase(70);
 	return 0;
 }

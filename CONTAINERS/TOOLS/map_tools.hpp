@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:09:17 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/23 16:43:03 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/24 18:33:24 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 #define BLACK 'b'
 #define RED 'r'
 
+#define MIN 1
+#define MAX 2
+#define EQUAL 3
 
 /*
 	** binary_search_tree
@@ -39,96 +42,6 @@ namespace ft
 		node(ft::node<T> &node):data(node.data), parent(node.parent), left(node.left), right(node.right), color(node.color){}
 	};
 	
-	
-	/*
-	
-		if !root
-			insert root
-		else if root
-		{
-			create node red and put it in the right place for BST
-			then
-			{
-				while (true)
-				{
-					if newnode.parent.color == black
-						break;
-					else if newnode.parent.color == red
-					{
-						these are two possible cases where my uncle is in the left side and my father is in the right	
-									grandpa									grandpa
-									/		\           or 					/		\
-								father		uncle						father		uncle
-								/											\
-							newnode											newnode
-						if (newnode.parent == newnode.parent.parent.left)
-						{
-							if (newnode.parent.parent.right.color == red)
-							{
-								// recolor uncle and father
-								// recolor grandpa if not root, if root exit
-								// if grandpa is not root, make it newnode
-								recolor(newnode.parent.parent.right)
-								recolor(newnode.parent.parent.left)
-								if (newnode.parent.parent != root)
-								{
-									recolor(newnode.parent.parent)
-									newnode = newnode.parent.parent
-								}
-								else
-									break;
-							}
-							else if (newnode.parent.parent.right.color == black)
-							{
-								// rotate
-								// recolor the median and the parent of the median
-								if (newnode == newnode.parent.right)
-									left rotate(newnode, newnode.parent)
-								right rotate(newnode.parent, newnode.parent.parent)
-								recolor(newnode.parent)
-								recolor(newnode.parent.parent)
-							}
-						}
-						these are two possible cases where my uncle is in the right side and my father is in the left
-									grandpa									grandpa
-									/		\								/		\
-								uncle		father			or			father		uncle
-												\									/
-												newnode							newnode		
-						else if (newnode.parent == newnode.parent.parent.right)
-						{
-							if (newnode.parent.parent.left.color == red)
-							{
-								// recolor uncle and father
-								// recolor grandpa if not root, if root exit
-								// if grandpa is not root, make it newnode
-								recolor(newnode.parent.parent.right)
-								recolor(newnode.parent.parent.left)
-								if (newnode.parent.parent != root)
-								{
-									recolor(newnode.parent.parent)
-									newnode = newnode.parent.parent
-								}
-								else
-									break;
-							}
-							else if (newnode.parent.parent.left.color == black)
-							{
-								// rotate
-								// recolor the median and the parent of the median
-								if (newnode == newnode.parent.left)
-									right rotate(newnode, newnode.parent)
-								left rotate(newnode.parent, newnode.parent.parent)
-								recolor(newnode.parent)
-								recolor(newnode.parent.parent)
-							}
-						}
-					}
-				}
-			}
-		}
-	
-	*/
 
 	template <class value_type, class key_compare>
 	class binary_search_tree
@@ -309,11 +222,6 @@ namespace ft
 				_allocData.destroy(&node->data);
 				_allocNode.deallocate(node, 1);
 			}
-			
-		public:
-			binary_search_tree():_root(NULL),_comp(){};
-			~binary_search_tree(){_deleteTree(_root);}
-			ft::node<data_type>			*root() const {return _root;}
 			template <class T>
 			void	left_rotate(ft::node<T> *median, ft::node<T> *old_root)
 			{
@@ -370,6 +278,43 @@ namespace ft
 					}
 				}
 			}
+			ft::node<data_type>	*getNode(ft::node<data_type> *node, int option)
+			{
+				if (option == MIN)
+				{
+					if (node->left)
+						return getNode(node->left, option);
+					else
+						return node;
+				}
+				else if (option == MAX)
+				{
+					if (node->right)
+						return getNode(node->right, option);
+					else
+						return node;
+				}
+				return NULL;
+			}
+			ft::node<data_type> *getNode(data_type data)
+			{
+				ft::node<data_type> *traversal = _root;
+				while (traversal)
+				{
+					if (_comp(data, traversal->data))
+						traversal = traversal->left;
+					else if (_comp(traversal->data, data))
+						traversal = traversal->right;
+					else
+						return traversal;
+				}
+				return NULL;
+			}
+			
+		public:
+			binary_search_tree():_root(NULL),_comp(){};
+			~binary_search_tree(){_deleteTree(_root);}
+			ft::node<data_type>			*root() const {return _root;}
 			void						insert(data_type data)
 			{
 				if (!_root)
@@ -411,7 +356,147 @@ namespace ft
 					_rebalance(new_node);
 				}
 			}
+			void				erase(ft::node<data_type> *node)
+			{
+				if (node)
+				{
+					std::cout << "delete ---> " << node->data << std::endl;
+					if (!node->left && !node->right)
+					{
+						if (node->parent)
+						{
+							if (node->parent->right == node)
+							{
+								_allocData.destroy(&node->data);
+								node = node->parent;
+								_allocNode.deallocate(node->right, 1);
+								node->right = NULL;
+							}
+							else if (node->parent->left == node)
+							{
+								_allocData.destroy(&node->data);
+								node = node->parent;
+								_allocNode.deallocate(node->left, 1);
+								node->left = NULL;
+							}
+						}
+						else
+						{
+							_allocData.destroy(&node->data);
+							_allocNode.deallocate(node, 1);
+							_root = NULL;
+						}
+					}
+					else
+					{
+						ft::node<data_type>	*child = NULL;
+						if (node->left)
+							child = getNode(node->left, MAX);
+						else if (node->right)
+							child = node->right;
+						_allocData.destroy(&node->data);
+						_allocData.construct(&node->data, child->data);
+						erase(child);
+					}
+				}
+				return ;
+			}
+			void			erase(data_type data)
+			{
+				erase(getNode(data));
+			}
 	};
 }
 
 #endif
+
+
+	/*
+	
+		if !root
+			insert root
+		else if root
+		{
+			create node red and put it in the right place for BST
+			then
+			{
+				while (true)
+				{
+					if newnode.parent.color == black
+						break;
+					else if newnode.parent.color == red
+					{
+						these are two possible cases where my uncle is in the left side and my father is in the right	
+									grandpa									grandpa
+									/		\           or 					/		\
+								father		uncle						father		uncle
+								/											\
+							newnode											newnode
+						if (newnode.parent == newnode.parent.parent.left)
+						{
+							if (newnode.parent.parent.right.color == red)
+							{
+								// recolor uncle and father
+								// recolor grandpa if not root, if root exit
+								// if grandpa is not root, make it newnode
+								recolor(newnode.parent.parent.right)
+								recolor(newnode.parent.parent.left)
+								if (newnode.parent.parent != root)
+								{
+									recolor(newnode.parent.parent)
+									newnode = newnode.parent.parent
+								}
+								else
+									break;
+							}
+							else if (newnode.parent.parent.right.color == black)
+							{
+								// rotate
+								// recolor the median and the parent of the median
+								if (newnode == newnode.parent.right)
+									left rotate(newnode, newnode.parent)
+								right rotate(newnode.parent, newnode.parent.parent)
+								recolor(newnode.parent)
+								recolor(newnode.parent.parent)
+							}
+						}
+						these are two possible cases where my uncle is in the right side and my father is in the left
+									grandpa									grandpa
+									/		\								/		\
+								uncle		father			or			father		uncle
+												\									/
+												newnode							newnode		
+						else if (newnode.parent == newnode.parent.parent.right)
+						{
+							if (newnode.parent.parent.left.color == red)
+							{
+								// recolor uncle and father
+								// recolor grandpa if not root, if root exit
+								// if grandpa is not root, make it newnode
+								recolor(newnode.parent.parent.right)
+								recolor(newnode.parent.parent.left)
+								if (newnode.parent.parent != root)
+								{
+									recolor(newnode.parent.parent)
+									newnode = newnode.parent.parent
+								}
+								else
+									break;
+							}
+							else if (newnode.parent.parent.left.color == black)
+							{
+								// rotate
+								// recolor the median and the parent of the median
+								if (newnode == newnode.parent.left)
+									right rotate(newnode, newnode.parent)
+								left rotate(newnode.parent, newnode.parent.parent)
+								recolor(newnode.parent)
+								recolor(newnode.parent.parent)
+							}
+						}
+					}
+				}
+			}
+		}
+	
+	*/
