@@ -35,5 +35,6 @@ The AVL tree Videos will be needed to understand the Red-Black tree
 - [[YT VID] AVL Tree - Insertion](https://www.youtube.com/watch?v=_8qqlVH5NC0&list=PLdo5W4Nhv31bbKJzrsKfMpo_grxuLl8LU&index=62)
 - [[YT VID] R-B Tree - Intro](https://youtu.be/3RQtq7PDHog)
 - [[YT VID] R-B Tree - Insertion](https://www.youtube.com/watch?v=qA02XWRTBdw&list=PLdo5W4Nhv31bbKJzrsKfMpo_grxuLl8LU&index=65)
+- [[YT VID] R-B Tree - Deletion](https://www.youtube.com/watch?v=w5cvkTXY0vQ&t=201s)
 
 
