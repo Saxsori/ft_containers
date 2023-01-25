@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 23:07:57 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/24 18:45:27 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/25 18:12:51 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,15 +131,12 @@ int main()
 	bst.erase(20);
 	bst.erase(90);
 	bst.erase(80);
-	// std::cout << std::endl;
-	// printTree(bst.root(), NULL, false);
-	// std::cout << std::endl;
 	bst.erase(50);
 	bst.erase(35);
 	bst.erase(15);
 	bst.erase(65);
-	bst.erase(70);
 	bst.erase(68);
+	bst.erase(70);
 	std::cout << std::endl;
 	printTree(bst.root(), NULL, false);
 	std::cout << std::endl;

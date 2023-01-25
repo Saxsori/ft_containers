@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:09:17 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/24 18:33:24 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/25 18:14:09 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 #define MIN 1
 #define MAX 2
 #define EQUAL 3
+// #define DESTROY 4
+// #define DESTROY 4
 
 /*
 	** binary_search_tree
@@ -93,13 +95,17 @@ namespace ft
 					}
 				}
 			}
-			template <class T>
-			void	_recolor(ft::node<T> *node)
+			void	_recolor(ft::node<data_type> *node)
 			{
 				node->color = (node->color == BLACK) ? RED : BLACK;
 			}
-			template <class T>
-			void	_rebalance(ft::node<T> *new_node)
+			void	_swapColor(ft::node<data_type> *bro, ft::node<data_type> *parent)
+			{
+				int tempColor = bro->color;
+				bro->color = parent->color;
+				parent->color = tempColor;
+			}
+			void	_rebalance(ft::node<data_type> *new_node)
 			{
 				while (true)
 				{
@@ -216,9 +222,7 @@ namespace ft
 				/* first delete both subtrees */
 				_deleteTree(node->left);
 				_deleteTree(node->right);
-				
-				/* then delete the node */
-				std::cout << "\n Deleting node: " << node->data;
+				std::cout << "Deleting node: " << node->data << std::endl;
 				_allocData.destroy(&node->data);
 				_allocNode.deallocate(node, 1);
 			}
@@ -278,7 +282,7 @@ namespace ft
 					}
 				}
 			}
-			ft::node<data_type>	*getNode(ft::node<data_type> *node, int option)
+			ft::node<data_type>			*getNode(ft::node<data_type> *node, int option)
 			{
 				if (option == MIN)
 				{
@@ -296,7 +300,7 @@ namespace ft
 				}
 				return NULL;
 			}
-			ft::node<data_type> *getNode(data_type data)
+			ft::node<data_type>			*getNode(data_type data)
 			{
 				ft::node<data_type> *traversal = _root;
 				while (traversal)
@@ -309,6 +313,99 @@ namespace ft
 						return traversal;
 				}
 				return NULL;
+			}
+			bool	isBlackNode(ft::node<data_type> *node)
+			{
+				if (node == NULL)
+					return true;
+				if (node->color == BLACK)
+					return true;
+				return false;
+			}
+			void		_resolveDB(ft::node<data_type> *node)
+			{
+				if (node == _root)
+					return;
+				if (node->parent->left == node)
+				{
+				
+					// if the sibling was nill or black and his children were black
+					// ! note if one of them was null ... if bro was null or black && his children was either black or nill
+					if (node->parent->right && node->parent->right->color == BLACK && isBlackNode(node->parent->right->right) && isBlackNode(node->parent->right->left))
+					{
+						if (node->parent->right)
+							node->parent->right->color = RED;
+						if (node->parent->color == RED)
+							node->parent->color = BLACK;
+						else
+							_resolveDB(node->parent);
+					}
+					else if (node->parent->right && node->parent->right->color == RED)
+					{
+						int temp = node->parent->color;
+						node->parent->color = node->parent->right->color;
+						node->parent->right->color = temp;
+						left_rotate(node->parent->right, node->parent);
+						_resolveDB(node);
+					}
+					else if (node->parent->right && isBlackNode(node->parent->right) && isBlackNode(node->parent->right->right) && node->parent->right->left->color == RED)
+					{
+						int temp = node->parent->right->color;
+						node->parent->right->color = node->parent->right->left->color;
+						node->parent->right->left->color = temp;
+						right_rotate(node->parent->right->left, node->parent->right);
+						_resolveDB(node);
+					}
+					else if (node->parent->right && isBlackNode(node->parent->right) && node->parent->right->right->color == RED)
+					{
+						int temp = node->parent->right->color;
+						node->parent->right->color = node->parent->color;
+						node->parent->color = temp;
+						node->parent->right->right->color = BLACK;
+						left_rotate(node->parent->right, node->parent);
+					}
+				}
+				else if (node->parent->right == node)
+				{
+					std::cout << "here" << std::endl;
+					if (node->parent->left && node->parent->left->color == BLACK && isBlackNode(node->parent->left->right) && isBlackNode(node->parent->left->left))
+					{
+						std::cout << "1here" << std::endl;
+						if (node->parent->left)
+							node->parent->left->color = RED;
+						if (node->parent->color == RED)
+							node->parent->color = BLACK;
+						else
+							_resolveDB(node->parent);
+					}
+					else if (node->parent->left && node->parent->left->color == RED)
+					{
+						std::cout << "2here" << std::endl;
+						int temp = node->parent->color;
+						node->parent->color = node->parent->left->color;
+						node->parent->left->color = temp;
+						right_rotate(node->parent->left, node->parent);
+						_resolveDB(node);
+					}
+					else if (isBlackNode(node->parent->left) && isBlackNode(node->parent->left->left) && node->parent->left->right->color == RED)
+					{
+						std::cout << "3here" << std::endl;
+						int temp = node->parent->left->color;
+						node->parent->left->color = node->parent->left->right->color;
+						node->parent->left->right->color = temp;
+						left_rotate(node->parent->left->right, node->parent->left);
+						_resolveDB(node);
+					}
+					else if (isBlackNode(node->parent->left) && node->parent->left->left->color == RED)
+					{
+						std::cout << "4here" << std::endl;
+						int temp = node->parent->left->color;
+						node->parent->left->color = node->parent->color;
+						node->parent->color = temp;
+						node->parent->left->left->color = BLACK;
+						right_rotate(node->parent->left, node->parent);
+					}
+				}
 			}
 			
 		public:
@@ -368,6 +465,8 @@ namespace ft
 							if (node->parent->right == node)
 							{
 								_allocData.destroy(&node->data);
+								if (node->color == BLACK)
+									_resolveDB(node);
 								node = node->parent;
 								_allocNode.deallocate(node->right, 1);
 								node->right = NULL;
@@ -375,6 +474,8 @@ namespace ft
 							else if (node->parent->left == node)
 							{
 								_allocData.destroy(&node->data);
+								if (node->color == BLACK)
+									_resolveDB(node);
 								node = node->parent;
 								_allocNode.deallocate(node->left, 1);
 								node->left = NULL;
