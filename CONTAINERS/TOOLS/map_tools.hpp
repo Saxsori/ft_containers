@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:09:17 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/27 21:07:29 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/27 22:52:49 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,21 +36,23 @@ namespace ft
 	template <class data_type>
 	struct node
 	{
-		data_type	data;
+		data_type			data;
 		node				*parent;
 		node				*left;
 		node				*right;
 		int					color;
 		template <class T>
 		node(ft::node<T> &node):data(node.data), parent(node.parent), left(node.left), right(node.right), color(node.color){}
+		
 	};
 	
-
 	template <class value_type, class key_compare>
 	class binary_search_tree
 	{
 		public:
 			typedef value_type								data_type;
+			typedef ft::vector<data_type>					SortedTree;
+			typedef ft::node<data_type>*					Node;
 		private:
 			ft::node<data_type>								*_root;
 			key_compare										_comp;
@@ -68,7 +70,7 @@ namespace ft
 				return (node);
 			}
 			template <class T>
-			void	_reinsert_oldChild(ft::node<T> *old_child, ft::node<T> *new_root)
+			void											_reinsert_oldChild(ft::node<T> *old_child, ft::node<T> *new_root)
 			{
 				while (true)
 				{
@@ -96,17 +98,17 @@ namespace ft
 					}
 				}
 			}
-			void	_recolor(ft::node<data_type> *node)
+			void										_recolor(ft::node<data_type> *node)
 			{
 				node->color = (node->color == BLACK) ? RED : BLACK;
 			}
-			void	_swapColor(ft::node<data_type> *bro, ft::node<data_type> *parent)
+			void										_swapColor(ft::node<data_type> *bro, ft::node<data_type> *parent)
 			{
 				int tempColor = bro->color;
 				bro->color = parent->color;
 				parent->color = tempColor;
 			}
-			void	_rebalance(ft::node<data_type> *new_node)
+			void										_rebalance(ft::node<data_type> *new_node)
 			{
 				while (true)
 				{
@@ -216,7 +218,7 @@ namespace ft
 			in post order to delete each
 			and every node of the tree */
 			template <typename first_type>
-			void _deleteTree(ft::node<first_type>* node)
+			void							_deleteTree(ft::node<first_type>* node)
 			{
 				if (node == NULL) return;
 			
@@ -226,6 +228,24 @@ namespace ft
 				// std::cout << "Deleting node: " << node->data << std::endl;
 				_allocData.destroy(&node->data);
 				_allocNode.deallocate(node, 1);
+			}
+			ft::node<data_type>			*getNode(ft::node<data_type> *node, int option)
+			{
+				if (option == MIN)
+				{
+					if (node->left)
+						return getNode(node->left, option);
+					else
+						return node;
+				}
+				else if (option == MAX)
+				{
+					if (node->right)
+						return getNode(node->right, option);
+					else
+						return node;
+				}
+				return NULL;
 			}
 			template <class T>
 			void	left_rotate(ft::node<T> *median, ft::node<T> *old_root)
@@ -282,38 +302,6 @@ namespace ft
 						old_child->parent = old_root;
 					}
 				}
-			}
-			ft::node<data_type>			*getNode(ft::node<data_type> *node, int option)
-			{
-				if (option == MIN)
-				{
-					if (node->left)
-						return getNode(node->left, option);
-					else
-						return node;
-				}
-				else if (option == MAX)
-				{
-					if (node->right)
-						return getNode(node->right, option);
-					else
-						return node;
-				}
-				return NULL;
-			}
-			ft::node<data_type>			*getNode(data_type data)
-			{
-				ft::node<data_type> *traversal = _root;
-				while (traversal)
-				{
-					if (_comp(data, traversal->data))
-						traversal = traversal->left;
-					else if (_comp(traversal->data, data))
-						traversal = traversal->right;
-					else
-						return traversal;
-				}
-				return NULL;
 			}
 			bool	isBlackNode(ft::node<data_type> *node)
 			{
@@ -378,6 +366,7 @@ namespace ft
 							node->parent->color = BLACK;
 						else
 							_resolveDB(node->parent);
+
 					}
 					else if (node->parent->left && node->parent->left->color == RED)
 					{
@@ -422,14 +411,25 @@ namespace ft
 				sortedTree.push_back(node->data);
 				sortedIterator(node->right);
 			}
-			ft::node<data_type>				*searchNode(ft::node<value_type> *node, data_type data)
+			ft::node<data_type>				*iterateTree(ft::node<value_type> *node, int num)
 			{
-				if (node == NULL)
-					return;
-				searchNode(node->left, data);
-				if (node->data == data)
-					return(node);
-				searchNode(node->right, data);
+				sortedTree.clear();
+				sortedIterator(node);
+				return getNode(sortedTree + num);
+			}
+			ft::node<data_type>			*getNode(data_type data)
+			{
+				ft::node<data_type> *traversal = _root;
+				while (traversal)
+				{
+					if (_comp(data, traversal->data))
+						traversal = traversal->left;
+					else if (_comp(traversal->data, data))
+						traversal = traversal->right;
+					else
+						return traversal;
+				}
+				return NULL;
 			}
 			void						insert(data_type data)
 			{

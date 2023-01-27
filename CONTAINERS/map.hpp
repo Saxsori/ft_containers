@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 15:43:23 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/20 23:07:17 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/27 22:50:04 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,21 +40,21 @@ namespace ft
 	template <class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<ft::pair<const Key, T>>> class map
 	{
 		public:
-			typedef Key													key_type;
-			typedef T													mapped_type;
-			typedef ft::pair<const Key, T>								value_type;
-			typedef Compare												key_compare;
-			typedef Allocator											allocator_type;
-			typedef	allocator_type::reference							reference;
-			typedef	allocator_type::const_reference						const_reference;
-			typedef	allocator_type::pointer								pointer;
-			typedef	allocator_type::const_pointer						const_pointer;
-			typedef std::ptrdiff_t										difference_type;
-			typedef std::size_t											size_type;
-			typedef ft::bidirectional_iterator<value_type>				iterator;
-			typedef ft::bidirectional_iterator<const value_type>		const_iterator;
-			typedef ft::reverse_iterator<iterator>						reverse_iterator;
-			typedef ft::reverse_iterator<const_iterator>				const_reverse_iterator;
+			typedef Key														key_type;
+			typedef T														mapped_type;
+			typedef ft::pair<const Key, T>									value_type;
+			typedef Compare													key_compare;
+			typedef Allocator												allocator_type;
+			typedef	allocator_type::reference								reference;
+			typedef	allocator_type::const_reference							const_reference;
+			typedef	allocator_type::pointer									pointer;
+			typedef	allocator_type::const_pointer							const_pointer;
+			typedef ft::bidirectional_iterator<value_type, key_compare>		iterator;
+			typedef ft::bidirectional_iterator<const value_type, key_compare>			const_iterator;
+			typedef ft::reverse_iterator<iterator>							reverse_iterator;
+			typedef ft::reverse_iterator<const_iterator>					const_reverse_iterator;
+			typedef std::ptrdiff_t											difference_type;
+			typedef std::size_t												size_type;
 			
 			/*  			Constructors and destructor			*/
 			explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()):_comp(comp), _alloc(alloc){_tree = ft::binary_search_tree<value_type, key_compare, allocator_type>(_comp);}

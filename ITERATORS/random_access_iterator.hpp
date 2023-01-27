@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 20:43:38 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/20 12:21:58 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/27 21:37:56 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,13 @@
 #define RANDOM_ACCESS_ITERATOR_HPP
 
 #include "iterator.hpp"
+/*
+	random_access_iterator is a derived class of iterator
+	which is a derived class of std::iterator
+	it allows to iterate over a container in a random access manner
+	which means that it can be incremented and decremented by any number
+	which is not the case with bidirectional_iterator
+*/
 namespace ft
 {
 	template <class T>
@@ -38,7 +45,6 @@ namespace ft
 				ft::vector<TESTED_TYPE>::const_iterator it_foo = foo.begin();
 			*/
 			template <class U> random_access_iterator(const random_access_iterator<U> &other):_ptr(NULL){_ptr = other.getPointer();}
-			~random_access_iterator(void){}
 			random_access_iterator(const random_access_iterator &other):_ptr(NULL){*this = other;}
 			/*						OPERATORS						*/
 			random_access_iterator&	operator=(const random_access_iterator &other)
@@ -47,6 +53,7 @@ namespace ft
 					_ptr = other.getPointer();
 				return (*this);
 			}
+			~random_access_iterator(void){}
 			/*						MEMBERS						*/
 			pointer		getPointer(void)const{return _ptr;}
 			/*						OVERLOADS						*/
@@ -71,8 +78,7 @@ namespace ft
 			bool operator<(const random_access_iterator &other){return (_ptr < other._ptr);}
 			bool operator>(const random_access_iterator &other){return (_ptr > other._ptr);}
 			bool operator<=(const random_access_iterator &other){return (_ptr <= other._ptr);}
-			bool operator>=(const random_access_iterator &other){return (_ptr >= other._ptr);}
-			
+			bool operator>=(const random_access_iterator &other){return (_ptr >= other._ptr);}	
 		private:
 			pointer			_ptr;
 	};

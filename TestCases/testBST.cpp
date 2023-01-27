@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 23:07:57 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/27 20:56:46 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/27 22:16:26 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ int main()
 	bst.sortedIterator(bst.root());
 	for (size_t i = 0; i < bst.sortedTree.size(); i++)
 		std::cout << bst.sortedTree[i] << std::endl;
+	std::cout << bst.iterateTree(bst.root(), 2)->data << std::endl;
 	// std::map<int, std::string> mapo;
 	// mapo.insert(std::make_pair(50, "fifty"));
 	// mapo.insert(std::make_pair(20, "twenty"));
