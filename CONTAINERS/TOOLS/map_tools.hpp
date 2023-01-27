@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:09:17 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/25 18:14:09 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/27 21:07:29 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 #define MIN 1
 #define MAX 2
 #define EQUAL 3
+#include "../vector.hpp"
 // #define DESTROY 4
 // #define DESTROY 4
 
@@ -222,7 +223,7 @@ namespace ft
 				/* first delete both subtrees */
 				_deleteTree(node->left);
 				_deleteTree(node->right);
-				std::cout << "Deleting node: " << node->data << std::endl;
+				// std::cout << "Deleting node: " << node->data << std::endl;
 				_allocData.destroy(&node->data);
 				_allocNode.deallocate(node, 1);
 			}
@@ -409,9 +410,27 @@ namespace ft
 			}
 			
 		public:
+			ft::vector<data_type>		sortedTree;
 			binary_search_tree():_root(NULL),_comp(){};
 			~binary_search_tree(){_deleteTree(_root);}
 			ft::node<data_type>			*root() const {return _root;}
+			void						sortedIterator(ft::node<value_type> *node)
+			{
+				if (node == NULL)
+					return;
+				sortedIterator(node->left);
+				sortedTree.push_back(node->data);
+				sortedIterator(node->right);
+			}
+			ft::node<data_type>				*searchNode(ft::node<value_type> *node, data_type data)
+			{
+				if (node == NULL)
+					return;
+				searchNode(node->left, data);
+				if (node->data == data)
+					return(node);
+				searchNode(node->right, data);
+			}
 			void						insert(data_type data)
 			{
 				if (!_root)

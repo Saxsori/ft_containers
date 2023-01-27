@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 23:07:57 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/25 18:12:51 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/27 20:56:46 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # define BRED "\e[1;31m"
 # define DEFCOLO "\033[0m"
 #include <vector>
+#include <iostream>
+#include <map>
 
 bool	comp(int a, int b)
 {
@@ -125,21 +127,31 @@ int main()
 	std::cout << std::endl;
 	printTree(bst.root(), NULL, false);
 	std::cout << std::endl;
-	
 
-	bst.erase(55);
-	bst.erase(20);
-	bst.erase(90);
-	bst.erase(80);
-	bst.erase(50);
-	bst.erase(35);
-	bst.erase(15);
-	bst.erase(65);
-	bst.erase(68);
-	bst.erase(70);
-	std::cout << std::endl;
-	printTree(bst.root(), NULL, false);
-	std::cout << std::endl;
+	bst.sortedIterator(bst.root());
+	for (size_t i = 0; i < bst.sortedTree.size(); i++)
+		std::cout << bst.sortedTree[i] << std::endl;
+	// std::map<int, std::string> mapo;
+	// mapo.insert(std::make_pair(50, "fifty"));
+	// mapo.insert(std::make_pair(20, "twenty"));
+	// mapo.insert(std::make_pair(15, "fifteen"));
+	// std::map<int, std::string>::iterator it = mapo.begin();
+	// std::cout << it->first << " " << it->second << std::endl;
+	// it++;
+	// std::cout << it->first << " " << it->second << std::endl;
+	// bst.erase(55);
+	// bst.erase(20);
+	// bst.erase(90);
+	// bst.erase(80);
+	// bst.erase(50);
+	// bst.erase(35);
+	// bst.erase(15);
+	// bst.erase(65);
+	// bst.erase(68);
+	// bst.erase(70);
+	// std::cout << std::endl;
+	// printTree(bst.root(), NULL, false);
+	// std::cout << std::endl;
 	// bst.erase(10);
 	// bst.erase(7);
 	// bst.erase(18);
