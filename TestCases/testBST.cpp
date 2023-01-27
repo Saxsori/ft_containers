@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 23:07:57 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/27 22:16:26 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/27 23:50:23 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <vector>
 #include <iostream>
 #include <map>
+#include <memory>
 
 bool	comp(int a, int b)
 {
@@ -84,9 +85,9 @@ void printTree(ft::node<first_type>* root, Trunk *prev, bool isLeft)
 	showTrunks(&trunk);
 	
 	if (root->color == 'r')
-		std::cout << BRED << root->data << DEFCOLO << std::endl;
+		std::cout << BRED << root->data.first << DEFCOLO << std::endl;
 	else
-		std::cout << BBLK << root->data << DEFCOLO << std::endl; 
+		std::cout << BBLK << root->data.first << DEFCOLO << std::endl; 
 	if (prev)
 		prev->str = prev_str;
 	trunk.str = "   |";
@@ -96,74 +97,73 @@ void printTree(ft::node<first_type>* root, Trunk *prev, bool isLeft)
 
 int main()
 {
-	ft::make_pair <int, std::string> (1, "one");
-	typedef	std::pair<int, std::string>::first_type first_type;
-	ft::binary_search_tree<first_type, value_compare> bst;
+	typedef	ft::pair<int, std::string>  map_type;
+	ft::binary_search_tree<int, std::string, value_compare, std::allocator<map_type> > bst;
 	
-	// bst.insert(10);
-	// bst.insert(18);
-	// bst.insert(7);
-	// bst.insert(15);
-	// bst.insert(16);
-	// bst.insert(30);
-	// bst.insert(25);
-	// bst.insert(40);
-	// bst.insert(60);
-	// bst.insert(2);
-	// bst.insert(1);
-	// bst.insert(70);
+	bst.insert(ft::make_pair <int, std::string> (10, "one"));
+	bst.insert(ft::make_pair <int, std::string> (18, "two"));
+	bst.insert(ft::make_pair <int, std::string> (7, "two"));
+	bst.insert(ft::make_pair <int, std::string> (15, "two"));
+	bst.insert(ft::make_pair <int, std::string> (16, "two"));
+	bst.insert(ft::make_pair <int, std::string> (30, "two"));
+	bst.insert(ft::make_pair <int, std::string> (25, "two"));
+	bst.insert(ft::make_pair <int, std::string> (40, "two"));
+	bst.insert(ft::make_pair <int, std::string> (60, "ewo"));
+	bst.insert(ft::make_pair <int, std::string> (2, "nwo"));
+	bst.insert(ft::make_pair <int, std::string> (1, "mww"));
+	bst.insert(ft::make_pair <int, std::string> (70, "tll"));
+	
 	/*******************************************/
 	
-	bst.insert(50);
-	bst.insert(20);
-	bst.insert(15);
-	bst.insert(35);
-	bst.insert(65);
-	bst.insert(55);
-	bst.insert(70);
-	bst.insert(68);
-	bst.insert(80);
-	bst.insert(90);
+	// bst.insert(ft::make_pair <int, std::string> (50, "two"));
+	// bst.insert(ft::make_pair <int, std::string> (20, "two"));
+	// bst.insert(ft::make_pair <int, std::string> (15, "two"));
+	// bst.insert(ft::make_pair <int, std::string> (35, "two"));
+	// bst.insert(ft::make_pair <int, std::string> (65, "two"));
+	// bst.insert(ft::make_pair <int, std::string> (55, "two"));
+	// bst.insert(ft::make_pair <int, std::string> (70, "two"));
+	// bst.insert(ft::make_pair <int, std::string> (68, "two"));
+	// bst.insert(ft::make_pair <int, std::string> (80, "two"));
+	// bst.insert(ft::make_pair <int, std::string> (90, "two"));
+	
+	/*******************************************/
+
 	std::cout << std::endl;
 	printTree(bst.root(), NULL, false);
 	std::cout << std::endl;
 
-	bst.sortedIterator(bst.root());
-	for (size_t i = 0; i < bst.sortedTree.size(); i++)
-		std::cout << bst.sortedTree[i] << std::endl;
-	std::cout << bst.iterateTree(bst.root(), 2)->data << std::endl;
-	// std::map<int, std::string> mapo;
-	// mapo.insert(std::make_pair(50, "fifty"));
-	// mapo.insert(std::make_pair(20, "twenty"));
-	// mapo.insert(std::make_pair(15, "fifteen"));
-	// std::map<int, std::string>::iterator it = mapo.begin();
-	// std::cout << it->first << " " << it->second << std::endl;
-	// it++;
-	// std::cout << it->first << " " << it->second << std::endl;
-	// bst.erase(55);
-	// bst.erase(20);
-	// bst.erase(90);
-	// bst.erase(80);
-	// bst.erase(50);
-	// bst.erase(35);
-	// bst.erase(15);
-	// bst.erase(65);
-	// bst.erase(68);
-	// bst.erase(70);
+		
+	// bst.erase(ft::make_pair <int, std::string> (55, "two"));
+	// bst.erase(ft::make_pair <int, std::string> (20, "two"));
+	// bst.erase(ft::make_pair <int, std::string> (90, "two"));
+	// bst.erase(ft::make_pair <int, std::string> (80, "two"));
+	// bst.erase(ft::make_pair <int, std::string> (50, "two"));
+	// bst.erase(ft::make_pair <int, std::string> (35, "two"));
+	// bst.erase(ft::make_pair <int, std::string> (15, "two"));
+	// bst.erase(ft::make_pair <int, std::string> (65, "two"));
+	// bst.erase(ft::make_pair <int, std::string> (68, "two"));
+	// bst.erase(ft::make_pair <int, std::string> (70, "two"));
+	
+	/*******************************************/
+	
+	bst.erase(ft::make_pair <int, std::string> (10, "one"));
+	bst.erase(ft::make_pair <int, std::string> (7, "two"));
+	bst.erase(ft::make_pair <int, std::string> (18, "two"));
+	bst.erase(ft::make_pair <int, std::string> (15, "two"));
+	bst.erase(ft::make_pair <int, std::string> (16, "two"));
+	bst.erase(ft::make_pair <int, std::string> (30, "two"));
+	bst.erase(ft::make_pair <int, std::string> (25, "two"));
+	bst.erase(ft::make_pair <int, std::string> (40, "two"));
+	bst.erase(ft::make_pair <int, std::string> (60, "ewo"));
+	bst.erase(ft::make_pair <int, std::string> (2, "nwo"));
+	bst.erase(ft::make_pair <int, std::string> (1, "mww"));
+	bst.erase(ft::make_pair <int, std::string> (70, "tll"));
+
+	/*******************************************/
+
+	// bst.erase(ft::make_pair <int, std::string> (10, "one"));
 	// std::cout << std::endl;
 	// printTree(bst.root(), NULL, false);
 	// std::cout << std::endl;
-	// bst.erase(10);
-	// bst.erase(7);
-	// bst.erase(18);
-	// bst.erase(15);
-	// bst.erase(16);
-	// bst.erase(30);
-	// bst.erase(25);
-	// bst.erase(40);
-	// bst.erase(60);
-	// bst.erase(2);
-	// bst.erase(1);
-	// bst.erase(70);
 	return 0;
 }

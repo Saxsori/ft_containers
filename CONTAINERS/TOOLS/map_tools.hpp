@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:09:17 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/27 22:52:49 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/27 23:49:23 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,18 +46,18 @@ namespace ft
 		
 	};
 	
-	template <class value_type, class key_compare>
+	template <class key_type, class mapped_type, class key_compare, class allocator>
 	class binary_search_tree
 	{
 		public:
-			typedef value_type								data_type;
+			typedef ft::pair<key_type, mapped_type>			data_type;
 			typedef ft::vector<data_type>					SortedTree;
 			typedef ft::node<data_type>*					Node;
 		private:
 			ft::node<data_type>								*_root;
 			key_compare										_comp;
 			std::allocator<ft::node<data_type> >			_allocNode;
-			std::allocator<data_type>						_allocData;
+			allocator										_allocData;
 			ft::node<data_type>								*_createNode(const data_type &data)
 			{
 				ft::node<data_type>	*node;
@@ -74,7 +74,7 @@ namespace ft
 			{
 				while (true)
 				{
-					if (_comp(new_root->data, old_child->data))
+					if (_comp(new_root->data.first, old_child->data.first))
 					{
 						if (new_root->right)
 							new_root = new_root->right;
@@ -225,7 +225,7 @@ namespace ft
 				/* first delete both subtrees */
 				_deleteTree(node->left);
 				_deleteTree(node->right);
-				// std::cout << "Deleting node: " << node->data << std::endl;
+				// std::cout << "Deleting node: " << node->data->first << std::endl;
 				_allocData.destroy(&node->data);
 				_allocNode.deallocate(node, 1);
 			}
@@ -356,10 +356,8 @@ namespace ft
 				}
 				else if (node->parent->right == node)
 				{
-					std::cout << "here" << std::endl;
 					if (node->parent->left && node->parent->left->color == BLACK && isBlackNode(node->parent->left->right) && isBlackNode(node->parent->left->left))
 					{
-						std::cout << "1here" << std::endl;
 						if (node->parent->left)
 							node->parent->left->color = RED;
 						if (node->parent->color == RED)
@@ -370,7 +368,6 @@ namespace ft
 					}
 					else if (node->parent->left && node->parent->left->color == RED)
 					{
-						std::cout << "2here" << std::endl;
 						int temp = node->parent->color;
 						node->parent->color = node->parent->left->color;
 						node->parent->left->color = temp;
@@ -379,7 +376,6 @@ namespace ft
 					}
 					else if (isBlackNode(node->parent->left) && isBlackNode(node->parent->left->left) && node->parent->left->right->color == RED)
 					{
-						std::cout << "3here" << std::endl;
 						int temp = node->parent->left->color;
 						node->parent->left->color = node->parent->left->right->color;
 						node->parent->left->right->color = temp;
@@ -388,7 +384,6 @@ namespace ft
 					}
 					else if (isBlackNode(node->parent->left) && node->parent->left->left->color == RED)
 					{
-						std::cout << "4here" << std::endl;
 						int temp = node->parent->left->color;
 						node->parent->left->color = node->parent->color;
 						node->parent->color = temp;
@@ -403,7 +398,7 @@ namespace ft
 			binary_search_tree():_root(NULL),_comp(){};
 			~binary_search_tree(){_deleteTree(_root);}
 			ft::node<data_type>			*root() const {return _root;}
-			void						sortedIterator(ft::node<value_type> *node)
+			void						sortedIterator(ft::node<data_type> *node)
 			{
 				if (node == NULL)
 					return;
@@ -411,20 +406,20 @@ namespace ft
 				sortedTree.push_back(node->data);
 				sortedIterator(node->right);
 			}
-			ft::node<data_type>				*iterateTree(ft::node<value_type> *node, int num)
-			{
-				sortedTree.clear();
-				sortedIterator(node);
-				return getNode(sortedTree + num);
-			}
+			// ft::node<data_type>				*iterateTree(ft::node<value_type> *node, int num)
+			// {
+			// 	sortedTree.clear();
+			// 	sortedIterator(node);
+			// 	return getNode(sortedTree + num);
+			// }
 			ft::node<data_type>			*getNode(data_type data)
 			{
 				ft::node<data_type> *traversal = _root;
 				while (traversal)
 				{
-					if (_comp(data, traversal->data))
+					if (_comp(data.first, traversal->data.first))
 						traversal = traversal->left;
-					else if (_comp(traversal->data, data))
+					else if (_comp(traversal->data.first, data.first))
 						traversal = traversal->right;
 					else
 						return traversal;
@@ -444,7 +439,7 @@ namespace ft
 					ft::node<data_type>	*new_node = _root;
 					while (true)
 					{
-						if (_comp(data, traversal->data))
+						if (_comp(data.first, traversal->data.first))
 						{
 							if (!traversal->left)
 							{
@@ -476,7 +471,7 @@ namespace ft
 			{
 				if (node)
 				{
-					std::cout << "delete ---> " << node->data << std::endl;
+					std::cout << "delete ---> " << node->data.first << std::endl;
 					if (!node->left && !node->right)
 					{
 						if (node->parent)
