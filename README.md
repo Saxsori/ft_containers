@@ -37,4 +37,7 @@ The AVL tree Videos will be needed to understand the Red-Black tree
 - [[YT VID] R-B Tree - Insertion](https://www.youtube.com/watch?v=qA02XWRTBdw&list=PLdo5W4Nhv31bbKJzrsKfMpo_grxuLl8LU&index=65)
 - [[YT VID] R-B Tree - Deletion](https://www.youtube.com/watch?v=w5cvkTXY0vQ&t=201s)
 
+### Iterating through BST
+- [InOrder recursion of BST](https://medium.com/javarevisited/how-to-print-nodes-of-a-binary-search-tree-in-sorted-order-8a4e52eb8856#:~:text=You%20start%20traversal%20from%20the,the%20binary%20tree%20are%20visited.)
+
 
