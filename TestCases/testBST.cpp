@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 23:07:57 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/27 23:50:23 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/28 01:20:15 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,9 @@ int main()
 	std::cout << std::endl;
 	printTree(bst.root(), NULL, false);
 	std::cout << std::endl;
+	
+	bst.sortedIterator(bst.root(), 1);
+	// std::cout << << std::endl;
 
 		
 	// bst.erase(ft::make_pair <int, std::string> (55, "two"));
@@ -146,18 +149,18 @@ int main()
 	
 	/*******************************************/
 	
-	bst.erase(ft::make_pair <int, std::string> (10, "one"));
-	bst.erase(ft::make_pair <int, std::string> (7, "two"));
-	bst.erase(ft::make_pair <int, std::string> (18, "two"));
-	bst.erase(ft::make_pair <int, std::string> (15, "two"));
-	bst.erase(ft::make_pair <int, std::string> (16, "two"));
-	bst.erase(ft::make_pair <int, std::string> (30, "two"));
-	bst.erase(ft::make_pair <int, std::string> (25, "two"));
-	bst.erase(ft::make_pair <int, std::string> (40, "two"));
-	bst.erase(ft::make_pair <int, std::string> (60, "ewo"));
-	bst.erase(ft::make_pair <int, std::string> (2, "nwo"));
-	bst.erase(ft::make_pair <int, std::string> (1, "mww"));
-	bst.erase(ft::make_pair <int, std::string> (70, "tll"));
+	// bst.erase(ft::make_pair <int, std::string> (10, "one"));
+	// bst.erase(ft::make_pair <int, std::string> (7, "two"));
+	// bst.erase(ft::make_pair <int, std::string> (18, "two"));
+	// bst.erase(ft::make_pair <int, std::string> (15, "two"));
+	// bst.erase(ft::make_pair <int, std::string> (16, "two"));
+	// bst.erase(ft::make_pair <int, std::string> (30, "two"));
+	// bst.erase(ft::make_pair <int, std::string> (25, "two"));
+	// bst.erase(ft::make_pair <int, std::string> (40, "two"));
+	// bst.erase(ft::make_pair <int, std::string> (60, "ewo"));
+	// bst.erase(ft::make_pair <int, std::string> (2, "nwo"));
+	// bst.erase(ft::make_pair <int, std::string> (1, "mww"));
+	// bst.erase(ft::make_pair <int, std::string> (70, "tll"));
 
 	/*******************************************/
 

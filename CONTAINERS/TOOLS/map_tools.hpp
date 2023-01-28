@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:09:17 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/27 23:49:23 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/28 01:20:57 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,24 +229,6 @@ namespace ft
 				_allocData.destroy(&node->data);
 				_allocNode.deallocate(node, 1);
 			}
-			ft::node<data_type>			*getNode(ft::node<data_type> *node, int option)
-			{
-				if (option == MIN)
-				{
-					if (node->left)
-						return getNode(node->left, option);
-					else
-						return node;
-				}
-				else if (option == MAX)
-				{
-					if (node->right)
-						return getNode(node->right, option);
-					else
-						return node;
-				}
-				return NULL;
-			}
 			template <class T>
 			void	left_rotate(ft::node<T> *median, ft::node<T> *old_root)
 			{
@@ -398,20 +380,45 @@ namespace ft
 			binary_search_tree():_root(NULL),_comp(){};
 			~binary_search_tree(){_deleteTree(_root);}
 			ft::node<data_type>			*root() const {return _root;}
-			void						sortedIterator(ft::node<data_type> *node)
+			void	sortedIterator(ft::node<data_type> *node, int pos = 0)
 			{
+				static int i;
 				if (node == NULL)
-					return;
-				sortedIterator(node->left);
-				sortedTree.push_back(node->data);
-				sortedIterator(node->right);
+					return ;
+				sortedIterator(node->left, pos);
+				
+				if (i == pos)
+					std::cout << node->data.first << std::endl;
+					// sortedTree.push_back(node->data
+				// sortedTree.push_back(node->data);
+				i++;
+				sortedIterator(node->right, pos);
 			}
+			
 			// ft::node<data_type>				*iterateTree(ft::node<value_type> *node, int num)
 			// {
 			// 	sortedTree.clear();
 			// 	sortedIterator(node);
 			// 	return getNode(sortedTree + num);
 			// }
+			ft::node<data_type>			*getNode(ft::node<data_type> *node, int option)
+			{
+				if (option == MIN)
+				{
+					if (node->left)
+						return getNode(node->left, option);
+					else
+						return node;
+				}
+				else if (option == MAX)
+				{
+					if (node->right)
+						return getNode(node->right, option);
+					else
+						return node;
+				}
+				return NULL;
+			}
 			ft::node<data_type>			*getNode(data_type data)
 			{
 				ft::node<data_type> *traversal = _root;
