@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:09:17 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/28 01:20:57 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/29 22:07:07 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,14 @@ namespace ft
 	{
 		public:
 			typedef ft::pair<key_type, mapped_type>			data_type;
-			typedef ft::vector<data_type>					SortedTree;
 			typedef ft::node<data_type>*					Node;
+			ft::node<data_type>								*nodeSearched;
 		private:
 			ft::node<data_type>								*_root;
 			key_compare										_comp;
 			std::allocator<ft::node<data_type> >			_allocNode;
 			allocator										_allocData;
+			size_t											_size;
 			ft::node<data_type>								*_createNode(const data_type &data)
 			{
 				ft::node<data_type>	*node;
@@ -67,6 +68,7 @@ namespace ft
 				node->left = NULL;
 				node->right = NULL;
 				node->parent = NULL;
+				_size++;	
 				return (node);
 			}
 			template <class T>
@@ -230,7 +232,7 @@ namespace ft
 				_allocNode.deallocate(node, 1);
 			}
 			template <class T>
-			void	left_rotate(ft::node<T> *median, ft::node<T> *old_root)
+			void						left_rotate(ft::node<T> *median, ft::node<T> *old_root)
 			{
 				ft::node<T> *old_child = median->left;
 				median->left = old_root;
@@ -258,7 +260,7 @@ namespace ft
 				}
 			}
 			template <class T>
-			void	right_rotate(ft::node<T> *median, ft::node<T> *old_root)
+			void					right_rotate(ft::node<T> *median, ft::node<T> *old_root)
 			{
 				ft::node<T> *old_child = median->right;
 				median->right = old_root;
@@ -285,7 +287,7 @@ namespace ft
 					}
 				}
 			}
-			bool	isBlackNode(ft::node<data_type> *node)
+			bool					isBlackNode(ft::node<data_type> *node)
 			{
 				if (node == NULL)
 					return true;
@@ -293,7 +295,7 @@ namespace ft
 					return true;
 				return false;
 			}
-			void		_resolveDB(ft::node<data_type> *node)
+			void					_resolveDB(ft::node<data_type> *node)
 			{
 				if (node == _root)
 					return;
@@ -376,31 +378,28 @@ namespace ft
 			}
 			
 		public:
-			ft::vector<data_type>		sortedTree;
-			binary_search_tree():_root(NULL),_comp(){};
+			binary_search_tree():nodeSearched(NULL),_root(NULL),_comp(),_size(0){};
 			~binary_search_tree(){_deleteTree(_root);}
 			ft::node<data_type>			*root() const {return _root;}
-			void	sortedIterator(ft::node<data_type> *node, int pos = 0)
+			size_t						size() const {return _size;}
+			void						clear() {_deleteTree(_root); _root = NULL; _size = 0;}
+			size_t						max_size() const {return _allocNode.max_size();}
+			void						sortedIterator(ft::node<data_type> *node, int pos = 0)
 			{
 				static int i;
 				if (node == NULL)
-					return ;
+					return;
 				sortedIterator(node->left, pos);
 				
 				if (i == pos)
-					std::cout << node->data.first << std::endl;
-					// sortedTree.push_back(node->data
-				// sortedTree.push_back(node->data);
+					nodeSearched = node;
 				i++;
 				sortedIterator(node->right, pos);
 			}
-			
-			// ft::node<data_type>				*iterateTree(ft::node<value_type> *node, int num)
-			// {
-			// 	sortedTree.clear();
-			// 	sortedIterator(node);
-			// 	return getNode(sortedTree + num);
-			// }
+			void						search(data_type data)
+			{
+				
+			}
 			ft::node<data_type>			*getNode(ft::node<data_type> *node, int option)
 			{
 				if (option == MIN)
