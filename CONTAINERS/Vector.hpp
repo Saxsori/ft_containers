@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:37:18 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/20 23:04:11 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/29 23:02:45 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <algorithm>
 #include "../ITERATORS/random_access_iterator.hpp"
 #include "./TOOLS/type_traits.hpp"
-#include "../ITERATORS/reverse_iterator.hpp"
+#include "../ITERATORS/random_reverse_iterator.hpp"
 #include "./TOOLS/algorithm.hpp"
 namespace ft
 {
@@ -56,8 +56,8 @@ namespace ft
 			typedef const value_type*									const_pointer;
 			typedef	ft::random_access_iterator<value_type>				iterator;
 			typedef	ft::random_access_iterator<const value_type>		const_iterator;
-			typedef	ft::reverse_iterator<iterator>						reverse_iterator;
-			typedef	ft::reverse_iterator<const_iterator>				const_reverse_iterator;
+			typedef	ft::random_reverse_iterator<iterator>				reverse_iterator;
+			typedef	ft::random_reverse_iterator<const_iterator>			const_reverse_iterator;
 
 		private:
 			allocator_type		_allocator;
@@ -101,8 +101,8 @@ namespace ft
 			iterator							end(void){return iterator(&_data[_size]);}
 			const_iterator						begin(void)const{return const_iterator(&_data[0]);}
 			const_iterator						end(void)const{return const_iterator(&_data[_size]);}
-			reverse_iterator					rbegin(void){return reverse_iterator(end());}
-			reverse_iterator					rend(void){return reverse_iterator(begin());}			
+			reverse_iterator					rbegin(void){return random_reverse_iterator(end());}
+			reverse_iterator					rend(void){return random_reverse_iterator(begin());}			
 			// !						CAPACITY						//
 			size_type							size(void)const{return _size;}
 			size_type							max_size(void)const{return _allocator.max_size();} // * std::allocator_traits used to obtain the max_size value for the allocator_type used by ft::vector
