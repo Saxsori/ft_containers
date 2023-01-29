@@ -6,14 +6,14 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 15:57:11 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/29 08:36:08 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/29 22:00:16 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BIDIRECTIONAL_ITERATOR_HPP
 # define BIDIRECTIONAL_ITERATOR_HPP
 # include "./iterator.hpp"
-# include "../CONTAINERS/TOOLS/utility.hpp"
+// # include "../CONTAINERS/TOOLS/utility.hpp"
 # include "../CONTAINERS/TOOLS/map_tools.hpp"
 
 /*
@@ -25,17 +25,17 @@
 */
 namespace ft
 {
-	template <class value_type, class key_compare>
+	template <class T, class key_compare, class allocator_type>
 	class bidirectional_iterator
 	{
 		public:
-			typedef value_type														value_type;
-			typedef value_type*														pointer;
-			typedef value_type&														reference;
-			typedef std::ptrdiff_t													difference_type;
-			typedef ft::bidirectional_iterator_tag									iterator_category;
-			typedef ft::binary_search_tree<value_type, key_compare>::Node			node;
-			typedef ft::binary_search_tree<value_type, key_compare>					tree;
+			typedef T																													value_type;
+			typedef T*																													pointer;
+			typedef T&																													reference;
+			typedef std::ptrdiff_t																										difference_type;
+			typedef ft::bidirectional_iterator_tag																						iterator_category;
+			typedef ft::binary_search_tree<typename value_type::first_type, typename value_type::second_type, key_compare, allocator_type>				tree;
+			typedef typename tree::Node																									node;
 			
 		private:
 			node				_currentNode;
@@ -53,10 +53,10 @@ namespace ft
 			reference operator*(void) const{ return _currentNode->data; }
 			pointer operator->(void) const{ return &(_currentNode->data);}
 			// * Increment/decrement operators
-			bidirectional_iterator&	operator++(void){bst.sortedIterator(bst.root(), _currentPos + 1); _currentNode = _tree.nodeSearched; _currentPos++; return *this;}
-			bidirectional_iterator&	operator--(void){bst.sortedIterator(bst.root(), _currentPos - 1); _currentNode = _tree.nodeSearched; _currentPos++;return *this;}
-			bidirectional_iterator	operator++(int){bidirectional_iterator tmp = *this; bst.sortedIterator(bst.root(), _currentPos + 1); _currentNode = _tree.nodeSearched; _currentPos++; return tmp;}
-			bidirectional_iterator	operator--(int){bidirectional_iterator tmp = *this; bst.sortedIterator(bst.root(), _currentPos - 1); _currentNode = _tree.nodeSearched; _currentPos++; return tmp;}
+			bidirectional_iterator&	operator++(void){_tree.sortedIterator(_tree.root(), _currentPos + 1); _currentNode = _tree.nodeSearched; _currentPos++; return *this;}
+			bidirectional_iterator&	operator--(void){_tree.sortedIterator(_tree.root(), _currentPos - 1); _currentNode = _tree.nodeSearched; _currentPos++;return *this;}
+			bidirectional_iterator	operator++(int){bidirectional_iterator tmp = *this; _tree.sortedIterator(_tree.root(), _currentPos + 1); _currentNode = _tree.nodeSearched; _currentPos++; return tmp;}
+			bidirectional_iterator	operator--(int){bidirectional_iterator tmp = *this; _tree.sortedIterator(_tree.root(), _currentPos - 1); _currentNode = _tree.nodeSearched; _currentPos++; return tmp;}
 			// * Comparison operators
 			bool operator==(const bidirectional_iterator &other) const{ return (_currentNode == other._currentNode);}
 			bool operator!=(const bidirectional_iterator &other) const{ return (_currentNode != other._currentNode);}

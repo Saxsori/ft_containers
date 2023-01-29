@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:09:17 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/29 08:22:22 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/29 22:07:07 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,14 @@ namespace ft
 	{
 		public:
 			typedef ft::pair<key_type, mapped_type>			data_type;
-			// typedef ft::vector<data_type>					SortedTree;
 			typedef ft::node<data_type>*					Node;
+			ft::node<data_type>								*nodeSearched;
 		private:
 			ft::node<data_type>								*_root;
 			key_compare										_comp;
 			std::allocator<ft::node<data_type> >			_allocNode;
 			allocator										_allocData;
+			size_t											_size;
 			ft::node<data_type>								*_createNode(const data_type &data)
 			{
 				ft::node<data_type>	*node;
@@ -67,6 +68,7 @@ namespace ft
 				node->left = NULL;
 				node->right = NULL;
 				node->parent = NULL;
+				_size++;	
 				return (node);
 			}
 			template <class T>
@@ -376,10 +378,12 @@ namespace ft
 			}
 			
 		public:
-			binary_search_tree():_root(NULL),_comp(),nodeSearched(NULL){};
+			binary_search_tree():nodeSearched(NULL),_root(NULL),_comp(),_size(0){};
 			~binary_search_tree(){_deleteTree(_root);}
-			ft::node<data_type>			*nodeSearched;
 			ft::node<data_type>			*root() const {return _root;}
+			size_t						size() const {return _size;}
+			void						clear() {_deleteTree(_root); _root = NULL; _size = 0;}
+			size_t						max_size() const {return _allocNode.max_size();}
 			void						sortedIterator(ft::node<data_type> *node, int pos = 0)
 			{
 				static int i;
