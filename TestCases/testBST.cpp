@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 23:07:57 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/28 01:20:15 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/29 08:09:25 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,8 @@ int main()
 	std::cout << std::endl;
 	
 	bst.sortedIterator(bst.root(), 1);
+	std::cout << bst.nodeSearched->data.first << std::endl;
+	// std::cout << bst.sortedIterator(bst.root(), 1)->data.first << std::endl;
 	// std::cout << << std::endl;
 
 		
