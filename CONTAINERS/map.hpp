@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 15:43:23 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/29 23:02:02 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/29 23:42:20 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 #include <memory>
 #include "./TOOLS/utility.hpp"
 #include "../ITERATORS/bidirectional_iterator.hpp"
-#include "./TOOLS/map_tools.hpp"
+#include "./TOOLS/binary_search_tree.hpp"
+#include "../ITERATORS/bidirectional_reverse_iterator.hpp"
 namespace ft
 {
 	/*
@@ -39,22 +40,22 @@ namespace ft
 	template <class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<ft::pair<const Key, T> > > class map
 	{
 		public:
-			typedef Key																key_type;
-			typedef T																mapped_type;
-			typedef ft::pair<Key, T>											value_type;
-			typedef Compare															key_compare;
-			typedef Allocator														allocator_type;
-			typedef	value_type&														reference;
-			typedef	const value_type&												const_reference;
-			typedef	value_type*														pointer;
-			typedef	const value_type*												const_pointer;
+			typedef Key																				key_type;
+			typedef T																				mapped_type;
+			typedef ft::pair<Key, T>																value_type;
+			typedef Compare																			key_compare;
+			typedef Allocator																		allocator_type;
+			typedef	value_type&																		reference;
+			typedef	const value_type&																const_reference;
+			typedef	value_type*																		pointer;
+			typedef	const value_type*																const_pointer;
 			typedef ft::bidirectional_iterator<value_type, key_compare, allocator_type>				iterator;
-			// typedef ft::bidirectional_iterator<const value_type, key_compare>		const_iterator;
-			// typedef ft::random_reverse_iterator<iterator>									random_reverse_iterator;
-			// typedef ft::random_reverse_iterator<const_iterator>							const_random_reverse_iterator;
-			typedef std::ptrdiff_t																difference_type;
-			typedef std::size_t																	size_type;
-			typedef ft::binary_search_tree<key_type, mapped_type, key_compare, allocator_type>	tree_type;
+			typedef ft::bidirectional_iterator<const value_type, key_compare, allocator_type>		const_iterator;
+			typedef ft::bidirectional_reverse_iterator<iterator>									reverse_iterator;
+			typedef ft::bidirectional_reverse_iterator<const_iterator>								const_reverse_iterator;
+			typedef std::ptrdiff_t																	difference_type;
+			typedef std::size_t																		size_type;
+			typedef ft::binary_search_tree<key_type, mapped_type, key_compare, allocator_type>		tree_type;
 			
 			/*  			Constructors and destructor			*/
 			explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()):_comp(comp), _alloc(alloc){_tree = tree_type();}
@@ -96,19 +97,26 @@ namespace ft
 					}
 			};
 			/*					Capacity						*/
-			bool empty() const{return (_tree.root()==NULL);}
-			size_type size() const{return _tree.size();}
-			size_type max_size() const{return _tree.max_siz();}
-			/* 					Modifiers						*/
-			void clear(){_tree.clear();}
+			bool						empty()const{return (_tree.root()==NULL);}
+			size_type					size()const{return _tree.size();}
+			size_type					max_size()const{return _tree.max_size();}
 			/*					Iterator						*/
-			iterator begin () {return iterator(_tree.getNode(_tree.root(), 1));}
-			iterator end () {return iterator(_tree.getNode(_tree.root(), 2));}
+			iterator					begin(){return iterator(_tree.getNode(_tree.root(), 1));}
+			const_iterator				begin()const{return const_iterator(_tree.getNode(_tree.root(), 1));}
+			iterator					end(){return iterator(_tree.getNode(_tree.root(), 2));}
+			const_iterator				end()const{return const_iterator(_tree.getNode(_tree.root(), 2));}
+			reverse_iterator			rbegin(){return reverse_iterator(end());}
+			const_reverse_iterator		rbegin()const{return const_reverse_iterator(end());}
+			reverse_iterator			rend(){return reverse_iterator(begin());}
+			const_reverse_iterator		rend()const{return const_reverse_iterator(begin());}
 			/*					Observers						*/
-			value_compare value_comp() const{return value_compare(_comp);}
-			key_compare key_comp() const{return _comp;}
+			value_compare				value_comp()const{return value_compare(_comp);}
+			key_compare					key_comp()const{return _comp;}
 			/*					get_allocator					*/
-			allocator_type get_allocator() const{return allocator_type();}
+			allocator_type				get_allocator() const{return allocator_type();}
+			/* 					Modifiers						*/
+			void 						clear(){_tree.clear();}
+			
 			
 		private:
 			key_compare 				_comp;

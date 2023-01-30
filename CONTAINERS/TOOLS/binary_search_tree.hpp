@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_tools.hpp                                      :+:      :+:    :+:   */
+/*   binary_search_tree.hpp                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:09:17 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/29 22:07:07 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/29 23:39:44 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAP_TOOLS_HPP
-# define MAP_TOOLS_HPP
+#ifndef BINARY_SEARCH_TREE_HPP
+# define BINARY_SEARCH_TREE_HPP
 
 #include <iostream>
 #include <memory>
@@ -396,10 +396,10 @@ namespace ft
 				i++;
 				sortedIterator(node->right, pos);
 			}
-			void						search(data_type data)
-			{
+			// void						search(data_type data)
+			// {
 				
-			}
+			// }
 			ft::node<data_type>			*getNode(ft::node<data_type> *node, int option)
 			{
 				if (option == MIN)

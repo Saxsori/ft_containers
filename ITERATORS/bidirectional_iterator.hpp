@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 15:57:11 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/29 22:00:16 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/30 00:22:50 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define BIDIRECTIONAL_ITERATOR_HPP
 # include "./iterator.hpp"
 // # include "../CONTAINERS/TOOLS/utility.hpp"
-# include "../CONTAINERS/TOOLS/map_tools.hpp"
+# include "../CONTAINERS/TOOLS/binary_search_tree.hpp"
 
 /*
 	bidirectional_iterator is a derived class of iterator
@@ -43,7 +43,8 @@ namespace ft
 			tree				_tree;	
 		public:
 			bidirectional_iterator(void):_currentNode(NULL),_currentPos(0){_tree();}
-			// bidirectional_iterator(pointer ptr);
+			bidirectional_iterator(node _node):_currentNode(_node){}
+			template <class U> bidirectional_iterator(const bidirectional_iterator<U> &other):_currentNode(NULL){_currentNode = other._currentNode; _currentPos = other._currentPos; _tree = other._tree}
 			~bidirectional_iterator(void){}
 			bidirectional_iterator(const bidirectional_iterator &other){*this = other;}
 			// * Assignment operator
