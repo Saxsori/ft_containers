@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 23:03:41 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/29 23:07:24 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/30 04:28:10 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ namespace ft
 		typedef typename ft::iterator_traits<Iterator>::reference				reference;
 		
 		public:
-			iterator_type base() const {return _current;}
+			iterator_type base()const{return _current;}
 			// default constructor
-			bidirectional_reverse_iterator() : _current() {}
+			bidirectional_reverse_iterator():_current(){}
 			// initialization constructor
-			bidirectional_reverse_iterator(iterator_type it) : _current(it) {}
+			bidirectional_reverse_iterator(iterator_type it):_current(it){}
 			// copy assignment operator
-			bidirectional_reverse_iterator& operator= (const bidirectional_reverse_iterator& rev_it)
+			bidirectional_reverse_iterator& operator=(const bidirectional_reverse_iterator& rev_it)
 			{
 				if (this != &rev_it)
 					_current = rev_it._current;
@@ -40,17 +40,14 @@ namespace ft
 			// destructor
 			~bidirectional_reverse_iterator() {}
 			// dereference operator
-			reference	operator*() const {iterator_type temp = _current; return (*--temp);}
-			pointer		operator->() const{return (&(operator*()));} //Returns a pointer to the element pointed to by the iterator
-			reference operator[] (difference_type n) const {return (*(*this + n));}
-			bidirectional_reverse_iterator operator+ (difference_type n) const{return (_current - n);}
-			bidirectional_reverse_iterator operator- (difference_type n) const{return (_current + n);}
-			bidirectional_reverse_iterator& operator++() {_current--; return (*this);}
-			bidirectional_reverse_iterator operator++(int) {bidirectional_reverse_iterator temp = *this; _current--; return (temp);}
-			bidirectional_reverse_iterator& operator--() {_current++; return (*this);}
-			bidirectional_reverse_iterator operator--(int) {bidirectional_reverse_iterator temp = *this; _current++; return (temp);}
+			reference									operator*()const{iterator_type temp = _current; return (*--temp);}
+			pointer										operator->()const{return (&(operator*()));} //Returns a pointer to the element pointed to by the iterator
+			bidirectional_reverse_iterator&				operator++(){_current--; return (*this);}
+			bidirectional_reverse_iterator				operator++(int){bidirectional_reverse_iterator temp = *this; _current--; return (temp);}
+			bidirectional_reverse_iterator&				operator--(){_current++; return (*this);}
+			bidirectional_reverse_iterator				operator--(int){bidirectional_reverse_iterator temp = *this; _current++; return (temp);}
 		private:
-			iterator_type _current;
+			iterator_type	_current;
 	};
 
 		template <class Iterator>

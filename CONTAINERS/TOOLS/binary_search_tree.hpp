@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:09:17 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/29 23:39:44 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/30 10:19:54 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,25 +41,26 @@ namespace ft
 		node				*left;
 		node				*right;
 		int					color;
+		int					pos;
 		template <class T>
-		node(ft::node<T> &node):data(node.data), parent(node.parent), left(node.left), right(node.right), color(node.color){}
+		node(ft::node<T> &node):data(node.data), parent(node.parent), left(node.left), right(node.right), color(node.color), pos(0){}
 		
 	};
 	
-	template <class key_type, class mapped_type, class key_compare, class allocator>
+	template <class data_type, class key_compare, class allocator>
 	class binary_search_tree
 	{
 		public:
-			typedef ft::pair<key_type, mapped_type>			data_type;
+			// typedef value_type	data_type;
 			typedef ft::node<data_type>*					Node;
-			ft::node<data_type>								*nodeSearched;
 		private:
+			ft::node<data_type>								*_nodeSearched;
 			ft::node<data_type>								*_root;
 			key_compare										_comp;
 			std::allocator<ft::node<data_type> >			_allocNode;
-			allocator										_allocData;
+			allocator						_allocData;
 			size_t											_size;
-			ft::node<data_type>								*_createNode(const data_type &data)
+			ft::node<data_type>				*_createNode(const data_type &data)
 			{
 				ft::node<data_type>	*node;
 				node = _allocNode.allocate(1);
@@ -68,11 +69,43 @@ namespace ft
 				node->left = NULL;
 				node->right = NULL;
 				node->parent = NULL;
+				node->pos = 0;
 				_size++;	
 				return (node);
 			}
-			template <class T>
-			void											_reinsert_oldChild(ft::node<T> *old_child, ft::node<T> *new_root)
+			void							_recolor(ft::node<data_type> *node)
+			{
+				node->color = (node->color == BLACK) ? RED : BLACK;
+			}
+			void							_swapColor(ft::node<data_type> *bro, ft::node<data_type> *parent)
+			{
+				int tempColor = bro->color;
+				bro->color = parent->color;
+				parent->color = tempColor;
+			}
+			/* This function traverses tree
+			in post order to delete each
+			and every node of the tree */
+			void							_deleteTree(ft::node<data_type>* node)
+			{
+				if (node == NULL) return;
+			
+				/* first delete both subtrees */
+				_deleteTree(node->left);
+				_deleteTree(node->right);
+				// std::cout << "Deleting node: " << node->data->first << std::endl;
+				_allocData.destroy(&node->data);
+				_allocNode.deallocate(node, 1);
+			}
+			bool							isBlackNode(ft::node<data_type> *node)
+			{
+				if (node == NULL)
+					return true;
+				if (node->color == BLACK)
+					return true;
+				return false;
+			}
+			void							_reinsert_oldChild(ft::node<data_type> *old_child, ft::node<data_type> *new_root)
 			{
 				while (true)
 				{
@@ -100,17 +133,61 @@ namespace ft
 					}
 				}
 			}
-			void										_recolor(ft::node<data_type> *node)
+			void						left_rotate(ft::node<data_type> *median, ft::node<data_type> *old_root)
 			{
-				node->color = (node->color == BLACK) ? RED : BLACK;
+				ft::node<data_type> *old_child = median->left;
+				median->left = old_root;
+				median->parent = old_root->parent;
+				if (old_root->parent)
+				{
+					if (old_root->parent->left == old_root)
+						old_root->parent->left = median;
+					else if (old_root->parent->right == old_root)
+						old_root->parent->right = median;
+				}
+				else
+					_root = median;
+				old_root->parent = median;
+				old_root->right = NULL;
+				if (old_child)
+				{
+					if (old_root->right)					
+						_reinsert_oldChild(old_child, old_root->right);
+					else
+					{
+						old_root->right = old_child;
+						old_child->parent = old_root;
+					}
+				}
 			}
-			void										_swapColor(ft::node<data_type> *bro, ft::node<data_type> *parent)
+			void					right_rotate(ft::node<data_type> *median, ft::node<data_type> *old_root)
 			{
-				int tempColor = bro->color;
-				bro->color = parent->color;
-				parent->color = tempColor;
+				ft::node<data_type> *old_child = median->right;
+				median->right = old_root;
+				median->parent = old_root->parent;
+				if (old_root->parent)
+				{
+					if (old_root->parent->left == old_root)
+						old_root->parent->left = median;
+					else if (old_root->parent->right == old_root)
+						old_root->parent->right = median;
+				}
+				else
+					_root = median;
+				old_root->parent = median;
+				old_root->left = NULL;
+				if (old_child)
+				{
+					if (old_root->left)					
+						_reinsert_oldChild(old_child, old_root->left);
+					else
+					{
+						old_root->left = old_child;
+						old_child->parent = old_root;
+					}
+				}
 			}
-			void										_rebalance(ft::node<data_type> *new_node)
+			void							_rebalance(ft::node<data_type> *new_node)
 			{
 				while (true)
 				{
@@ -216,85 +293,6 @@ namespace ft
 					}
 				}
 			}
-			/* This function traverses tree
-			in post order to delete each
-			and every node of the tree */
-			template <typename first_type>
-			void							_deleteTree(ft::node<first_type>* node)
-			{
-				if (node == NULL) return;
-			
-				/* first delete both subtrees */
-				_deleteTree(node->left);
-				_deleteTree(node->right);
-				// std::cout << "Deleting node: " << node->data->first << std::endl;
-				_allocData.destroy(&node->data);
-				_allocNode.deallocate(node, 1);
-			}
-			template <class T>
-			void						left_rotate(ft::node<T> *median, ft::node<T> *old_root)
-			{
-				ft::node<T> *old_child = median->left;
-				median->left = old_root;
-				median->parent = old_root->parent;
-				if (old_root->parent)
-				{
-					if (old_root->parent->left == old_root)
-						old_root->parent->left = median;
-					else if (old_root->parent->right == old_root)
-						old_root->parent->right = median;
-				}
-				else
-					_root = median;
-				old_root->parent = median;
-				old_root->right = NULL;
-				if (old_child)
-				{
-					if (old_root->right)					
-						_reinsert_oldChild(old_child, old_root->right);
-					else
-					{
-						old_root->right = old_child;
-						old_child->parent = old_root;
-					}
-				}
-			}
-			template <class T>
-			void					right_rotate(ft::node<T> *median, ft::node<T> *old_root)
-			{
-				ft::node<T> *old_child = median->right;
-				median->right = old_root;
-				median->parent = old_root->parent;
-				if (old_root->parent)
-				{
-					if (old_root->parent->left == old_root)
-						old_root->parent->left = median;
-					else if (old_root->parent->right == old_root)
-						old_root->parent->right = median;
-				}
-				else
-					_root = median;
-				old_root->parent = median;
-				old_root->left = NULL;
-				if (old_child)
-				{
-					if (old_root->left)					
-						_reinsert_oldChild(old_child, old_root->left);
-					else
-					{
-						old_root->left = old_child;
-						old_child->parent = old_root;
-					}
-				}
-			}
-			bool					isBlackNode(ft::node<data_type> *node)
-			{
-				if (node == NULL)
-					return true;
-				if (node->color == BLACK)
-					return true;
-				return false;
-			}
 			void					_resolveDB(ft::node<data_type> *node)
 			{
 				if (node == _root)
@@ -378,28 +376,64 @@ namespace ft
 			}
 			
 		public:
-			binary_search_tree():nodeSearched(NULL),_root(NULL),_comp(),_size(0){};
+			int i;
+			binary_search_tree():_nodeSearched(NULL),_root(NULL),_comp(),_size(0){};
+			binary_search_tree(const binary_search_tree &x):_nodeSearched(NULL),_root(NULL),_comp(),_size(0){*this = x;}
+			binary_search_tree &operator=(const binary_search_tree &x)
+			{
+				// ! this is a shallow copy be careful .. not sure if deep copy is needed
+				if (this != &x)
+				{
+					_deleteTree(_root);
+					_root = x._root;
+					_size = x._size;
+				}
+				return *this;
+			}
 			~binary_search_tree(){_deleteTree(_root);}
 			ft::node<data_type>			*root() const {return _root;}
 			size_t						size() const {return _size;}
 			void						clear() {_deleteTree(_root); _root = NULL; _size = 0;}
 			size_t						max_size() const {return _allocNode.max_size();}
+			void						sortNode()
+			{
+				for (size_t i = 0; i < _size; i++)
+					search_node(i);
+			}
+			template <class key_type>
+			ft::node<data_type>			*find(const key_type& key)
+			{
+				ft::node<data_type> *node = _root;
+				while (node)
+				{
+					if (_comp(key, node->data.first))
+						node = node->left;
+					else if (_comp(node->data.first, key))
+						node = node->right;
+					else
+						return node;
+				}
+				return NULL;
+			}
+			ft::node<data_type>			*search_node(int pos)
+			{
+				i = 0;
+				sortedIterator(_root, pos);
+				return (_nodeSearched);
+			}
 			void						sortedIterator(ft::node<data_type> *node, int pos = 0)
 			{
-				static int i;
 				if (node == NULL)
 					return;
 				sortedIterator(node->left, pos);
-				
 				if (i == pos)
-					nodeSearched = node;
+				{
+					_nodeSearched = node;
+					node->pos = pos + 1;
+				}
 				i++;
 				sortedIterator(node->right, pos);
 			}
-			// void						search(data_type data)
-			// {
-				
-			// }
 			ft::node<data_type>			*getNode(ft::node<data_type> *node, int option)
 			{
 				if (option == MIN)
@@ -472,12 +506,13 @@ namespace ft
 					}
 					_rebalance(new_node);
 				}
+				sortNode();
 			}
 			void				erase(ft::node<data_type> *node)
 			{
 				if (node)
 				{
-					std::cout << "delete ---> " << node->data.first << std::endl;
+					// std::cout << "delete ---> " << node->data.first << std::endl;
 					if (!node->left && !node->right)
 					{
 						if (node->parent)
@@ -520,11 +555,11 @@ namespace ft
 						erase(child);
 					}
 				}
-				return ;
 			}
 			void			erase(data_type data)
 			{
 				erase(getNode(data));
+				sortNode();
 			}
 	};
 }

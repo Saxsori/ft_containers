@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vector.hpp                                         :+:      :+:    :+:   */
+/*   Vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:37:18 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/29 23:26:13 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/30 06:35:43 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -331,7 +331,7 @@ namespace ft
 				* so without the explicit keyword, the class allows implicit type conversions from int to vector
 			*/
 			// ? default constructor
-			explicit vector (const allocator_type& alloc = allocator_type()):_allocator(alloc), _data(NULL), _size(0), _capacity(0){}
+			explicit vector  (const allocator_type& alloc = allocator_type()):_allocator(alloc), _data(NULL), _size(0), _capacity(0){}
 			// ? fill constructor
 			explicit vector(size_type count, const_reference value = T(), const allocator_type& alloc = allocator_type()):_data(NULL), _size(0), _capacity(0)
 			{

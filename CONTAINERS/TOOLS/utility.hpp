@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 18:37:21 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/20 15:59:40 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/30 08:41:57 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,24 +50,24 @@ namespace ft
 	};
 	// relational operators
 	template <class T1, class T2>
-	bool operator==(const pair<T1,T2>& lhs, const pair<T1,T2>& rhs){return (lhs.first == rhs.first && lhs.second == rhs.second);}
+	bool operator==(const ft::pair<T1,T2>& lhs, const ft::pair<T1,T2>& rhs){return (lhs.first == rhs.first && lhs.second == rhs.second);}
 	template <class T1, class T2>
-	bool operator!=(const pair<T1,T2>& lhs, const pair<T1,T2>& rhs){return !(lhs == rhs);}
+	bool operator!=(const ft::pair<T1,T2>& lhs, const ft::pair<T1,T2>& rhs){return !(lhs == rhs);}
 	template <class T1, class T2>
-	bool operator<(const pair<T1,T2>& lhs, const pair<T1,T2>& rhs){return (lhs.first < rhs.first || (!(rhs.first < lhs.first) && lhs.second < rhs.second));}
+	bool operator<(const ft::pair<T1,T2>& lhs, const ft::pair<T1,T2>& rhs){return (lhs.first < rhs.first || (!(rhs.first < lhs.first) && lhs.second < rhs.second));}
 	template <class T1, class T2>
-	bool operator<=(const pair<T1,T2>& lhs, const pair<T1,T2>& rhs){return (lhs.first < rhs.first || (!(rhs.first < lhs.first) && lhs.second <= rhs.second));}
+	bool operator<=(const ft::pair<T1,T2>& lhs, const ft::pair<T1,T2>& rhs){return (lhs.first < rhs.first || (!(rhs.first < lhs.first) && lhs.second <= rhs.second));}
 	template <class T1, class T2>
-	bool operator>(const pair<T1,T2>& lhs, const pair<T1,T2>& rhs){return (rhs < lhs);}
+	bool operator>(const ft::pair<T1,T2>& lhs, const ft::pair<T1,T2>& rhs){return (rhs < lhs);}
 	template <class T1, class T2>
-	bool operator>=(const pair<T1,T2>& lhs, const pair<T1,T2>& rhs){return (rhs.first < lhs.first || (!(lhs.first < rhs.first) && rhs.second <= lhs.second));}
+	bool operator>=(const ft::pair<T1,T2>& lhs, const ft::pair<T1,T2>& rhs){return (rhs.first < lhs.first || (!(lhs.first < rhs.first) && rhs.second <= lhs.second));}
 	
-	// make_pair
+	// make_ft::pair
 	/*
 		* Constructs a pair object with its elements initialized to x and y, respectively.
 		pair objects can be constructed from other pair objects containing different types, if the respective types are implicitly convertible.
 	*/
 	template <class T1, class T2>
-	pair<T1,T2> make_pair(T1 x, T2 y){return (pair<T1,T2>(x,y));}
+	ft::pair<T1,T2> make_pair(T1 x, T2 y){return (ft::pair<T1,T2>(x,y));}
 }
 #endif

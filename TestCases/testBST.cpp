@@ -6,11 +6,11 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 23:07:57 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/29 21:44:40 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/01/30 07:41:18 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../CONTAINERS/TOOLS/map_tools.hpp"
+#include "../CONTAINERS/TOOLS/binary_search_tree.hpp"
 #include "../CONTAINERS/TOOLS/utility.hpp"
 #include <iomanip>
 # define BBLK "\e[1;30m"
@@ -21,7 +21,7 @@
 #include <map>
 #include <memory>
 #include "../CONTAINERS/map.hpp"
-#include "../ITERATORS/iterator.hpp"
+#include "../ITERATORS/bidirectional_iterator.hpp"
 
 bool	comp(int a, int b)
 {
@@ -87,9 +87,9 @@ void printTree(ft::node<first_type>* root, Trunk *prev, bool isLeft)
 	showTrunks(&trunk);
 	
 	if (root->color == 'r')
-		std::cout << BRED << root->data.first << DEFCOLO << std::endl;
+		std::cout << BRED << root->data.first << "-" << root->pos << DEFCOLO << std::endl;
 	else
-		std::cout << BBLK << root->data.first << DEFCOLO << std::endl; 
+		std::cout << BBLK << root->data.first << "-" << root->pos << DEFCOLO << std::endl; 
 	if (prev)
 		prev->str = prev_str;
 	trunk.str = "   |";
@@ -97,23 +97,23 @@ void printTree(ft::node<first_type>* root, Trunk *prev, bool isLeft)
 	printTree(root->left, &trunk, false);
 }
 
-int main()
-{
-	typedef	ft::pair<int, std::string>  map_type;
-	ft::binary_search_tree<int, std::string, value_compare, std::allocator<map_type> > bst;
+// int main()
+// {
+// 	typedef	ft::pair<int, std::string>  map_type;
+// 	ft::binary_search_tree<int, std::string, value_compare, std::allocator<map_type> > bst;
 	
-	bst.insert(ft::make_pair <int, std::string> (10, "one"));
-	bst.insert(ft::make_pair <int, std::string> (18, "two"));
-	bst.insert(ft::make_pair <int, std::string> (7, "two"));
-	bst.insert(ft::make_pair <int, std::string> (15, "two"));
-	bst.insert(ft::make_pair <int, std::string> (16, "two"));
-	bst.insert(ft::make_pair <int, std::string> (30, "two"));
-	bst.insert(ft::make_pair <int, std::string> (25, "two"));
-	bst.insert(ft::make_pair <int, std::string> (40, "two"));
-	bst.insert(ft::make_pair <int, std::string> (60, "ewo"));
-	bst.insert(ft::make_pair <int, std::string> (2, "nwo"));
-	bst.insert(ft::make_pair <int, std::string> (1, "mww"));
-	bst.insert(ft::make_pair <int, std::string> (70, "tll"));
+// 	bst.insert(ft::make_pair <int, std::string> (10, "one"));
+// 	bst.insert(ft::make_pair <int, std::string> (18, "two"));
+// 	bst.insert(ft::make_pair <int, std::string> (7, "two"));
+// 	bst.insert(ft::make_pair <int, std::string> (15, "two"));
+// 	bst.insert(ft::make_pair <int, std::string> (16, "two"));
+// 	bst.insert(ft::make_pair <int, std::string> (30, "two"));
+// 	bst.insert(ft::make_pair <int, std::string> (25, "two"));
+// 	bst.insert(ft::make_pair <int, std::string> (40, "two"));
+// 	bst.insert(ft::make_pair <int, std::string> (60, "ewo"));
+// 	bst.insert(ft::make_pair <int, std::string> (2, "nwo"));
+// 	bst.insert(ft::make_pair <int, std::string> (1, "mww"));
+// 	bst.insert(ft::make_pair <int, std::string> (70, "tll"));
 	
 	/*******************************************/
 	
@@ -130,12 +130,17 @@ int main()
 	
 	/*******************************************/
 
-	std::cout << std::endl;
-	printTree(bst.root(), NULL, false);
-	std::cout << std::endl;
+	// std::cout << std::endl;
+	// printTree(bst.root(), NULL, false);
+	// std::cout << std::endl;
 	
 	
-	// bst.sortedIterator(bst.root(), 1);
+	
+	// bst.sortedIterator(0);
+	// bst.sortedIterator(1);
+	// bst.sortedIterator(3);
+	// bst.sortedIterator(2);
+
 	// std::cout << bst.nodeSearched->data.first << std::endl;
 	// std::cout << bst.sortedIterator(bst.root(), 1)->data.first << std::endl;
 	// std::cout << << std::endl;
@@ -170,8 +175,19 @@ int main()
 	/*******************************************/
 
 	// bst.erase(ft::make_pair <int, std::string> (10, "one"));
-	// std::cout << std::endl;
-	// printTree(bst.root(), NULL, false);
-	// std::cout << std::endl;
-	return 0;
+// 	std::cout << std::endl;
+// 	printTree(bst.root(), NULL, false);
+// 	std::cout << std::endl;
+// 	return 0;
+// }
+
+int		main(void)
+{
+	ft::map<char, int>::iterator it;
+	ft::map<char, float>::const_iterator ite;
+
+	ite = it.begin();
+	
+	// std::cout << (it != ite) << std::endl;
+	return (0);
 }
