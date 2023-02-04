@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:09:17 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/30 10:19:54 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/03 22:30:27 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -390,7 +390,7 @@ namespace ft
 				}
 				return *this;
 			}
-			~binary_search_tree(){_deleteTree(_root);}
+			~binary_search_tree(){/*_deleteTree(_root);*/}
 			ft::node<data_type>			*root() const {return _root;}
 			size_t						size() const {return _size;}
 			void						clear() {_deleteTree(_root); _root = NULL; _size = 0;}
@@ -429,7 +429,7 @@ namespace ft
 				if (i == pos)
 				{
 					_nodeSearched = node;
-					node->pos = pos + 1;
+					node->pos = pos;
 				}
 				i++;
 				sortedIterator(node->right, pos);

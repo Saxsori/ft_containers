@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 23:07:57 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/30 07:41:18 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/04 17:14:08 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 #include <memory>
 #include "../CONTAINERS/map.hpp"
 #include "../ITERATORS/bidirectional_iterator.hpp"
+#include <list>
 
 bool	comp(int a, int b)
 {
@@ -183,11 +184,98 @@ void printTree(ft::node<first_type>* root, Trunk *prev, bool isLeft)
 
 int		main(void)
 {
-	ft::map<char, int>::iterator it;
-	ft::map<char, float>::const_iterator ite;
-
-	ite = it.begin();
+	std::list<ft::pair<const int, char> > lst;
+	unsigned int lst_size = 5;
+	for (unsigned int i = 0; i < lst_size; ++i)
+		lst.push_back(ft::pair<const int, char>(2.5 + i, i + 1));
 	
-	// std::cout << (it != ite) << std::endl;
+	ft::map<int, char> mp(lst.begin(), lst.end());
+	
+	ft::map<int, char>::const_iterator it = mp.begin();
+	// ft::map<int, char>::iterator it = mp.begin();
+	std::list<ft::pair<const int, char> >::iterator ite = lst.begin();
+	
+
+	// std::cout << 
+	std::cout << it->first << std::endl;
+	std::cout << ite->first << std::endl;
+	it++;
+	ite++;
+	std::cout << it->first << std::endl;
+	std::cout << ite->first << std::endl;
+	it++;
+	ite++;
+	std::cout << it->first << std::endl;
+	std::cout << ite->first << std::endl;
+	it++;
+	ite++;
+	std::cout << it->first << std::endl;
+	std::cout << ite->first << std::endl;
+	
+	// ft::map<char, int>::iterator it;
+	
+	/////////////////////////////////////////
+	// assign const to non const
+	ft::map<int, char>::iterator iz;
+	// ft::map<int, char>::iterator izz(mp.begin());
+	// ft::map<int, char>::const_iterator iv(mp.begin());
+	// ft::map<int, char>::const_iterator ivv(izz);
+	// ft::map<int, char>::iterator izm(iv);
+	
+	// conversion from non const to const and vice versa
+	// iv = mp.begin();
+	iz = mp.begin();
+	// const = const
+	// ivv = iv;
+	// non = non
+	// izz = iz;
+	// const = non
+	// iv = iz;
+	// non = const
+	// iz = iv;
+	
+	std::list<std::pair<int, char> > lst2;
+	for (unsigned int i = 0; i < lst_size; ++i)
+		lst2.push_back(std::pair<int, char>(2.5 + i, i + 1));
+
+	// std::map<int, char> mp3(lst2.begin(), lst2.end());
+	// std::map<int, char>::iterator itx;
+	// std::map<int, char>::iterator itxx(mp3.begin());
+	// std::map<int, char>::const_iterator itp(mp3.begin());
+	// std::map<int, char>::const_iterator itp1(itxx);
+	// std::map<int, char>::iterator itp2(itp);
+	
+	// conversion from non const to const and vice versa
+	// itp = mp3.begin();
+	// itx = mp3.begin();
+	// const = const
+	// itp1 = itp;
+	// non = non
+	// itxx = itx;
+	// const = non
+	// itp = itx;
+	// non = const
+	// itx = itp;
+	
+	
+	
+	/////////////////////////////////////////
+	
+	// ft::map<int, std::string> const cm;
+	// ft::map<int, std::string>::iterator io = cm.begin();
+	
+	// std::map<int, std::string> const scm;
+	// std::map<int, std::string>::iterator sio = scm.begin();
+	
+	// ft::map<char, int>::iterator pp;
+	// ft::map<char, float>::const_iterator ppq;
+
+	// pp != ppq;
+
+	// std::map<char, int>::iterator lol;
+	// std::map<char, float>::const_iterator loll;
+
+	// std::cout << (lol != loll) << std::endl;
+	
 	return (0);
 }

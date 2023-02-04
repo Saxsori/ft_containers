@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 15:43:23 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/30 10:20:06 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/04 17:11:56 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ namespace ft
 			typedef	const value_type&																const_reference;
 			typedef	value_type*																		pointer;
 			typedef	const value_type*																const_pointer;
-			typedef ft::bidirectional_iterator<value_type, key_compare, allocator_type>				iterator;
-			typedef ft::bidirectional_iterator<const value_type, key_compare, allocator_type>		const_iterator;
+			typedef ft::bidirectional_iterator<value_type, key_compare, allocator_type, false>		iterator;
+			typedef ft::bidirectional_iterator<value_type, key_compare, allocator_type, true>		const_iterator;
 			typedef ft::bidirectional_reverse_iterator<iterator>									reverse_iterator;
 			typedef ft::bidirectional_reverse_iterator<const_iterator>								const_reverse_iterator;
 			typedef std::ptrdiff_t																	difference_type;
@@ -63,15 +63,15 @@ namespace ft
 			/*  			Constructors and destructor			*/
 			explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()):_comp(comp), _alloc(alloc){_tree = tree_type();}
 			explicit map(const map& x){*this = x;}
-			// template <class InputIterator>
-			// map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()):_comp(comp), _alloc(alloc)
-			// {
-			// 	_tree = tree_type(first, last);
-			// }
-			~map(){clear();}
+			template <class InputIterator>
+			map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()):_comp(comp), _alloc(alloc)
+			{
+				for (InputIterator it = first; it != last; it++)
+					_tree.insert(*it);
+			}
+			~map(){}
 			map& operator=(const map& x)
 			{
-				clear();
 				_alloc = x.get_allocator();
 				_tree = x._tree;
 				return *this;
@@ -109,25 +109,25 @@ namespace ft
 			size_type					size()const{return _tree.size();}
 			size_type					max_size()const{return _tree.max_size();}
 			/*					Iterator						*/
-			iterator					begin(){return iterator(_tree, _tree.getNode(_tree.root(), MIN));}
+			iterator					begin(void){return iterator(_tree, _tree.getNode(_tree.root(), MIN));}
 			const_iterator				begin()const{return const_iterator(_tree, _tree.getNode(_tree.root(), MIN));}
 			iterator					end(){return iterator(_tree, _tree.getNode(_tree, _tree.root(), MAX));}
 			const_iterator				end()const{return const_iterator(_tree, _tree.getNode(_tree.root(), MAX));}
-			reverse_iterator			rbegin(){return reverse_iterator(end());}
-			const_reverse_iterator		rbegin()const{return const_reverse_iterator(end());}
-			reverse_iterator			rend(){return reverse_iterator(begin());}
-			const_reverse_iterator		rend()const{return const_reverse_iterator(begin());}
+			// reverse_iterator			rbegin(){return reverse_iterator(end());}
+			// const_reverse_iterator		rbegin()const{return const_reverse_iterator(end());}
+			// reverse_iterator			rend(){return reverse_iterator(begin());}
+			// const_reverse_iterator		rend()const{return const_reverse_iterator(begin());}
 			/*					Observers						*/
 			value_compare				value_comp()const{return value_compare(_comp);}
 			key_compare					key_comp()const{return _comp;}
 			/*					get_allocator					*/
 			allocator_type				get_allocator() const{return allocator_type();}
 			/* 					Modifiers						*/
-			void 						clear(){_tree.clear();}
+			// void 						clear(){_tree.clear();}
 			/*					Operations						*/
-			iterator					find(const key_type& k){return iterator(_tree, _tree.find(k));}
-			const_iterator				find(const key_type& k)const{return const_iterator(_tree, _tree.find(k));}
-			size_type 					count(const key_type& k) const{(void)k; return 1;}
+			// iterator					find(const key_type& k){return iterator(_tree, _tree.find(k));}
+			// const_iterator				find(const key_type& k)const{return const_iterator(_tree, _tree.find(k));}
+			// size_type 					count(const key_type& k) const{(void)k; return 1;}
 			iterator					lower_bound(const key_type& k)
 			{
 				if (_comp(k, _tree.getNode(_tree.root(), MIN)->first))
@@ -160,6 +160,21 @@ namespace ft
 						return iterator(_tree, _tree.search_node(_tree.find(k)->pos + 1));
 				}
 			}
+			const_iterator				upper_bound(const key_type& k)const
+			{
+				if (_comp(k, _tree.getNode(_tree.root(), MIN)->first))
+					return (const_iterator(_tree, _tree.getNode(_tree.root(), MIN)));
+				else if (_comp(_tree.getNode(_tree.root(), MAX)->first, k))
+					return (const_iterator(_tree, _tree.getNode(_tree.root(), MAX)));
+				else
+				{
+					if (_tree.find(k)->pos == _tree.getNode(_tree.root(), MAX)->pos)
+						return const_iterator(_tree, _tree.find(k));
+					else
+						return const_iterator(_tree, _tree.search_node(_tree.find(k)->pos + 1));
+				}	
+			}
+			
 			
 			/*					Element access					*/
 			
