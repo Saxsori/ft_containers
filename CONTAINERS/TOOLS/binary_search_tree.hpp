@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:09:17 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/03 22:30:27 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/04 22:04:41 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ namespace ft
 			// typedef value_type	data_type;
 			typedef ft::node<data_type>*					Node;
 		private:
-			ft::node<data_type>								*_nodeSearched;
+			mutable ft::node<data_type>								*_nodeSearched;
 			ft::node<data_type>								*_root;
 			key_compare										_comp;
 			std::allocator<ft::node<data_type> >			_allocNode;
@@ -376,7 +376,8 @@ namespace ft
 			}
 			
 		public:
-			int i;
+			// int counter;
+			mutable int counter;
 			binary_search_tree():_nodeSearched(NULL),_root(NULL),_comp(),_size(0){};
 			binary_search_tree(const binary_search_tree &x):_nodeSearched(NULL),_root(NULL),_comp(),_size(0){*this = x;}
 			binary_search_tree &operator=(const binary_search_tree &x)
@@ -384,7 +385,11 @@ namespace ft
 				// ! this is a shallow copy be careful .. not sure if deep copy is needed
 				if (this != &x)
 				{
-					_deleteTree(_root);
+					if (_root)
+					{
+						_deleteTree(_root);
+						_root = NULL;
+					}
 					_root = x._root;
 					_size = x._size;
 				}
@@ -393,15 +398,15 @@ namespace ft
 			~binary_search_tree(){/*_deleteTree(_root);*/}
 			ft::node<data_type>			*root() const {return _root;}
 			size_t						size() const {return _size;}
-			void						clear() {_deleteTree(_root); _root = NULL; _size = 0;}
+			void						clear() {if (_root) {_deleteTree(_root); _root = NULL;} _size = 0;}
 			size_t						max_size() const {return _allocNode.max_size();}
-			void						sortNode()
+			void						sortNode() const
 			{
 				for (size_t i = 0; i < _size; i++)
 					search_node(i);
 			}
 			template <class key_type>
-			ft::node<data_type>			*find(const key_type& key)
+			ft::node<data_type>			*find(const key_type& key) const
 			{
 				ft::node<data_type> *node = _root;
 				while (node)
@@ -415,26 +420,26 @@ namespace ft
 				}
 				return NULL;
 			}
-			ft::node<data_type>			*search_node(int pos)
+			ft::node<data_type>			*search_node(int pos) const
 			{
-				i = 0;
+				this->counter = 0;
 				sortedIterator(_root, pos);
 				return (_nodeSearched);
 			}
-			void						sortedIterator(ft::node<data_type> *node, int pos = 0)
+			void						sortedIterator(ft::node<data_type> *node, int pos = 0) const
 			{
 				if (node == NULL)
 					return;
 				sortedIterator(node->left, pos);
-				if (i == pos)
+				if (this->counter == pos)
 				{
 					_nodeSearched = node;
 					node->pos = pos;
 				}
-				i++;
+				this->counter++;
 				sortedIterator(node->right, pos);
 			}
-			ft::node<data_type>			*getNode(ft::node<data_type> *node, int option)
+			ft::node<data_type>			*getNode(ft::node<data_type> *node, int option) const
 			{
 				if (option == MIN)
 				{
@@ -452,7 +457,7 @@ namespace ft
 				}
 				return NULL;
 			}
-			ft::node<data_type>			*getNode(data_type data)
+			ft::node<data_type>			*getNode(data_type data) const
 			{
 				ft::node<data_type> *traversal = _root;
 				while (traversal)

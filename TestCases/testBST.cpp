@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 23:07:57 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/04 17:14:08 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/04 19:01:27 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,7 +196,6 @@ int		main(void)
 	std::list<ft::pair<const int, char> >::iterator ite = lst.begin();
 	
 
-	// std::cout << 
 	std::cout << it->first << std::endl;
 	std::cout << ite->first << std::endl;
 	it++;
@@ -216,7 +215,7 @@ int		main(void)
 	
 	/////////////////////////////////////////
 	// assign const to non const
-	ft::map<int, char>::iterator iz;
+	// ft::map<int, char>::iterator iz;
 	// ft::map<int, char>::iterator izz(mp.begin());
 	// ft::map<int, char>::const_iterator iv(mp.begin());
 	// ft::map<int, char>::const_iterator ivv(izz);
@@ -224,7 +223,7 @@ int		main(void)
 	
 	// conversion from non const to const and vice versa
 	// iv = mp.begin();
-	iz = mp.begin();
+	// iz = mp.begin();
 	// const = const
 	// ivv = iv;
 	// non = non
@@ -234,9 +233,9 @@ int		main(void)
 	// non = const
 	// iz = iv;
 	
-	std::list<std::pair<int, char> > lst2;
-	for (unsigned int i = 0; i < lst_size; ++i)
-		lst2.push_back(std::pair<int, char>(2.5 + i, i + 1));
+	// std::list<std::pair<int, char> > lst2;
+	// for (unsigned int i = 0; i < lst_size; ++i)
+		// lst2.push_back(std::pair<int, char>(2.5 + i, i + 1));
 
 	// std::map<int, char> mp3(lst2.begin(), lst2.end());
 	// std::map<int, char>::iterator itx;
@@ -277,5 +276,15 @@ int		main(void)
 
 	// std::cout << (lol != loll) << std::endl;
 	
+	// typedef ft::pair<const int, int> T3
+	
+	std::list<ft::pair<const int, int> > lst;
+	unsigned int lst_size = 10;
+	for (unsigned int i = 0; i < lst_size; ++i)
+		lst.push_back(ft::pair<const int, int>(i + 1, (i + 1) * 3));
+	ft::map<const int, int> mp(lst.begin(), lst.end());
+	
+	
+
 	return (0);
 }

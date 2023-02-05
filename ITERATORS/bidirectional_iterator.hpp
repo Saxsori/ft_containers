@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 15:57:11 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/04 17:05:34 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/05 21:13:58 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,15 @@ namespace ft
 		public:
 		typedef	Tree					tree;
 		typedef typename Tree::Node		node;
-		node 							_currentNode;
+		mutable node 							_currentNode;
 		map_iterator(void): _currentNode(NULL){}
 		map_iterator(node _node): _currentNode(_node){}
 		~map_iterator(void){}
-		T& operator*()
+		T& operator*(void) const
 		{
 			return (_currentNode->data);
 		}
-		T* operator->() 
+		T* operator->(void) const
 		{
 			return (&_currentNode->data);
 		}	
@@ -53,15 +53,15 @@ namespace ft
 		public:
 		typedef	Tree					tree;
 		typedef typename Tree::Node		node;
-		node 							_currentNode;
+		mutable node 							_currentNode;
 		map_iterator(void): _currentNode(NULL){}
 		map_iterator(node _node): _currentNode(_node){}
 		~map_iterator(void){}
-		const T& operator*() const 
+		const T& operator*(void) const
 		{
 			return (_currentNode->data);
 		}
-		const T* operator->() const 
+		const T* operator->(void) const
 		{
 			return (&_currentNode->data);
 		}
@@ -78,23 +78,35 @@ namespace ft
 			typedef ft::bidirectional_iterator_tag												iterator_category;
 			typedef ft::binary_search_tree<T, key_compare, allocator_type>						tree;
 			typedef typename tree::Node															node;
-			typedef ft::map_iterator<T, ft::binary_search_tree<T, key_compare, allocator_type>, is_const> base;
+			typedef ft::map_iterator<T, tree, is_const> 										base;
 			
-			size_t				_currentPos;
-			tree				_tree;	
+			mutable size_t				_currentPos;
+			mutable tree				_tree;	
 		public:
-			bidirectional_iterator(): map_iterator<T, ft::binary_search_tree<T, key_compare, allocator_type>, is_const>(), _currentPos(0){_tree = tree();}
-			bidirectional_iterator(tree Tree, node _node):map_iterator<T, ft::binary_search_tree<T, key_compare, allocator_type>, is_const>(_node), _currentPos(_node->pos), _tree(Tree){this->_currentNode = _node;}
-			bidirectional_iterator(const bidirectional_iterator<T, key_compare, allocator_type, false> &other):map_iterator<T, ft::binary_search_tree<T, key_compare, allocator_type>, is_const>(other._currentNode){*this = other;}
-			~bidirectional_iterator(void){}			
+			bidirectional_iterator(void): map_iterator<T, tree, is_const>(), _currentPos(0){_tree = tree();}
+			bidirectional_iterator(tree Tree, node _node):map_iterator<T, tree, is_const>(_node), _currentPos(_node->pos), _tree(Tree){this->_currentNode = _node;}
+			bidirectional_iterator(const bidirectional_iterator<T, key_compare, allocator_type, false> &other):map_iterator<T, tree, is_const>(other._currentNode){*this = other;}
+			~bidirectional_iterator(void){}
+			// operator map_iterator<T, tree, is_const>()
+			// {
+			// 	return map_iterator<T, tree, is_const>(this->_currentNode);
+			// }
 			// * Assignment operator
-			bidirectional_iterator& operator=(const bidirectional_iterator<T, key_compare, allocator_type, false>& other)
+			bidirectional_iterator &operator=(const bidirectional_iterator &other)
 			{
 				base::_currentNode = other._currentNode;
 				_currentPos = other._currentPos;
 				_tree = other._tree;
-				return *this;
+				return (*this);
 			}
+			// this worked
+			// bidirectional_iterator& operator=(const bidirectional_iterator<T, key_compare, allocator_type, false>& other) const
+			// {
+			// 	base::_currentNode = other._currentNode;
+			// 	_currentPos = other._currentPos;
+			// 	_tree = other._tree;
+			// 	return *this;
+			// }
 			// * Dereference operators
 			// * Increment/decrement operators
 			bidirectional_iterator&		operator++(void){_tree.sortNode(); this->_currentNode = _tree.search_node(this->_currentPos + 1); this->_currentPos++; return *this;}
@@ -102,22 +114,32 @@ namespace ft
 			bidirectional_iterator		operator++(int){bidirectional_iterator tmp = *this; _tree.sortNode(); this->_currentNode = _tree.search_node(this->_currentPos + 1); this->_currentPos++; return tmp;}
 			bidirectional_iterator		operator--(int){bidirectional_iterator tmp = *this; _tree.sortNode(); this->_currentNode = _tree.search_node(this->_currentPos - 1); this->_currentPos--; return tmp;}
 			// * Comparison operators
-			bool						operator!=(const bidirectional_iterator &other) const{ return (this->_currentNode != other._currentNode);}			
+			bool						operator!=(const bidirectional_iterator &other) const{ return (this->_currentNode != other._currentNode);}
+			// template <bool U>
+			// bool						operator!=(const bidirectional_iterator<T, key_compare, allocator_type, U>& other) const
+			// {
+			// 	return (base::_currentNode != other._currentNode);
+			// }			
 			bool						operator==(const bidirectional_iterator &other) const{ return (this->_currentNode == other._currentNode);}
 	};
 
-	template<class T, class key_compare, class allocator_type, bool is_const>
-	bool	operator==(const ft::bidirectional_iterator<T, key_compare, allocator_type, is_const> &lhs, const ft::bidirectional_iterator<T, key_compare, allocator_type, is_const> &rhs){return (lhs._currentNode == rhs._currentNode);}
-	template<class T, class key_compare, class allocator_type, bool is_const>
-	bool	operator!=(const ft::bidirectional_iterator<T, key_compare, allocator_type, is_const> &lhs, const ft::bidirectional_iterator<T, key_compare, allocator_type, is_const> &rhs){return (lhs._currentNode != rhs._currentNode);}
-	template<class T, class key_compare, class allocator_type, bool is_const>
-	bool	operator<(const ft::bidirectional_iterator<T, key_compare, allocator_type, is_const> &lhs, const ft::bidirectional_iterator<T, key_compare, allocator_type, is_const> &rhs){return (lhs._currentNode < rhs._currentNode);}
-	template<class T, class key_compare, class allocator_type, bool is_const>
-	bool	operator<=(const ft::bidirectional_iterator<T, key_compare, allocator_type, is_const> &lhs, const ft::bidirectional_iterator<T, key_compare, allocator_type, is_const> &rhs){return (lhs._currentNode <= rhs._currentNode);}
-	template<class T, class key_compare, class allocator_type, bool is_const>
-	bool	operator>(const ft::bidirectional_iterator<T, key_compare, allocator_type, is_const> &lhs, const ft::bidirectional_iterator<T, key_compare, allocator_type, is_const> &rhs){return (lhs._currentNode > rhs._currentNode);}
-	template<class T, class key_compare, class allocator_type, bool is_const>
-	bool	operator>=(const ft::bidirectional_iterator<T, key_compare, allocator_type, is_const> &lhs, const ft::bidirectional_iterator<T, key_compare, allocator_type, is_const> &rhs){return (lhs._currentNode >= rhs._currentNode);}
+	// template<class T, class key_compare, class allocator_type, bool is_const>
+	// bool	operator==(const ft::bidirectional_iterator<T, key_compare, allocator_type, is_const> &lhs, const ft::bidirectional_iterator<T, key_compare, allocator_type, is_const> &rhs){return (lhs._currentNode == rhs._currentNode);}
+	// template<class T, class key_compare, class allocator_type, bool is_const>
+	// bool	operator!=(const ft::bidirectional_iterator<T, key_compare, allocator_type, is_const> &lhs, const ft::bidirectional_iterator<T, key_compare, allocator_type, is_const> &rhs){return (lhs._currentNode != rhs._currentNode);}
+	template<class pair1, class pair2, class comp1, class comp2,  class alloc1, class alloc2, bool isC1, bool isC2>
+	bool	operator!=(const ft::bidirectional_iterator<pair1, comp1, alloc1, isC1> &lhs, const ft::bidirectional_iterator<pair2, comp2, alloc2, isC2> &rhs){return (lhs._currentNode != rhs._currentNode);}
+	// 	template<class T, class T2, class key_compare, class allocator_type>
+	// bool	operator!=(const ft::bidirectional_iterator<T, key_compare, allocator_type, true> &lhs, const ft::bidirectional_iterator<T, key_compare, allocator_type, false> &rhs){return (lhs._currentNode != rhs._currentNode);}
+
+	// template<class T, class key_compare, class allocator_type, bool is_const>
+	// bool	operator<(const ft::bidirectional_iterator<T, key_compare, allocator_type, is_const> &lhs, const ft::bidirectional_iterator<T, key_compare, allocator_type, is_const> &rhs){return (lhs._currentNode < rhs._currentNode);}
+	// template<class T, class key_compare, class allocator_type, bool is_const>
+	// bool	operator<=(const ft::bidirectional_iterator<T, key_compare, allocator_type, is_const> &lhs, const ft::bidirectional_iterator<T, key_compare, allocator_type, is_const> &rhs){return (lhs._currentNode <= rhs._currentNode);}
+	// template<class T, class key_compare, class allocator_type, bool is_const>
+	// bool	operator>(const ft::bidirectional_iterator<T, key_compare, allocator_type, is_const> &lhs, const ft::bidirectional_iterator<T, key_compare, allocator_type, is_const> &rhs){return (lhs._currentNode > rhs._currentNode);}
+	// template<class T, class key_compare, class allocator_type, bool is_const>
+	// bool	operator>=(const ft::bidirectional_iterator<T, key_compare, allocator_type, is_const> &lhs, const ft::bidirectional_iterator<T, key_compare, allocator_type, is_const> &rhs){return (lhs._currentNode >= rhs._currentNode);}
 }
 
 #endif
