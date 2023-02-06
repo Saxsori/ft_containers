@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 15:43:23 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/05 20:50:54 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/06 11:44:15 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,10 +113,10 @@ namespace ft
 			const_iterator				begin()const{return const_iterator(_tree, _tree.getNode(_tree.root(), MIN));}
 			iterator					end(){return iterator(_tree, _tree.getNode(_tree.root(), MAX));}
 			const_iterator				end()const{return const_iterator(_tree, _tree.getNode(_tree.root(), MAX));}
-			// reverse_iterator			rbegin(){return reverse_iterator(end());}
-			// const_reverse_iterator		rbegin()const{return const_reverse_iterator(end());}
-			// reverse_iterator			rend(){return reverse_iterator(begin());}
-			// const_reverse_iterator		rend()const{return const_reverse_iterator(begin());}
+			reverse_iterator			rbegin(){return reverse_iterator(end());}
+			const_reverse_iterator		rbegin()const{return const_reverse_iterator(end());}
+			reverse_iterator			rend(){return reverse_iterator(begin());}
+			const_reverse_iterator		rend()const{return const_reverse_iterator(begin());}
 			/*					Observers						*/
 			value_compare				value_comp()const{return value_compare(_comp);}
 			key_compare					key_comp()const{return _comp;}
@@ -229,6 +229,11 @@ namespace ft
 				// ! just for now
 				(void)k;
 				return(_tree.root()->data.second);
+			}
+			void swap (map& x)
+			{
+				// ! just for now
+				(void)x;
 			}
 			
 			
