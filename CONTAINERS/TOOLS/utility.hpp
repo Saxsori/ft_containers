@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 18:37:21 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/05 20:47:37 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/11 22:07:00 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ namespace ft
 		// initialization constructor
 		pair(const first_type& a, const second_type& b) : first(a), second(b) {}
 		// copy constructor
-		template<class U, class V> pair (const pair<U,V>& pr){*this = pr;}
+		template<class U, class V> 
+		explicit pair (const pair<U,V>& pr){*this = pr;}
 		// destructor
 		~pair() {}
 		// assignment operator

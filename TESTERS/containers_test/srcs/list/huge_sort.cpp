@@ -87,7 +87,7 @@ int		main(void)
 	printSize(lst);
 
 	std::cout << "\t-- SORT --" << std::endl;
-	lst.sort();
+	lst.sortNode();
 	printSize(lst);
 	return (0);
 }

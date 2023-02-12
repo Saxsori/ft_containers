@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bidirectional_iterator.hpp                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: aaljaber <aaljaber@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 15:57:11 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/05 21:13:58 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/11 17:37:06 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,23 @@ namespace ft
 			mutable tree				_tree;	
 		public:
 			bidirectional_iterator(void): map_iterator<T, tree, is_const>(), _currentPos(0){_tree = tree();}
-			bidirectional_iterator(tree Tree, node _node):map_iterator<T, tree, is_const>(_node), _currentPos(_node->pos), _tree(Tree){this->_currentNode = _node;}
+			bidirectional_iterator(tree Tree, node _node):map_iterator<T, tree, is_const>(_node), _tree(Tree){
+				if (!_node) 
+				{
+					// std::cout << "NULL" << std::endl;
+					this->_currentNode = NULL;
+					this->_currentPos = 0;
+				}
+				else
+				{
+					// if (_node->parent)
+					// std::cout << "dada val is " << _node->parent->data.first << std::endl;
+					// else
+						// std::cout << "1 dada is NULL" << std::endl;
+					this->_currentNode = _node;
+					this->_currentPos = _node->pos;
+				}
+				}
 			bidirectional_iterator(const bidirectional_iterator<T, key_compare, allocator_type, false> &other):map_iterator<T, tree, is_const>(other._currentNode){*this = other;}
 			~bidirectional_iterator(void){}
 			// operator map_iterator<T, tree, is_const>()
@@ -109,10 +125,15 @@ namespace ft
 			// }
 			// * Dereference operators
 			// * Increment/decrement operators
-			bidirectional_iterator&		operator++(void){_tree.sortNode(); this->_currentNode = _tree.search_node(this->_currentPos + 1); this->_currentPos++; return *this;}
-			bidirectional_iterator&		operator--(void){_tree.sortNode(); this->_currentNode = _tree.search_node(this->_currentPos - 1); this->_currentPos--; return *this;}
-			bidirectional_iterator		operator++(int){bidirectional_iterator tmp = *this; _tree.sortNode(); this->_currentNode = _tree.search_node(this->_currentPos + 1); this->_currentPos++; return tmp;}
-			bidirectional_iterator		operator--(int){bidirectional_iterator tmp = *this; _tree.sortNode(); this->_currentNode = _tree.search_node(this->_currentPos - 1); this->_currentPos--; return tmp;}
+			bidirectional_iterator&		operator++(void){_tree.sortAll(); this->_currentNode = _tree.search_node(this->_currentPos + 1); this->_currentPos++; return *this;}
+			bidirectional_iterator&		operator--(void){_tree.sortAll(); this->_currentNode = _tree.search_node(this->_currentPos - 1); this->_currentPos--; return *this;}
+			bidirectional_iterator		operator++(int){
+				bidirectional_iterator tmp = *this;
+				 _tree.sortAll();
+				 this->_currentNode = _tree.search_node(this->_currentPos + 1);
+				 this->_currentPos++; return tmp;
+				}
+			bidirectional_iterator		operator--(int){bidirectional_iterator tmp = *this; _tree.sortAll(); this->_currentNode = _tree.search_node(this->_currentPos - 1); this->_currentPos--; return tmp;}
 			// * Comparison operators
 			bool						operator!=(const bidirectional_iterator &other) const{ return (this->_currentNode != other._currentNode);}
 			// template <bool U>

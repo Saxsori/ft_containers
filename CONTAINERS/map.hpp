@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 15:43:23 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/06 11:44:15 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/12 00:19:31 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,11 @@ namespace ft
 			map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()):_comp(comp), _alloc(alloc)
 			{
 				for (InputIterator it = first; it != last; it++)
+				{
+					// std::cout << "inserting " << it->first << std::endl;
+					// std::cout << "BTE " << it<< std::endl;
 					_tree.insert(*it);
+				}
 			}
 			~map(){if (_tree.root()) {_tree.clear();}}
 			map& operator=(const map& x)
@@ -105,90 +109,104 @@ namespace ft
 					}
 			};
 			/*					Capacity						*/
-			bool						empty()const{return (_tree.root()==NULL);}
-			size_type					size()const{return _tree.size();}
-			size_type					max_size()const{return _tree.max_size();}
+			bool							empty()const{return (_tree.root()==NULL);}
+			size_type						size()const{return _tree.size();}
+			size_type						max_size()const{return _tree.max_size();}
 			/*					Iterator						*/
-			iterator					begin(void){return iterator(_tree, _tree.getNode(_tree.root(), MIN));}
-			const_iterator				begin()const{return const_iterator(_tree, _tree.getNode(_tree.root(), MIN));}
-			iterator					end(){return iterator(_tree, _tree.getNode(_tree.root(), MAX));}
-			const_iterator				end()const{return const_iterator(_tree, _tree.getNode(_tree.root(), MAX));}
-			reverse_iterator			rbegin(){return reverse_iterator(end());}
-			const_reverse_iterator		rbegin()const{return const_reverse_iterator(end());}
-			reverse_iterator			rend(){return reverse_iterator(begin());}
-			const_reverse_iterator		rend()const{return const_reverse_iterator(begin());}
+			iterator						begin(void){return iterator(_tree, _tree.getNode(_tree.root(), MIN));}
+			const_iterator					begin()const{return const_iterator(_tree, _tree.getNode(_tree.root(), MIN));}
+			iterator						end(){return iterator(_tree, _tree.getPastTheEnd());}
+			const_iterator					end()const{return const_iterator(_tree, _tree.getPastTheEnd());}
+			reverse_iterator				rbegin(){return reverse_iterator(end());}
+			const_reverse_iterator			rbegin()const{return const_reverse_iterator(end());}
+			reverse_iterator				rend(){return reverse_iterator(begin());}
+			const_reverse_iterator			rend()const{return const_reverse_iterator(begin());}
 			/*					Observers						*/
-			value_compare				value_comp()const{return value_compare(_comp);}
-			key_compare					key_comp()const{return _comp;}
+			value_compare					value_comp()const{return value_compare(_comp);}
+			key_compare						key_comp()const{return _comp;}
 			/*					get_allocator					*/
-			allocator_type				get_allocator() const{return allocator_type();}
+			allocator_type					get_allocator() const{return allocator_type();}
 			/* 					Modifiers						*/
-			void 						clear(){_tree.clear();}
-			ft::pair<iterator,bool> insert (const value_type& val)
+			void 							clear(){_tree.clear();}
+			
+			ft::pair<iterator,bool>			insert(const value_type& val)
 			{
-				(void)val;
-				return ft::pair<iterator,bool>(iterator(_tree, _tree.getNode(_tree.root(), MIN)), true);
+				if (_tree.find(val.first) != NULL || (_tree.find(val.first) && _tree.find(val.first)->isPastTheEnd))
+				{
+					_tree.insert(val);
+					return ft::pair<iterator, bool>(iterator(_tree, _tree.find(val.first)), true);
+				}
+				else
+				{
+					_tree.replaceVal(val);
+					return ft::pair<iterator, bool>(iterator(_tree, _tree.find(val.first)), false);
+				}
 			}
-			iterator insert (iterator position, const value_type& val)
+			iterator						insert(iterator position, const value_type& val)
 			{
-				(void)position;
-				(void)val;
-				return iterator();
+				_tree.sortAll();
+				iterator new_pos = this->insert(val);
+				_tree.repos(_tree.root(), _tree.getNode(val.first), *position->_currentPos);
+				return(new_pos);
 			}
 			template <class InputIterator>
-			void insert (InputIterator first, InputIterator last)
+			void							insert(InputIterator first, InputIterator last)
 			{
-				(void)first;
-				(void)last;
+				for (InputIterator it = first; it != last; it++)
+					this->insert(*it);
 			}
-			void erase (iterator position)
+			void							erase(iterator position)
 			{
-				// ! just for testing
-				(void)position;
-				// _tree.erase(pos);
+				if (position == this->end())
+					return ;
+				_tree.erase(*position);
 			}
-			size_type erase (const key_type& k)
+			size_type						erase(const key_type& k)
 			{
-				// ! just for testing
-				(void)k;
-				// _tree.erase(_tree.find(k));
+				if (!_tree.find(k))
+					return 0;
+				_tree.erase(_tree.find(k)->data);
 				return 1;
 			}
-			void erase (iterator first, iterator last)
+			void							erase(iterator first, iterator last)
 			{
-				// ! just for testing
-				(void)first;
-				(void)last;
+				for (iterator it = first; it != last; it++)
+					this->erase(it);
 			}
-			
+			void							swap(map& x)
+			{
+				map temp = x;
+				x = *this;
+				*this = temp;
+			}
 			/*					Operations						*/
-			iterator					find(const key_type& k){return iterator(_tree, _tree.find(k));}
-			const_iterator				find(const key_type& k)const{return const_iterator(_tree, _tree.find(k));}
-			size_type 					count(const key_type& k) const{(void)k; return 1;}
-			iterator					lower_bound(const key_type& k)
+			iterator						find(const key_type& k){return iterator(_tree, _tree.find(k));}
+			const_iterator					find(const key_type& k)const{return const_iterator(_tree, _tree.find(k));}
+			size_type 						count(const key_type& k) const{(void)k; return 1;}
+			iterator						lower_bound(const key_type& k)
 			{
 				if (_comp(k, _tree.getNode(_tree.root(), MIN)->data.first))
 					return (iterator(_tree, _tree.getNode(_tree.root(), MIN)));
 				else if (_comp(_tree.getNode(_tree.root(), MAX)->data.first, k))
-					return (iterator(_tree, _tree.getNode(_tree.root(), MAX)));
+					return (iterator(_tree, _tree.getPastTheEnd()));
 				else
 					return iterator(_tree, _tree.find(k));
 			}
-			const_iterator				lower_bound(const key_type& k) const
+			const_iterator					lower_bound(const key_type& k) const
 			{
 				if (_comp(k, _tree.getNode(_tree.root(), MIN)->data.first))
 					return (const_iterator(_tree, _tree.getNode(_tree.root(), MIN)));
 				else if (_comp(_tree.getNode(_tree.root(), MAX)->data.first, k))
-					return (const_iterator(_tree, _tree.getNode(_tree.root(), MAX)));
+					return (const_iterator(_tree, _tree.getPastTheEnd()));
 				else
 					return const_iterator(_tree, _tree.find(k));
 			}
-			iterator					upper_bound(const key_type& k)
+			iterator						upper_bound(const key_type& k)
 			{
 				if (_comp(k, _tree.getNode(_tree.root(), MIN)->data.first))
 					return (iterator(_tree, _tree.getNode(_tree.root(), MIN)));
 				else if (_comp(_tree.getNode(_tree.root(), MAX)->data.first, k))
-					return (iterator(_tree, _tree.getNode(_tree.root(), MAX)));
+					return (iterator(_tree, _tree.getPastTheEnd()));
 				else
 				{
 					if (_tree.find(k)->pos == _tree.getNode(_tree.root(), MAX)->pos)
@@ -197,12 +215,12 @@ namespace ft
 						return iterator(_tree, _tree.search_node(_tree.find(k)->pos + 1));
 				}
 			}
-			const_iterator				upper_bound(const key_type& k)const
+			const_iterator					upper_bound(const key_type& k)const
 			{
 				if (_comp(k, _tree.getNode(_tree.root(), MIN)->data.first))
 					return (const_iterator(_tree, _tree.getNode(_tree.root(), MIN)));
 				else if (_comp(_tree.getNode(_tree.root(), MAX)->data.first, k))
-					return (const_iterator(_tree, _tree.getNode(_tree.root(), MAX)));
+					return (const_iterator(_tree, _tree.getPastTheEnd()));
 				else
 				{
 					if (_tree.find(k)->pos == _tree.getNode(_tree.root(), MAX)->pos)
@@ -213,30 +231,23 @@ namespace ft
 			}
 			ft::pair<const_iterator,const_iterator> equal_range (const key_type& k) const
 			{
-				// ! just for now
 				return (ft::pair<const_iterator,const_iterator>(lower_bound(k), upper_bound(k)));
 			}
-			ft::pair<iterator,iterator>             equal_range (const key_type& k)
+			ft::pair<iterator,iterator>		equal_range (const key_type& k)
 			{
-				// ! just for now
 				return (ft::pair<iterator,iterator>(lower_bound(k), upper_bound(k)));
 			}
-
-			
 			/*					Element access					*/
-			mapped_type& operator[] (const key_type& k)
+			mapped_type&					operator[](const key_type& k)
 			{
-				// ! just for now
-				(void)k;
-				return(_tree.root()->data.second);
-			}
-			void swap (map& x)
-			{
-				// ! just for now
-				(void)x;
-			}
-			
-			
+				if (_tree.find(k))
+					return(_tree.find(k)->data.second);
+				else
+				{
+					_tree.insert(ft::pair<const key_type, mapped_type>(k, mapped_type()));
+					return (_tree.find(k)->data.second);
+				}
+			}		
 		private:
 			key_compare 				_comp;
 			allocator_type				_alloc;

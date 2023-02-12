@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   testBST.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: aaljaber <aaljaber@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 23:07:57 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/04 19:01:27 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/11 17:39:07 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,13 +137,13 @@ void printTree(ft::node<first_type>* root, Trunk *prev, bool isLeft)
 	
 	
 	
-	// bst.sortedIterator(0);
-	// bst.sortedIterator(1);
-	// bst.sortedIterator(3);
-	// bst.sortedIterator(2);
+	// bst.sortNode(0);
+	// bst.sortNode(1);
+	// bst.sortNode(3);
+	// bst.sortNode(2);
 
 	// std::cout << bst.nodeSearched->data.first << std::endl;
-	// std::cout << bst.sortedIterator(bst.root(), 1)->data.first << std::endl;
+	// std::cout << bst.sortNode(bst.root(), 1)->data.first << std::endl;
 	// std::cout << << std::endl;
 
 		
