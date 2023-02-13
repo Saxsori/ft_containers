@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   testMap.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaljaber <aaljaber@student.42abudhabi.a    +#+  +:+       +#+        */
+/*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 20:39:20 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/11 13:50:44 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/12 20:28:59 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ int main ()
 		lst.push_back(ft::pair<const int, int>(i + 1, (i + 1) * 3));
 	ft::map<int, int> mymap(lst.begin(), lst.end());
 	
-	ft::map<int, int>::iterator it = mymap.begin();
+	// ft::map<int, int>::iterator it = mymap.begin();
 	// mymap.end();
 	// std::cout << "mymap contains:" << std::endl;
-	for (; it != mymap.end(); it++)
-		std::cout << it->first << " - " << it->second << std::endl;
+	// for (; it != mymap.end(); it++)
+		// std::cout << it->first << " - " << it->second << std::endl;
 	// it++;
 	// std::cout << it->first << " - " << it->second << std::endl;
 	// std::list <std::pair<const int, int> > lst1;
@@ -45,4 +45,13 @@ int main ()
 	// }
 	
 	// std::cout << stdmap.end()->first << std::endl;
+
+	ft::map<char, float> mp;
+	mp['a'] = 2.3;
+	mp['b'] = 1.4;
+	mp['c'] = 0.3;
+	mp['d'] = 4.2;
+	
+	ft::map<char, float>::const_iterator itm = mp.begin();
+	std::cout << itm->first << std::endl;
 }

@@ -6,8 +6,9 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # PARTICULAR PURPOSE.
 
 # This program built for i386-apple-darwin11.3.0
+ 
 
-# Make data base, printed on Wed Feb  8 00:47:12 2023
+# Make data base, printed on Sun Feb 12 23:11:26 2023
 
 # Variables
 
@@ -18,7 +19,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # makefile (from `makefile', line 15)
 OBJ = ${SRC:.cpp=.o}
 # makefile (from `makefile', line 13)
-SRC = ./TESTCASES/map/testBST.cpp  
+SRC = ./TESTCASES/map/testMap.cpp  
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
 # automatic
@@ -26,7 +27,7 @@ SRC = ./TESTCASES/map/testBST.cpp
 # automatic
 @F = $(notdir $@)
 # makefile
-CURDIR := /Users/abrar/Desktop/42-Dev/src/Cursus/ft_containers
+CURDIR := /Users/abrar/Desktop/DEVELOPMENT/42-Devcontainer/src/Cursus/ft_containers
 # makefile
 SHELL = /bin/sh
 # makefile (from `makefile', line 23)
@@ -48,8 +49,6 @@ PATH = /opt/homebrew/opt/openjdk/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/
 # environment
 LSCOLORS = Gxfxcxdxbxegedabagacad
 # environment
-LaunchInstanceID = AC182540-8FF6-4689-BF94-EB2C6FB92675
-# environment
 ELECTRON_RUN_AS_NODE = 1
 # default
 .FEATURES := target-specific order-only second-expansion else-if archives jobserver check-symlink
@@ -58,7 +57,7 @@ SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.3eE6LUvVIj/Listeners
 # automatic
 %F = $(notdir $%)
 # environment
-PWD = /Users/abrar/Desktop/42-Dev/src/Cursus/ft_containers
+PWD = /Users/abrar/Desktop/DEVELOPMENT/42-Devcontainer/src/Cursus/ft_containers
 # environment
 ORIGINAL_XDG_CURRENT_DESKTOP = undefined
 # environment
@@ -68,11 +67,11 @@ HOME = /Users/abrar
 # default
 MAKEFILEPATH = $(shell /usr/bin/xcode-select -print-path 2>/dev/null || echo /Developer)/Makefiles
 # environment
-VSCODE_CODE_CACHE_PATH = /Users/abrar/Library/Application Support/Code/CachedData/e2816fe719a4026ffa1ee0189dc89bdfdbafb164
+VSCODE_CODE_CACHE_PATH = /Users/abrar/Library/Application Support/Code/CachedData/441438abd1ac652551dbe4d408dfcec8a499b8bf
 # environment
 LOGNAME = abrar
 # environment
-APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
 # environment
 ZSH = /Users/abrar/.oh-my-zsh
 # environment
@@ -108,7 +107,7 @@ TMPDIR = /var/folders/tf/h1_k8wk91w3b7v3vlh1n3j_r0000gn/T/
 # automatic
 *F = $(notdir $*)
 # environment
-VSCODE_IPC_HOOK = /Users/abrar/Library/Application Support/Code/1.75.0-main.sock
+VSCODE_IPC_HOOK = /Users/abrar/Library/Application Support/Code/1.75.1-main.sock
 # environment
 MallocNanoZone = 0
 # makefile
@@ -118,7 +117,7 @@ MFLAGS = -Rrqp
 # automatic
 *D = $(patsubst %/,%,$(dir $*))
 # environment
-XPC_SERVICE_NAME = application.com.microsoft.VSCode.37074739.37074745
+XPC_SERVICE_NAME = application.com.microsoft.VSCode.37530229.37530238
 # automatic
 +D = $(patsubst %/,%,$(dir $+))
 # environment
@@ -139,8 +138,6 @@ CXX = c++
 PAGER = less
 # environment
 LC_ALL = C
-# environment
-SECURITYSESSIONID = 186b1
 # automatic
 ^F = $(notdir $^)
 # default
@@ -152,9 +149,9 @@ MAKELEVEL := 0
 # environment
 LANG = C
 # environment
-VSCODE_PID = 576
+VSCODE_PID = 4956
 # variable set hash-table stats:
-# Load=71/1024=7%, Rehash=0, Collisions=3/99=3%
+# Load=69/1024=7%, Rehash=0, Collisions=3/97=3%
 
 # Pattern-specific Variable Values
 
@@ -162,9 +159,9 @@ VSCODE_PID = 576
 
 # Directories
 
-# . (device 16777234, inode 35590536): 14 files, no impossibilities.
+# . (device 16777234, inode 35590536): 15 files, no impossibilities.
 
-# 14 files, no impossibilities in 1 directories.
+# 15 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -176,7 +173,8 @@ all: ft_containers
 #  Command-line target.
 #  Implicit rule search has been done.
 #  File does not exist.
-#  File has not been updated.
+#  File has been updated.
+#  Successfully updated.
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
@@ -189,7 +187,7 @@ all: ft_containers
 # Not a target:
 makefile:
 #  Implicit rule search has been done.
-#  Last modified 2023-02-06 01:56:36
+#  Last modified 2023-02-10 22:38:54
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -204,10 +202,11 @@ fclean: clean
 	
 
 # Not a target:
-TESTCASES/map/testBST.o:
+TESTCASES/map/testMap.o:
 #  Implicit rule search has been done.
-#  File does not exist.
-#  File has not been updated.
+#  Last modified 2023-02-12 05:41:43
+#  File has been updated.
+#  Successfully updated.
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
@@ -217,10 +216,11 @@ TESTCASES/map/testBST.o:
 #  Modification time never checked.
 #  File has not been updated.
 
-ft_containers: TESTCASES/map/testBST.o
+ft_containers: TESTCASES/map/testMap.o
 #  Implicit rule search has not been done.
-#  Last modified 2023-02-04 22:03:12
-#  File has not been updated.
+#  Last modified 2023-02-12 05:41:43
+#  File has been updated.
+#  Successfully updated.
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 #  commands to execute (from `makefile', line 28):
@@ -253,8 +253,6 @@ clean:
 # strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
 # strcache free: total = 4087 / max = 4087 / min = 4087 / avg = 4087
 
-# Finished Make data base on Wed Feb  8 00:47:12 2023
+# Finished Make data base on Sun Feb 12 23:11:26 2023
 
  
-make: *** No rule to make target `TESTCASES/map/testBST.o', needed by `ft_containers'.  Stop.
-

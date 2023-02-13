@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:09:17 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/11 20:09:45 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/13 03:58:15 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -380,7 +380,9 @@ namespace ft
 			ft::node<data_type>		*_createPastTheEnd(void)
 			{
 				ft::node<data_type>	*node;
+				// std::cout << "here" << std::endl;
 				node = _allocNode.allocate(1);
+				// std::cout << "here" << std::endl;
 				_allocData.construct(&node->data, data_type());
 				node->color = BLACK;
 				node->left = NULL;
@@ -435,7 +437,10 @@ namespace ft
 			
 		public:
 			mutable int counter;
-			binary_search_tree():_nodeSearched(NULL),_root(NULL),_comp(),_size(0){_pastTheEnd = _createPastTheEnd(); _root = _pastTheEnd;};
+			binary_search_tree(void):_nodeSearched(NULL),_root(NULL),_comp(),_size(0){
+				std::cout << "tree" << std::endl;
+				_pastTheEnd = _createPastTheEnd(); 
+				_root = _pastTheEnd;};
 			binary_search_tree(const binary_search_tree &x):_nodeSearched(NULL),_root(NULL),_comp(),_size(0){*this = x;}
 			binary_search_tree &operator=(const binary_search_tree &x)
 			{
@@ -454,11 +459,11 @@ namespace ft
 				}
 				return *this;
 			}
-			~binary_search_tree(){/*_deleteTree(_root);*/}
-			ft::node<data_type>			*root() const {return _root;}
-			size_t						size() const {return _size;}
-			void						clear() {if (_root) {_deleteTree(_root); _root = NULL;} _size = 0;}
-			size_t						max_size() const {return _allocNode.max_size();}
+			~binary_search_tree(){/*if (_root) {_deleteTree(_root);}*/}
+			ft::node<data_type>			*root(void) const {return _root;}
+			size_t						size(void) const {return _size;}
+			void						clear(void) {if (_root) {_deleteTree(_root); _root = NULL;} _size = 0;}
+			size_t						max_size(void) const {return _allocNode.max_size();}
 			void						repos(ft::node<data_type> *traversal, ft::node<data_type> *node, int pos) const
 			{
 				if (!traversal)
@@ -470,7 +475,7 @@ namespace ft
 					traversal->pos = pos;
 				repos(traversal->right, node, pos);
 			}
-			void						sortAll() const
+			void						sortAll(void) const
 			{
 				for (size_t i = 0; i < _size; i++)
 					search_node(i);
@@ -511,6 +516,7 @@ namespace ft
 				this->counter++;
 				sortNode(node->right, pos);
 			}
+			ft::node<data_type>			*getPastTheEnd(void) const {return _pastTheEnd;}
 			ft::node<data_type>			*getNode(ft::node<data_type> *node, int option) const
 			{
 				if (option == MIN)
@@ -531,8 +537,6 @@ namespace ft
 				}
 				return NULL;
 			}
-			ft::node<data_type>*				getPastTheEnd(void) const {return _pastTheEnd;}
-
 			ft::node<data_type>			*getNode(data_type data) const
 			{
 				ft::node<data_type> *traversal = _root;
@@ -608,6 +612,7 @@ namespace ft
 								node = node->parent;
 								_allocNode.deallocate(node->right, 1);
 								node->right = NULL;
+								_size--;
 							}
 							else if (node->parent->left == node)
 							{
@@ -617,6 +622,7 @@ namespace ft
 								node = node->parent;
 								_allocNode.deallocate(node->left, 1);
 								node->left = NULL;
+								_size--;
 							}
 						}
 						else
@@ -624,6 +630,7 @@ namespace ft
 							_allocData.destroy(&node->data);
 							_allocNode.deallocate(node, 1);
 							_root = NULL;
+							_size--;
 						}
 					}
 					else

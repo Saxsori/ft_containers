@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bidirectional_iterator.hpp                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaljaber <aaljaber@student.42abudhabi.a    +#+  +:+       +#+        */
+/*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 15:57:11 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/11 17:37:06 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/13 14:21:15 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,20 @@ namespace ft
 	{	
 		public:
 		typedef	Tree					tree;
-		typedef typename Tree::Node		node;
+		typedef ft::node<T>*	node;
+		// typedef typename Tree::Node		node;
 		mutable node 							_currentNode;
-		map_iterator(void): _currentNode(NULL){}
-		map_iterator(node _node): _currentNode(_node){}
+		map_iterator(void){
+			std::cerr << "before Assign" << std::endl;
+			_currentNode = NULL;
+			std::cerr << "after Assign" << std::endl;
+			}
+		// map_iterator(node _node): _currentNode(_node){}
+		map_iterator(node _node){
+			std::cerr << "before Assign" << std::endl;
+			_currentNode = _node;
+			std::cerr << "after Assign" << std::endl;
+			}
 		~map_iterator(void){}
 		T& operator*(void) const
 		{
@@ -52,10 +62,20 @@ namespace ft
 	{
 		public:
 		typedef	Tree					tree;
-		typedef typename Tree::Node		node;
+		
+		typedef ft::node<T>*	node;
 		mutable node 							_currentNode;
-		map_iterator(void): _currentNode(NULL){}
-		map_iterator(node _node): _currentNode(_node){}
+		map_iterator(void){
+			std::cerr << "before Assign" << std::endl;
+			_currentNode = NULL;
+			std::cerr << "after Assign" << std::endl;
+			}
+		// map_iterator(node _node): _currentNode(_node){}
+		map_iterator(node _node){
+			std::cerr << "before Assign" << std::endl;
+			_currentNode = _node;
+			std::cerr << "after Assign" << std::endl;
+			}
 		~map_iterator(void){}
 		const T& operator*(void) const
 		{
@@ -77,14 +97,16 @@ namespace ft
 			typedef std::ptrdiff_t																difference_type;
 			typedef ft::bidirectional_iterator_tag												iterator_category;
 			typedef ft::binary_search_tree<T, key_compare, allocator_type>						tree;
-			typedef typename tree::Node															node;
+
+			typedef typename ft::map_iterator<T, tree, is_const>::node															node;
 			typedef ft::map_iterator<T, tree, is_const> 										base;
 			
 			mutable size_t				_currentPos;
 			mutable tree				_tree;	
 		public:
 			bidirectional_iterator(void): map_iterator<T, tree, is_const>(), _currentPos(0){_tree = tree();}
-			bidirectional_iterator(tree Tree, node _node):map_iterator<T, tree, is_const>(_node), _tree(Tree){
+			bidirectional_iterator(tree Tree, node _node):map_iterator<T, tree, is_const>(), _tree(Tree){
+				std::cout << "inside iterator" << std::endl;
 				if (!_node) 
 				{
 					// std::cout << "NULL" << std::endl;
@@ -100,8 +122,32 @@ namespace ft
 					this->_currentNode = _node;
 					this->_currentPos = _node->pos;
 				}
+				std::cout << "at the end of the iteratir" << std::endl;
 				}
-			bidirectional_iterator(const bidirectional_iterator<T, key_compare, allocator_type, false> &other):map_iterator<T, tree, is_const>(other._currentNode){*this = other;}
+				/*
+					when having this only it doens't compile error .. and pass all the cases
+					but without the true overload .. for some reason it doesn't know where to go
+					and enters an infinite loop
+				*/
+			bidirectional_iterator(const bidirectional_iterator<T, key_compare, allocator_type, false> &other):map_iterator<T, tree, is_const>(){
+				std::cout << "b4 assign oper" << std::endl; 
+				std::cout << "inside assign oper" << std::endl;
+				base::_currentNode = other._currentNode;
+				_currentPos = other._currentPos;
+				_tree = other._tree;
+				// *this = other;
+				std::cout << "after assign oper" << std::endl;
+				}
+
+			bidirectional_iterator(const bidirectional_iterator<T, key_compare, allocator_type, true> &other):map_iterator<T, tree, is_const>(){
+				std::cout << "b4 assign oper" << std::endl; 
+				std::cout << "inside assign oper" << std::endl;
+				base::_currentNode = other._currentNode;
+				_currentPos = other._currentPos;
+				_tree = other._tree;
+				// *this = other; 
+				std::cout << "after assign oper" << std::endl;
+				}
 			~bidirectional_iterator(void){}
 			// operator map_iterator<T, tree, is_const>()
 			// {
@@ -110,6 +156,7 @@ namespace ft
 			// * Assignment operator
 			bidirectional_iterator &operator=(const bidirectional_iterator &other)
 			{
+				std::cout << "inside assign oper" << std::endl;
 				base::_currentNode = other._currentNode;
 				_currentPos = other._currentPos;
 				_tree = other._tree;

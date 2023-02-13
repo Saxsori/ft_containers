@@ -3,14 +3,14 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aaljaber <aaljaber@student.42abudhabi.a    +#+  +:+       +#+         #
+#    By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/05 12:34:58 by aaljaber          #+#    #+#              #
-#    Updated: 2023/02/10 18:38:54 by aaljaber         ###   ########.fr        #
+#    Updated: 2023/02/12 20:33:26 by aaljaber         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC = ./TESTCASES/map/testMap.cpp  
+SRC = ./TESTCASES/map/testBST.cpp  
 
 OBJ = ${SRC:.cpp=.o}
 
