@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 15:43:23 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/19 02:44:24 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/19 03:12:27 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ namespace ft
 			/*  			Constructors and destructor			*/
 			explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()):_comp(comp), _alloc(alloc){
 				_tree = tree_type();}
-			explicit map(const map& x){*this = x;}
+			map(const map& x){*this = x;}
 			template <class InputIterator>
 			map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()):_comp(comp), _alloc(alloc)
 			{
@@ -234,17 +234,18 @@ namespace ft
 				else if (_comp(_tree.getNode(_tree.root(), MAX)->data.first, k))
 					return (const_iterator(_tree, _tree.getPastTheEnd()));
 				else
-					return const_iterator(_tree, _tree.find(k));
+					return iterator(_tree, _tree.find(k));
 			}
 			iterator						upper_bound(const key_type& k)
 			{
 				if (_comp(k, _tree.getNode(_tree.root(), MIN)->data.first))
 					return (iterator(_tree, _tree.getNode(_tree.root(), MIN)));
-				else if (_comp(_tree.getNode(_tree.root(), MAX)->data.first, k))
+				else if (_comp(_tree.getNode(_tree.root(), MAX)->data.first, k) || _tree.getNode(_tree.root(), MAX)->data.first == k)
 					return (iterator(_tree, _tree.getPastTheEnd()));
 				else
 				{
 					if (_tree.find(k)->pos == _tree.getNode(_tree.root(), MAX)->pos)
+
 						return iterator(_tree, _tree.find(k));
 					else
 						return iterator(_tree, _tree.search_node(_tree.find(k)->pos + 1));
@@ -254,7 +255,7 @@ namespace ft
 			{
 				if (_comp(k, _tree.getNode(_tree.root(), MIN)->data.first))
 					return (const_iterator(_tree, _tree.getNode(_tree.root(), MIN)));
-				else if (_comp(_tree.getNode(_tree.root(), MAX)->data.first, k))
+				else if (_comp(_tree.getNode(_tree.root(), MAX)->data.first, k) ||  _tree.getNode(_tree.root(), MAX)->data.first == k)
 					return (const_iterator(_tree, _tree.getPastTheEnd()));
 				else
 				{
