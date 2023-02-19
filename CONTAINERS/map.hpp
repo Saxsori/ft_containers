@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 15:43:23 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/19 02:30:49 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/19 02:44:24 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,9 +185,19 @@ namespace ft
 			}
 			void							swap(map& x)
 			{
-				map temp = x;
-				x = *this;
-				*this = temp;
+				map temp;
+				
+				temp._alloc = _alloc;
+				temp._tree = _tree;
+				temp._comp = _comp;
+				
+				_comp = x._comp;
+				_alloc = x._alloc;
+				_tree = x._tree;
+
+				x._comp = temp._comp;
+				x._alloc = temp._alloc;
+				x._tree = temp._tree;
 			}
 			/*					Operations						*/
 			iterator						find(const key_type& k)
