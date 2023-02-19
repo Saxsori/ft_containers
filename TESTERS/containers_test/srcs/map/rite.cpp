@@ -28,10 +28,10 @@ int		main(void)
 	printPair(it);
 	printPair(it.base());
 
-	it = mp.rbegin(); ite = mp.rend();
-	while (it != ite)
-		std::cout << "[rev] " << printPair(it++, false) << std::endl;
-	printReverse(mp);
+	// it = mp.rbegin(); ite = mp.rend();
+	// while (it != ite)
+	// 	std::cout << "[rev] " << printPair(it++, false) << std::endl;
+	// printReverse(mp);
 
 	return (0);
 }

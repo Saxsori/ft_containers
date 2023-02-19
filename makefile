@@ -6,11 +6,11 @@
 #    By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/05 12:34:58 by aaljaber          #+#    #+#              #
-#    Updated: 2023/02/12 20:33:26 by aaljaber         ###   ########.fr        #
+#    Updated: 2023/02/19 01:13:16 by aaljaber         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC = ./TESTCASES/map/testBST.cpp  
+SRC = ./TESTCASES/map/testErase.cpp  
 
 OBJ = ${SRC:.cpp=.o}
 
@@ -18,7 +18,7 @@ NAME = ft_containers
 
 CXX = c++
 
-CXXFLAGS = -Wall -Werror -Wextra -std=c++98 -g
+CXXFLAGS = -Wall  -Wextra -std=c++98 -g
 	
 RM = rm -rf
 

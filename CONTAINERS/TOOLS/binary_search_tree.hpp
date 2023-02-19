@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:09:17 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/13 03:58:15 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/19 01:19:00 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,14 @@ namespace ft
 				// std::cout << "Deleting node: " << node->data->first << std::endl;
 				_allocData.destroy(&node->data);
 				_allocNode.deallocate(node, 1);
+			}
+			ft::node<data_type>*				_copyTree(ft::node<data_type>* node)
+			{
+				if (node == NULL) return NULL;
+				ft::node<data_type>* newNode = _createNode(node->data);
+				newNode->left = _copyTree(node->left);
+				newNode->right = _copyTree(node->right);
+				return (newNode);
 			}
 			bool							_isBlackNode(ft::node<data_type> *node)
 			{
@@ -380,9 +388,7 @@ namespace ft
 			ft::node<data_type>		*_createPastTheEnd(void)
 			{
 				ft::node<data_type>	*node;
-				// std::cout << "here" << std::endl;
 				node = _allocNode.allocate(1);
-				// std::cout << "here" << std::endl;
 				_allocData.construct(&node->data, data_type());
 				node->color = BLACK;
 				node->left = NULL;
@@ -402,16 +408,11 @@ namespace ft
 					node = getNode(_root, MAX);
 					if (node)
 					{
-						// std::cout << "--->set past the end" << std::endl;
-						// std::cout << "max val " << node->data.first << std::endl;
 						_pastTheEnd->parent = NULL;
 						_pastTheEnd->left = NULL;
 						_pastTheEnd->right = NULL;
 						node->right = _pastTheEnd;
 						_pastTheEnd->parent = node;
-						// node->right->parent = node;
-						// std::cout << "pst dada val " << _pastTheEnd->parent->data.first << std::endl;
-						// std::cout << "max node right child is PTE " << node->right->isPastTheEnd << std::endl;
 					}
 				}
 				else
@@ -419,13 +420,13 @@ namespace ft
 			}
 			void				_removePastTheEnd(void)
 			{
-				// ft::node<data_type>	*node;
+				// ft::node<data_type>	*temp = NULL;
 				if (_root)
 				{
 					if (!_root->isPastTheEnd)
 					{
+						// temp = _pastTheEnd->parent->right;
 						_pastTheEnd->parent->right = NULL;
-						// _root->right  = NULL;
 					}
 					else
 						_root = NULL;
@@ -433,14 +434,16 @@ namespace ft
 					_pastTheEnd->left = NULL;
 					_pastTheEnd->right = NULL;
 				}
+					// temp = NULL;
 			}
 			
 		public:
 			mutable int counter;
-			binary_search_tree(void):_nodeSearched(NULL),_root(NULL),_comp(),_size(0){
-				std::cout << "tree" << std::endl;
+			binary_search_tree(void):_nodeSearched(NULL),_root(NULL),_comp(),_size(0)
+			{
 				_pastTheEnd = _createPastTheEnd(); 
-				_root = _pastTheEnd;};
+				_root = _pastTheEnd;
+			}
 			binary_search_tree(const binary_search_tree &x):_nodeSearched(NULL),_root(NULL),_comp(),_size(0){*this = x;}
 			binary_search_tree &operator=(const binary_search_tree &x)
 			{
@@ -459,10 +462,10 @@ namespace ft
 				}
 				return *this;
 			}
-			~binary_search_tree(){/*if (_root) {_deleteTree(_root);}*/}
+			~binary_search_tree(){}
 			ft::node<data_type>			*root(void) const {return _root;}
 			size_t						size(void) const {return _size;}
-			void						clear(void) {if (_root) {_deleteTree(_root); _root = NULL;} _size = 0;}
+			void						clear(void) {if (_root) _deleteTree(_root);  _root = NULL; _size = 0; _pastTheEnd = NULL;}
 			size_t						max_size(void) const {return _allocNode.max_size();}
 			void						repos(ft::node<data_type> *traversal, ft::node<data_type> *node, int pos) const
 			{
@@ -610,6 +613,8 @@ namespace ft
 								if (node->color == BLACK)
 									_resolveDB(node);
 								node = node->parent;
+								// if (node->right == _pastTheEnd)
+								// 	_pastTheEnd = NULL;
 								_allocNode.deallocate(node->right, 1);
 								node->right = NULL;
 								_size--;
@@ -620,6 +625,8 @@ namespace ft
 								if (node->color == BLACK)
 									_resolveDB(node);
 								node = node->parent;
+								// if (node->right == _pastTheEnd)
+								// 	_pastTheEnd = NULL;
 								_allocNode.deallocate(node->left, 1);
 								node->left = NULL;
 								_size--;
@@ -630,6 +637,7 @@ namespace ft
 							_allocData.destroy(&node->data);
 							_allocNode.deallocate(node, 1);
 							_root = NULL;
+							// _pastTheEnd = NULL;
 							_size--;
 						}
 					}
@@ -653,14 +661,15 @@ namespace ft
 				_setPastTheEnd();
 				sortAll();
 			}
-			template <class key_type>
+			template <class valAlloc>
 			void			replaceVal(data_type data)
 			{
+				valAlloc allocSec;
 				ft::node<data_type>	*node = getNode(data);
 				if (node)
 				{
-					_allocData.destroy(&node->data);
-					_allocData.construct(&node->data, data);
+					allocSec.destroy(&node->data.second);
+					allocSec.construct(&node->data.second, data.second);
 				}
 			}
 	};

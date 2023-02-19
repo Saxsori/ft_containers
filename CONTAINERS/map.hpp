@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 15:43:23 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/13 01:55:37 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/18 22:39:28 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include "../ITERATORS/bidirectional_reverse_iterator.hpp"
 #define MIN 1
 #define MAX 2
+#include <vector>
 namespace ft
 {
 	/*
@@ -61,7 +62,8 @@ namespace ft
 			typedef ft::binary_search_tree<value_type, key_compare, allocator_type>					tree_type;
 			
 			/*  			Constructors and destructor			*/
-			explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()):_comp(comp), _alloc(alloc){_tree = tree_type();}
+			explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()):_comp(comp), _alloc(alloc){
+				_tree = tree_type();}
 			explicit map(const map& x){*this = x;}
 			template <class InputIterator>
 			map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()):_comp(comp), _alloc(alloc)
@@ -105,15 +107,15 @@ namespace ft
 					}
 			};
 			/*					Capacity						*/
-			bool							empty(void)const{return (_tree.root()==NULL);}
+			bool							empty(void)const{return (_tree.root()==NULL || _tree.root() == _tree.getPastTheEnd());}
 			size_type						size(void)const{return _tree.size();}
 			size_type						max_size(void)const{return _tree.max_size();}
 			/*					Iterator						*/
 			iterator						begin(void){
-				std::cout << "inside begin" << std::endl;
+				// std::cout << "inside begin" << std::endl;
 				return iterator(_tree, _tree.getNode(_tree.root(), MIN));}
 			const_iterator					begin(void)const{
-				std::cout << "inside const begin" << std::endl;
+				// std::cout << "inside const begin" << std::endl;
 				return const_iterator(_tree, _tree.getNode(_tree.root(), MIN));}
 				
 			iterator						end(void){return iterator(_tree, _tree.getPastTheEnd());}
@@ -132,23 +134,18 @@ namespace ft
 			
 			ft::pair<iterator,bool>			insert(const value_type& val)
 			{
-				if (_tree.find(val.first) != NULL || (_tree.find(val.first) && _tree.find(val.first)->isPastTheEnd))
+				if (_tree.find(val.first) == NULL)
 				{
 					_tree.insert(val);
 					return ft::pair<iterator, bool>(iterator(_tree, _tree.find(val.first)), true);
 				}
 				else
-				{
-					_tree.replaceVal(val);
 					return ft::pair<iterator, bool>(iterator(_tree, _tree.find(val.first)), false);
-				}
 			}
 			iterator						insert(iterator position, const value_type& val)
 			{
-				_tree.sortAll();
-				iterator new_pos = this->insert(val);
-				_tree.repos(_tree.root(), _tree.getNode(val.first), *position->_currentPos);
-				return(new_pos);
+				(void)position;
+				return(this->insert(val).first);
 			}
 			template <class InputIterator>
 			void							insert(InputIterator first, InputIterator last)
@@ -171,8 +168,20 @@ namespace ft
 			}
 			void							erase(iterator first, iterator last)
 			{
+				// int i = 0;
+				std::vector<key_type> keys;
+				// int i = 0;
 				for (iterator it = first; it != last; it++)
-					this->erase(it);
+				{
+					keys.push_back(it->first);
+					// std::cout << i << std::endl;
+					// i++;
+				}
+				for (size_t i = 0; i < keys.size(); i++)
+				{
+					_tree.erase(_tree.find(keys[i])->data);
+				}
+				
 			}
 			void							swap(map& x)
 			{
