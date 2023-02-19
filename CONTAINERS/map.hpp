@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 15:43:23 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/18 22:39:28 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/19 02:30:49 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,9 +190,24 @@ namespace ft
 				*this = temp;
 			}
 			/*					Operations						*/
-			iterator						find(const key_type& k){return iterator(_tree, _tree.find(k));}
-			const_iterator					find(const key_type& k)const{return const_iterator(_tree, _tree.find(k));}
-			size_type 						count(const key_type& k) const{(void)k; return 1;}
+			iterator						find(const key_type& k)
+			{
+				if (_tree.find(k))
+					return iterator(_tree, _tree.find(k));
+				return iterator(_tree, _tree.getPastTheEnd());
+			}
+			const_iterator					find(const key_type& k)const
+			{
+				if (_tree.find(k))
+					return const_iterator(_tree, _tree.find(k));
+				return const_iterator(_tree, _tree.getPastTheEnd());
+			}
+			size_type 						count(const key_type& k) const
+			{
+				if (_tree.find(k))
+					return 1;
+				return 0;
+			}
 			iterator						lower_bound(const key_type& k)
 			{
 				if (_comp(k, _tree.getNode(_tree.root(), MIN)->data.first))
