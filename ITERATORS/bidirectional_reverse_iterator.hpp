@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 23:03:41 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/30 04:28:10 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/20 05:37:37 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ namespace ft
 			// destructor
 			~bidirectional_reverse_iterator() {}
 			// dereference operator
-			reference									operator*()const{iterator_type temp = _current; return (*--temp);}
+			reference									operator*()const{iterator_type temp = _current; return *(--temp);}
 			pointer										operator->()const{return (&(operator*()));} //Returns a pointer to the element pointed to by the iterator
 			bidirectional_reverse_iterator&				operator++(){_current--; return (*this);}
 			bidirectional_reverse_iterator				operator++(int){bidirectional_reverse_iterator temp = *this; _current--; return (temp);}

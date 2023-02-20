@@ -36,6 +36,6 @@ int		main(void)
 	std::cout << "\t-- PART TWO --" << std::endl;
 	printSize(mp);
 	printSize(mp_range);
-	printSize(mp_copy);
+	// printSize(mp_copy);
 	return (0);
 }

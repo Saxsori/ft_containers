@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 15:43:23 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/20 03:25:53 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/20 08:27:44 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ namespace ft
 			}
 			map& operator=(const map& x)
 			{
+				// std::cout << "map = ope" << std::endl;
+				
 				_alloc = x.get_allocator();
 				_tree = x._tree;
 				return *this;

@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:09:17 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/20 05:03:46 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/20 08:25:49 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -463,6 +463,7 @@ namespace ft
 				// ! this is a shallow copy be careful .. not sure if deep copy is needed
 				if (this != &x)
 				{
+					// std::cout << "bst = ope" << std::endl;
 					// if (_root == _pastTheEnd)
 					// {
 					// 	_removePastTheEnd();
@@ -491,7 +492,10 @@ namespace ft
 			}
 			~binary_search_tree()
 			{
-				
+				// if (_root)
+				// 	std::cout << "root is not null" << std::endl;
+				// if (_pastTheEnd)
+				// 	std::cout << "PTE is not null" << std::endl;
 				// if (_root && _root == _pastTheEnd)
 				// {
 				// 	std::cout << "destruc here" <<std::endl;
@@ -547,7 +551,19 @@ namespace ft
 			}
 			ft::node<data_type>			*root(void) const {return _root;}
 			size_t						size(void) const {return _size;}
-			void						clear(void) {if (_root) _deleteTree(_root);  _root = NULL; _size = 0; _pastTheEnd = NULL;}
+			void						clear(void) 
+			{
+				if (_root == _pastTheEnd)
+					return ;
+				_removePastTheEnd();
+				if (_root) 
+				{
+					_deleteTree(_root);
+					_root = NULL;
+				}
+				_setPastTheEnd();
+				_size = 0;
+			}
 			size_t						max_size(void) const {return _allocNode.max_size();}
 			void						repos(ft::node<data_type> *traversal, ft::node<data_type> *node, int pos) const
 			{
