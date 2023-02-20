@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 15:57:11 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/19 01:01:09 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/20 03:29:09 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,9 +100,10 @@ namespace ft
 			mutable size_t				_currentPos;
 			mutable tree				_tree;	
 		public:
-			bidirectional_iterator(void): map_iterator<T, tree, is_const>(), _currentPos(0){_tree = tree();}
-			bidirectional_iterator(tree Tree, node _node):map_iterator<T, tree, is_const>(), _tree(Tree)
+			bidirectional_iterator(void): map_iterator<T, tree, is_const>(), _currentPos(0),_tree(){}
+			bidirectional_iterator(tree Tree, node _node):map_iterator<T, tree, is_const>()
 			{
+				_tree = Tree;
 				if (!_node) 
 				{
 					this->_currentNode = NULL;

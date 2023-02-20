@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:09:17 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/19 04:40:43 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/20 03:50:07 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -387,6 +387,7 @@ namespace ft
 			ft::node<data_type>*	_pastTheEnd;
 			ft::node<data_type>		*_createPastTheEnd(void)
 			{
+				std::cout << "calling PTE" << std::endl;
 				ft::node<data_type>	*node;
 				node = _allocNode.allocate(1);
 				_allocData.construct(&node->data, data_type());
@@ -426,6 +427,8 @@ namespace ft
 					if (!_root->isPastTheEnd)
 					{
 						// temp = _pastTheEnd->parent->right;
+						if (_pastTheEnd->parent == _root)
+							std::cout << "parent is the root" << std::endl;
 						_pastTheEnd->parent->right = NULL;
 					}
 					else
@@ -439,21 +442,45 @@ namespace ft
 			
 		public:
 			mutable int counter;
-			binary_search_tree(void):_nodeSearched(NULL),_root(NULL),_comp(),_size(0)
+			binary_search_tree(void)
 			{
+				std::cout << "2here " << std::endl;
+				_nodeSearched = NULL;
+				_root = NULL;
+				_comp = key_compare();
+				_size = 0;
 				_pastTheEnd = _createPastTheEnd(); 
 				_root = _pastTheEnd;
 			}
-			binary_search_tree(const binary_search_tree &x):_nodeSearched(NULL),_root(NULL),_comp(),_size(0){*this = x;}
+			binary_search_tree(const binary_search_tree &x):_nodeSearched(NULL),_root(NULL),_comp(),_size(0),_pastTheEnd(NULL)
+			{
+				std::cout << "1here " << std::endl;
+				*this = x;
+			}
 			binary_search_tree &operator=(const binary_search_tree &x)
 			{
+				std::cout << "here " << std::endl;
 				// ! this is a shallow copy be careful .. not sure if deep copy is needed
 				if (this != &x)
 				{
+					if (_root == _pastTheEnd)
+					{
+						_removePastTheEnd();
+						_allocData.destroy(&_pastTheEnd->data);
+						_allocNode.deallocate(_pastTheEnd, 1);
+						_pastTheEnd = NULL;
+						_root = NULL;
+					}
 					if (_root)
 					{
+						if (_pastTheEnd)
+						{
+							_removePastTheEnd();
+							_allocData.destroy(&_pastTheEnd->data);
+							_allocNode.deallocate(_pastTheEnd, 1);
+							_pastTheEnd = NULL;
+						}
 						_deleteTree(_root);
-						_root = NULL;
 					}
 					_root = x._root;
 					_size = x._size;
@@ -462,7 +489,25 @@ namespace ft
 				}
 				return *this;
 			}
-			~binary_search_tree(){}
+			~binary_search_tree()
+			{
+				if (_root && _root == _pastTheEnd)
+				{
+					std::cout << "destruc here" <<std::endl;
+					_removePastTheEnd();
+					_allocData.destroy(&_pastTheEnd->data);
+					_allocNode.deallocate(_pastTheEnd, 1);
+					_pastTheEnd = NULL;
+					_root = NULL;
+				}
+				if (_root)
+				{
+					std::cout << "root is not only PTE" << std::endl;
+					if (_pastTheEnd)
+						_removePastTheEnd();
+					
+				}
+			}
 			void						swap(binary_search_tree &x)
 			{
 				ft::node<data_type>								*T_nodeSearched;
