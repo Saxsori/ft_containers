@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 15:43:23 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/19 03:12:27 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/20 02:55:27 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,22 +62,21 @@ namespace ft
 			typedef ft::binary_search_tree<value_type, key_compare, allocator_type>					tree_type;
 			
 			/*  			Constructors and destructor			*/
-			explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()):_comp(comp), _alloc(alloc){
-				_tree = tree_type();}
+			explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()):_comp(comp), _alloc(alloc){_tree = tree_type();}
 			map(const map& x){*this = x;}
 			template <class InputIterator>
 			map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()):_comp(comp), _alloc(alloc)
 			{
 				for (InputIterator it = first; it != last; it++)
-					_tree.insert(*it);
+					this->insert(*it);
 			}
-			~map(){if (_tree.root()) {_tree.clear();}}
 			map& operator=(const map& x)
 			{
 				_alloc = x.get_allocator();
 				_tree = x._tree;
 				return *this;
 			}
+			~map(){}
 			/*  			Nested class value_compare			*/
 			/*
 				* This class can be used to compare two elements to get whether the key of the first one goes before the second.
@@ -111,12 +110,8 @@ namespace ft
 			size_type						size(void)const{return _tree.size();}
 			size_type						max_size(void)const{return _tree.max_size();}
 			/*					Iterator						*/
-			iterator						begin(void){
-				// std::cout << "inside begin" << std::endl;
-				return iterator(_tree, _tree.getNode(_tree.root(), MIN));}
-			const_iterator					begin(void)const{
-				// std::cout << "inside const begin" << std::endl;
-				return const_iterator(_tree, _tree.getNode(_tree.root(), MIN));}
+			iterator						begin(void){return iterator(_tree, _tree.getNode(_tree.root(), MIN));}
+			const_iterator					begin(void)const{return const_iterator(_tree, _tree.getNode(_tree.root(), MIN));}
 				
 			iterator						end(void){return iterator(_tree, _tree.getPastTheEnd());}
 			const_iterator					end(void)const{return const_iterator(_tree, _tree.getPastTheEnd());}
@@ -134,7 +129,7 @@ namespace ft
 			
 			ft::pair<iterator,bool>			insert(const value_type& val)
 			{
-				if (_tree.find(val.first) == NULL)
+				if (_tree.find(val.first) == NULL || _tree.find(val.first) == _tree.getPastTheEnd())
 				{
 					_tree.insert(val);
 					return ft::pair<iterator, bool>(iterator(_tree, _tree.find(val.first)), true);
@@ -168,15 +163,9 @@ namespace ft
 			}
 			void							erase(iterator first, iterator last)
 			{
-				// int i = 0;
 				std::vector<key_type> keys;
-				// int i = 0;
 				for (iterator it = first; it != last; it++)
-				{
 					keys.push_back(it->first);
-					// std::cout << i << std::endl;
-					// i++;
-				}
 				for (size_t i = 0; i < keys.size(); i++)
 				{
 					_tree.erase(_tree.find(keys[i])->data);
@@ -188,16 +177,14 @@ namespace ft
 				map temp;
 				
 				temp._alloc = _alloc;
-				temp._tree = _tree;
 				temp._comp = _comp;
 				
 				_comp = x._comp;
 				_alloc = x._alloc;
-				_tree = x._tree;
 
 				x._comp = temp._comp;
 				x._alloc = temp._alloc;
-				x._tree = temp._tree;
+				_tree.swap(x._tree);
 			}
 			/*					Operations						*/
 			iterator						find(const key_type& k)

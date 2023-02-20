@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:09:17 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/19 01:19:00 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/19 04:40:43 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -463,6 +463,36 @@ namespace ft
 				return *this;
 			}
 			~binary_search_tree(){}
+			void						swap(binary_search_tree &x)
+			{
+				ft::node<data_type>								*T_nodeSearched;
+				ft::node<data_type>								*T_root;
+				key_compare										T_comp;
+				std::allocator<ft::node<data_type> >			T_allocNode;
+				allocator										T_allocData;
+				size_t											T_size;
+
+				T_nodeSearched = _nodeSearched;
+				T_root = _root;
+				T_comp = _comp;
+				T_allocNode = _allocNode;
+				T_allocData = _allocData;
+				T_size = _size;
+				
+				_nodeSearched = x._nodeSearched;
+				_root = x._root;
+				_comp = x._comp;
+				_allocNode = x._allocNode;
+				_allocData = x._allocData;
+				_size = x._size;
+				
+				x._nodeSearched = T_nodeSearched;
+				x._root = T_root;
+				x._comp = T_comp;
+				x._allocNode = T_allocNode;
+				x._allocData = T_allocData;
+				x._size = T_size;
+			}
 			ft::node<data_type>			*root(void) const {return _root;}
 			size_t						size(void) const {return _size;}
 			void						clear(void) {if (_root) _deleteTree(_root);  _root = NULL; _size = 0; _pastTheEnd = NULL;}
