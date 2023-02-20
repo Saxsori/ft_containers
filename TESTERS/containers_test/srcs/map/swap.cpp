@@ -33,14 +33,14 @@ int main (void)
 
 	std::cout << "AFTER SWAP" << std::endl;
 
-	// std::cout << "foo contains:" << std::endl;
-	// printSize(foo);
-	// std::cout << "bar contains:" << std::endl;
-	// printSize(bar);
+	std::cout << "foo contains:" << std::endl;
+	printSize(foo);
+	std::cout << "bar contains:" << std::endl;
+	printSize(bar);
 
-	// std::cout << "Iterator validity:" << std::endl;
-	// std::cout << (it_foo == bar.begin()) << std::endl;
-	// std::cout << (it_bar == foo.begin()) << std::endl;
+	std::cout << "Iterator validity:" << std::endl;
+	std::cout << (it_foo == bar.begin()) << std::endl;
+	std::cout << (it_bar == foo.begin()) << std::endl;
 
 	return (0);
 }

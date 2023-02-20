@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:09:17 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/20 04:53:07 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/20 05:03:46 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -491,6 +491,7 @@ namespace ft
 			}
 			~binary_search_tree()
 			{
+				
 				// if (_root && _root == _pastTheEnd)
 				// {
 				// 	std::cout << "destruc here" <<std::endl;
@@ -512,10 +513,13 @@ namespace ft
 			{
 				ft::node<data_type>								*T_nodeSearched;
 				ft::node<data_type>								*T_root;
+				ft::node<data_type>								*T_pastTheEnd;
 				key_compare										T_comp;
 				std::allocator<ft::node<data_type> >			T_allocNode;
 				allocator										T_allocData;
 				size_t											T_size;
+				
+				
 
 				T_nodeSearched = _nodeSearched;
 				T_root = _root;
@@ -523,6 +527,7 @@ namespace ft
 				T_allocNode = _allocNode;
 				T_allocData = _allocData;
 				T_size = _size;
+				T_pastTheEnd = _pastTheEnd;
 				
 				_nodeSearched = x._nodeSearched;
 				_root = x._root;
@@ -530,6 +535,7 @@ namespace ft
 				_allocNode = x._allocNode;
 				_allocData = x._allocData;
 				_size = x._size;
+				_pastTheEnd = x._pastTheEnd;
 				
 				x._nodeSearched = T_nodeSearched;
 				x._root = T_root;
@@ -537,6 +543,7 @@ namespace ft
 				x._allocNode = T_allocNode;
 				x._allocData = T_allocData;
 				x._size = T_size;
+				x._pastTheEnd = T_pastTheEnd;
 			}
 			ft::node<data_type>			*root(void) const {return _root;}
 			size_t						size(void) const {return _size;}
