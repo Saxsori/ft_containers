@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 15:43:23 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/20 08:27:44 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/20 18:57:33 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,21 +63,23 @@ namespace ft
 			
 			/*  			Constructors and destructor			*/
 			explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()):_comp(comp), _alloc(alloc),_tree(){}
-			map(const map& x){*this = x;}
+            map(const map& x)
+            {
+                *this = x;
+            }
 			template <class InputIterator>
 			map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()):_comp(comp), _alloc(alloc)
 			{
 				for (InputIterator it = first; it != last; it++)
 					this->insert(*it);
 			}
-			map& operator=(const map& x)
-			{
-				// std::cout << "map = ope" << std::endl;
-				
-				_alloc = x.get_allocator();
-				_tree = x._tree;
-				return *this;
-			}
+            map& operator=(const map& x)
+            {
+                if (size())
+                    erase(begin(), end());
+                insert(x.begin(), x.end()); 
+				return *this;        
+            }
 			~map(){}
 			/*  			Nested class value_compare			*/
 			/*
@@ -127,10 +129,15 @@ namespace ft
 			/*					get_allocator					*/
 			allocator_type					get_allocator(void) const{return allocator_type();}
 			/* 					Modifiers						*/
-			void 							clear(void){_tree.clear();}
+            void                            clear(void)
+            {
+				if (size())
+                	erase(begin(), end());
+            }
 			
 			ft::pair<iterator,bool>			insert(const value_type& val)
 			{
+				// std::cout << "insert" << std::endl;
 				if (_tree.find(val.first) == NULL || _tree.find(val.first) == _tree.getPastTheEnd())
 				{
 					_tree.insert(val);
