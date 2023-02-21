@@ -29,8 +29,11 @@ int		main(void)
 	printSize(mp);
 
 	for (const_it it1 = mp.begin(); it1 != mp.end(); ++it1)
+	{
+		std::cout << "here" << std::endl;
 		for (const_it it2 = mp.begin(); it2 != mp.end(); ++it2)
 			ft_comp(mp, it1, it2);
+	}
 
 	printSize(mp);
 	return (0);

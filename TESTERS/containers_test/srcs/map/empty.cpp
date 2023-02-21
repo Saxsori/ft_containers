@@ -26,7 +26,9 @@ int		main(void)
 	printSize(mp);
 
 	is_empty(mp2);
+	std::cout << "coppy" << std::endl;
 	mp2 = mp;
+	std::cout << "coppy end" << std::endl;
 	is_empty(mp2);
 
 	it = mp.begin();
@@ -38,6 +40,7 @@ int		main(void)
 
 	mp2.clear();
 	is_empty(mp2);
+	is_empty(mp);
 	printSize(mp2);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utility.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: dfurneau <dfurneau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 18:37:21 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/30 08:41:57 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/21 04:25:28 by dfurneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,14 @@ namespace ft
 		
 		first_type	first;
 		second_type	second;
-		
 		//default constructor
 		pair() : first(), second() {}
 		// initialization constructor
 		pair(const first_type& a, const second_type& b) : first(a), second(b) {}
 		// copy constructor
-		template<class U, class V> pair (const pair<U,V>& pr){*this = pr;}
+		template<class U, class V> 
+		pair (const pair<U,V>& pr): first(pr.first), second(pr.second){}
+		
 		// destructor
 		~pair() {}
 		// assignment operator
@@ -68,6 +69,6 @@ namespace ft
 		pair objects can be constructed from other pair objects containing different types, if the respective types are implicitly convertible.
 	*/
 	template <class T1, class T2>
-	ft::pair<T1,T2> make_pair(T1 x, T2 y){return (ft::pair<T1,T2>(x,y));}
+	ft::pair<T1,T2> make_pair(T1 x, T2 y){return (ft::pair<const T1,T2>(x,y));}
 }
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   binary_search_tree.hpp                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: dfurneau <dfurneau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:09:17 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/30 10:19:54 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/21 00:01:48 by dfurneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@
 #define MAX 2
 #define EQUAL 3
 #include "../vector.hpp"
+
+#include <vector>
+
 // #define DESTROY 4
 // #define DESTROY 4
 
@@ -42,6 +45,7 @@ namespace ft
 		node				*right;
 		int					color;
 		int					pos;
+		bool				isPastTheEnd;
 		template <class T>
 		node(ft::node<T> &node):data(node.data), parent(node.parent), left(node.left), right(node.right), color(node.color), pos(0){}
 		
@@ -51,14 +55,13 @@ namespace ft
 	class binary_search_tree
 	{
 		public:
-			// typedef value_type	data_type;
 			typedef ft::node<data_type>*					Node;
 		private:
-			ft::node<data_type>								*_nodeSearched;
+			mutable ft::node<data_type>						*_nodeSearched;
 			ft::node<data_type>								*_root;
 			key_compare										_comp;
 			std::allocator<ft::node<data_type> >			_allocNode;
-			allocator						_allocData;
+			allocator										_allocData;
 			size_t											_size;
 			ft::node<data_type>				*_createNode(const data_type &data)
 			{
@@ -70,6 +73,7 @@ namespace ft
 				node->right = NULL;
 				node->parent = NULL;
 				node->pos = 0;
+				node->isPastTheEnd = false;
 				_size++;	
 				return (node);
 			}
@@ -97,7 +101,15 @@ namespace ft
 				_allocData.destroy(&node->data);
 				_allocNode.deallocate(node, 1);
 			}
-			bool							isBlackNode(ft::node<data_type> *node)
+			ft::node<data_type>*				_copyTree(ft::node<data_type>* node)
+			{
+				if (node == NULL) return NULL;
+				ft::node<data_type>* newNode = _createNode(node->data);
+				newNode->left = _copyTree(node->left);
+				newNode->right = _copyTree(node->right);
+				return (newNode);
+			}
+			bool							_isBlackNode(ft::node<data_type> *node)
 			{
 				if (node == NULL)
 					return true;
@@ -302,7 +314,7 @@ namespace ft
 				
 					// if the sibling was nill or black and his children were black
 					// ! note if one of them was null ... if bro was null or black && his children was either black or nill
-					if (node->parent->right && node->parent->right->color == BLACK && isBlackNode(node->parent->right->right) && isBlackNode(node->parent->right->left))
+					if (node->parent->right && node->parent->right->color == BLACK && _isBlackNode(node->parent->right->right) && _isBlackNode(node->parent->right->left))
 					{
 						if (node->parent->right)
 							node->parent->right->color = RED;
@@ -319,7 +331,7 @@ namespace ft
 						left_rotate(node->parent->right, node->parent);
 						_resolveDB(node);
 					}
-					else if (node->parent->right && isBlackNode(node->parent->right) && isBlackNode(node->parent->right->right) && node->parent->right->left->color == RED)
+					else if (node->parent->right && _isBlackNode(node->parent->right) && _isBlackNode(node->parent->right->right) && node->parent->right->left->color == RED)
 					{
 						int temp = node->parent->right->color;
 						node->parent->right->color = node->parent->right->left->color;
@@ -327,7 +339,7 @@ namespace ft
 						right_rotate(node->parent->right->left, node->parent->right);
 						_resolveDB(node);
 					}
-					else if (node->parent->right && isBlackNode(node->parent->right) && node->parent->right->right->color == RED)
+					else if (node->parent->right && _isBlackNode(node->parent->right) && node->parent->right->right->color == RED)
 					{
 						int temp = node->parent->right->color;
 						node->parent->right->color = node->parent->color;
@@ -338,7 +350,7 @@ namespace ft
 				}
 				else if (node->parent->right == node)
 				{
-					if (node->parent->left && node->parent->left->color == BLACK && isBlackNode(node->parent->left->right) && isBlackNode(node->parent->left->left))
+					if (node->parent->left && node->parent->left->color == BLACK && _isBlackNode(node->parent->left->right) && _isBlackNode(node->parent->left->left))
 					{
 						if (node->parent->left)
 							node->parent->left->color = RED;
@@ -356,7 +368,7 @@ namespace ft
 						right_rotate(node->parent->left, node->parent);
 						_resolveDB(node);
 					}
-					else if (isBlackNode(node->parent->left) && isBlackNode(node->parent->left->left) && node->parent->left->right->color == RED)
+					else if (_isBlackNode(node->parent->left) && _isBlackNode(node->parent->left->left) && node->parent->left->right->color == RED)
 					{
 						int temp = node->parent->left->color;
 						node->parent->left->color = node->parent->left->right->color;
@@ -364,7 +376,7 @@ namespace ft
 						left_rotate(node->parent->left->right, node->parent->left);
 						_resolveDB(node);
 					}
-					else if (isBlackNode(node->parent->left) && node->parent->left->left->color == RED)
+					else if (_isBlackNode(node->parent->left) && node->parent->left->left->color == RED)
 					{
 						int temp = node->parent->left->color;
 						node->parent->left->color = node->parent->color;
@@ -374,34 +386,187 @@ namespace ft
 					}
 				}
 			}
+			ft::node<data_type>*	_pastTheEnd;
+			ft::node<data_type>		*_createPastTheEnd(void)
+			{
+				// std::cout << "calling PTE" << std::endl;
+				ft::node<data_type>	*node;
+				node = _allocNode.allocate(1);
+				_allocData.construct(&node->data, data_type());
+				node->color = BLACK;
+				node->left = NULL;
+				node->right = NULL;
+				node->parent = NULL;
+				node->pos = _size;
+				node->isPastTheEnd = true;
+				return (node);
+			}
+			void				_setPastTheEnd(void)
+			{
+				ft::node<data_type>	*node;
+				if (_root)
+				{
+					if (_root->isPastTheEnd)
+						return;
+					node = getNode(_root, MAX);
+					if (node)
+					{
+						_pastTheEnd->parent = NULL;
+						_pastTheEnd->left = NULL;
+						_pastTheEnd->right = NULL;
+						node->right = _pastTheEnd;
+						_pastTheEnd->parent = node;
+					}
+				}
+				else
+					_root = _pastTheEnd;
+			}
+			void				_removePastTheEnd(void)
+			{
+				// ft::node<data_type>	*temp = NULL;
+				if (_root)
+				{
+					if (!_root->isPastTheEnd)
+					{
+						// temp = _pastTheEnd->parent->right;
+						// if (_pastTheEnd->parent == _root)
+						// 	std::cout << "parent is the root" << std::endl;
+						_pastTheEnd->parent->right = NULL;
+					}
+					else
+						_root = NULL;
+					_pastTheEnd->parent = NULL;
+					_pastTheEnd->left = NULL;
+					_pastTheEnd->right = NULL;
+				}
+					// temp = NULL;
+			}
 			
 		public:
-			int i;
-			binary_search_tree():_nodeSearched(NULL),_root(NULL),_comp(),_size(0){};
-			binary_search_tree(const binary_search_tree &x):_nodeSearched(NULL),_root(NULL),_comp(),_size(0){*this = x;}
-			binary_search_tree &operator=(const binary_search_tree &x)
+			std::vector <ft::node<data_type> *>		_orderedTree;
+			mutable int counter;
+			bool		isShallowCopy;
+			binary_search_tree(void):_comp()
 			{
-				// ! this is a shallow copy be careful .. not sure if deep copy is needed
-				if (this != &x)
-				{
-					_deleteTree(_root);
-					_root = x._root;
-					_size = x._size;
-				}
-				return *this;
+				isShallowCopy = false;
+				_nodeSearched = NULL;
+				_root = NULL;
+				_size = 0;
+				_pastTheEnd = _createPastTheEnd(); 
+				_root = _pastTheEnd;
 			}
-			~binary_search_tree(){_deleteTree(_root);}
-			ft::node<data_type>			*root() const {return _root;}
-			size_t						size() const {return _size;}
-			void						clear() {_deleteTree(_root); _root = NULL; _size = 0;}
-			size_t						max_size() const {return _allocNode.max_size();}
-			void						sortNode()
+			void			_copy(ft::node<data_type> *node, ft::node<data_type> *PTE)
+			{
+				if (node == NULL || node == PTE)
+					return;
+				_copy(node->left, PTE);
+				this->insert(node->data);
+				_copy(node->right, PTE);
+			}
+			binary_search_tree(const binary_search_tree &x):_nodeSearched(NULL),_root(NULL),_comp(),_size(0),_pastTheEnd(NULL)
+			{
+				_size = x._size;
+				_comp = x._comp;
+				_root = x._root;
+				_pastTheEnd = x._pastTheEnd;
+				isShallowCopy = true;
+			}
+			void			_inOrderIteartion(ft::node<data_type> *node, ft::node<data_type> *PTE)
+			{
+				if (node == NULL || node == PTE)
+					return;
+				_inOrderIteartion(node->left, PTE);
+				_orderedTree.push_back(node);
+				_inOrderIteartion(node->right, PTE);
+			}
+			~binary_search_tree()
+			{
+				if (!isShallowCopy)
+				{
+					if (_pastTheEnd)
+					{
+						if (_root == _pastTheEnd)
+						{
+							_allocData.destroy(&_pastTheEnd->data);
+							_allocNode.deallocate(_pastTheEnd, 1);
+							_pastTheEnd = NULL;
+							_root = NULL;
+						}
+						else
+						{
+							ft::node<data_type> *node;
+							node = getNode(_root, MAX);
+							if (node->right && node->right == _pastTheEnd)
+								node->right = NULL;
+							_allocData.destroy(&_pastTheEnd->data);
+							_allocNode.deallocate(_pastTheEnd, 1);
+							_pastTheEnd = NULL;
+						}
+					}
+					if (_root)
+					{
+						_deleteTree(_root);
+						_root = NULL;
+					}
+				}
+			}
+			void						swap(binary_search_tree &x)
+			{
+				ft::node<data_type>								*T_nodeSearched;
+				ft::node<data_type>								*T_root;
+				ft::node<data_type>								*T_pastTheEnd;
+				key_compare										T_comp;
+				std::allocator<ft::node<data_type> >			T_allocNode;
+				allocator										T_allocData;
+				size_t											T_size;
+
+				T_nodeSearched = _nodeSearched;
+				T_root = _root;
+				T_comp = _comp;
+				T_allocNode = _allocNode;
+				T_allocData = _allocData;
+				T_size = _size;
+				T_pastTheEnd = _pastTheEnd;
+				
+				_nodeSearched = x._nodeSearched;
+				_root = x._root;
+				_comp = x._comp;
+				_allocNode = x._allocNode;
+				_allocData = x._allocData;
+				_size = x._size;
+				_pastTheEnd = x._pastTheEnd;
+				
+				x._nodeSearched = T_nodeSearched;
+				x._root = T_root;
+				x._comp = T_comp;
+				x._allocNode = T_allocNode;
+				x._allocData = T_allocData;
+				x._size = T_size;
+				x._pastTheEnd = T_pastTheEnd;
+			}
+			ft::node<data_type>			*root(void) const {return _root;}
+			size_t						size(void) const {return _size;}
+			size_t						max_size(void) const {return _allocNode.max_size();}
+			void						repos(ft::node<data_type> *traversal, ft::node<data_type> *node, int pos) const
+			{
+				if (!traversal)
+					return ;
+				repos(traversal->left, node, pos);
+				if (traversal->pos >= pos)
+					traversal->pos += 1;
+				if (traversal == node)
+					traversal->pos = pos;
+				repos(traversal->right, node, pos);
+			}
+			void						sortAll(void) const
 			{
 				for (size_t i = 0; i < _size; i++)
 					search_node(i);
+				if (_pastTheEnd)
+					_pastTheEnd->pos = _size;
 			}
 			template <class key_type>
-			ft::node<data_type>			*find(const key_type& key)
+			ft::node<data_type>			*find(const key_type& key) const
 			{
 				ft::node<data_type> *node = _root;
 				while (node)
@@ -415,26 +580,27 @@ namespace ft
 				}
 				return NULL;
 			}
-			ft::node<data_type>			*search_node(int pos)
+			ft::node<data_type>			*search_node(int pos) const
 			{
-				i = 0;
-				sortedIterator(_root, pos);
+				this->counter = 0;
+				sortNode(_root, pos);
 				return (_nodeSearched);
 			}
-			void						sortedIterator(ft::node<data_type> *node, int pos = 0)
+			void						sortNode(ft::node<data_type> *node, int pos = 0) const
 			{
 				if (node == NULL)
 					return;
-				sortedIterator(node->left, pos);
-				if (i == pos)
+				sortNode(node->left, pos);
+				if (this->counter == pos)
 				{
 					_nodeSearched = node;
-					node->pos = pos + 1;
+					node->pos = pos;
 				}
-				i++;
-				sortedIterator(node->right, pos);
+				this->counter++;
+				sortNode(node->right, pos);
 			}
-			ft::node<data_type>			*getNode(ft::node<data_type> *node, int option)
+			ft::node<data_type>			*getPastTheEnd(void) const {return _pastTheEnd;}
+			ft::node<data_type>			*getNode(ft::node<data_type> *node, int option) const
 			{
 				if (option == MIN)
 				{
@@ -445,6 +611,8 @@ namespace ft
 				}
 				else if (option == MAX)
 				{
+					if (node->isPastTheEnd)
+						return node->parent;
 					if (node->right)
 						return getNode(node->right, option);
 					else
@@ -452,7 +620,7 @@ namespace ft
 				}
 				return NULL;
 			}
-			ft::node<data_type>			*getNode(data_type data)
+			ft::node<data_type>			*getNode(data_type data) const
 			{
 				ft::node<data_type> *traversal = _root;
 				while (traversal)
@@ -468,6 +636,7 @@ namespace ft
 			}
 			void						insert(data_type data)
 			{
+				_removePastTheEnd();
 				if (!_root)
 				{
 					_root = _createNode(data);
@@ -506,13 +675,13 @@ namespace ft
 					}
 					_rebalance(new_node);
 				}
-				sortNode();
+				_setPastTheEnd();
+				sortAll();
 			}
 			void				erase(ft::node<data_type> *node)
 			{
 				if (node)
 				{
-					// std::cout << "delete ---> " << node->data.first << std::endl;
 					if (!node->left && !node->right)
 					{
 						if (node->parent)
@@ -525,6 +694,7 @@ namespace ft
 								node = node->parent;
 								_allocNode.deallocate(node->right, 1);
 								node->right = NULL;
+								_size--;
 							}
 							else if (node->parent->left == node)
 							{
@@ -534,6 +704,7 @@ namespace ft
 								node = node->parent;
 								_allocNode.deallocate(node->left, 1);
 								node->left = NULL;
+								_size--;
 							}
 						}
 						else
@@ -541,6 +712,7 @@ namespace ft
 							_allocData.destroy(&node->data);
 							_allocNode.deallocate(node, 1);
 							_root = NULL;
+							_size--;
 						}
 					}
 					else
@@ -558,8 +730,21 @@ namespace ft
 			}
 			void			erase(data_type data)
 			{
+				_removePastTheEnd();
 				erase(getNode(data));
-				sortNode();
+				_setPastTheEnd();
+				sortAll();
+			}
+			template <class valAlloc>
+			void			replaceVal(data_type data)
+			{
+				valAlloc allocSec;
+				ft::node<data_type>	*node = getNode(data);
+				if (node)
+				{
+					allocSec.destroy(&node->data.second);
+					allocSec.construct(&node->data.second, data.second);
+				}
 			}
 	};
 }

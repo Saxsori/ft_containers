@@ -35,7 +35,7 @@ int		main(void)
 	TESTED_NAMESPACE::map<T1, T2> mp, mp2;
 
 	ft_insert(mp, T3(42, "lol"));
-	ft_insert(mp, T3(42, "mdr"));
+	ft_insert(mp, T3(42, "BOO"));
 
 	ft_insert(mp, T3(50, "mdr"));
 	ft_insert(mp, T3(35, "funny"));
@@ -50,5 +50,6 @@ int		main(void)
 	ft_insert(mp2, mp2.end(), T3(1000, "Hello"));
 	ft_insert(mp2, mp2.end(), T3(1500, "World"));
 
+	
 	return (0);
 }

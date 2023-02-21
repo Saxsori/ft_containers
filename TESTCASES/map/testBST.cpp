@@ -6,12 +6,12 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 23:07:57 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/30 07:41:18 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/13 04:47:50 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../CONTAINERS/TOOLS/binary_search_tree.hpp"
-#include "../CONTAINERS/TOOLS/utility.hpp"
+#include "../../CONTAINERS/TOOLS/binary_search_tree.hpp"
+#include "../../CONTAINERS/TOOLS/utility.hpp"
 #include <iomanip>
 # define BBLK "\e[1;30m"
 # define BRED "\e[1;31m"
@@ -20,8 +20,9 @@
 #include <iostream>
 #include <map>
 #include <memory>
-#include "../CONTAINERS/map.hpp"
-#include "../ITERATORS/bidirectional_iterator.hpp"
+#include "../../CONTAINERS/map.hpp"
+#include "../../ITERATORS/bidirectional_iterator.hpp"
+#include <list>
 
 bool	comp(int a, int b)
 {
@@ -136,13 +137,13 @@ void printTree(ft::node<first_type>* root, Trunk *prev, bool isLeft)
 	
 	
 	
-	// bst.sortedIterator(0);
-	// bst.sortedIterator(1);
-	// bst.sortedIterator(3);
-	// bst.sortedIterator(2);
+	// bst.sortNode(0);
+	// bst.sortNode(1);
+	// bst.sortNode(3);
+	// bst.sortNode(2);
 
 	// std::cout << bst.nodeSearched->data.first << std::endl;
-	// std::cout << bst.sortedIterator(bst.root(), 1)->data.first << std::endl;
+	// std::cout << bst.sortNode(bst.root(), 1)->data.first << std::endl;
 	// std::cout << << std::endl;
 
 		
@@ -183,11 +184,120 @@ void printTree(ft::node<first_type>* root, Trunk *prev, bool isLeft)
 
 int		main(void)
 {
-	ft::map<char, int>::iterator it;
-	ft::map<char, float>::const_iterator ite;
-
-	ite = it.begin();
+	std::list<ft::pair<const int, char> > lst;
+	unsigned int lst_size = 5;
 	
-	// std::cout << (it != ite) << std::endl;
+	for (unsigned int i = 0; i < lst_size; ++i)
+	{
+		lst.push_back(ft::pair<const int, char>(2.5 + i, i + 1));
+	}
+	
+		ft::map<int, char> mp(lst.begin(), lst.end());	
+		ft::map<int, char>::const_iterator it = mp.begin();
+		ft::map<int, char>::iterator it1 = it;
+
+ 	// ft::map<int, char> mp(lst.begin(), lst.end());
+	// std::map<int, char> smp(lst.begin(), lst.end());
+	
+	// ft::map<int, char>::iterator it = mp.begin();
+	// std::map<int, char>::const_iterator sit = smp.begin();
+	
+	// std::cout << sit->first << std::endl;
+	// sit->second = 2;
+	// ft::map<int, char>::iterator it = mp.begin();
+	// std::list<ft::pair<const int, char> >::iterator ite = lst.begin();
+	
+
+	// std::cout << it->first << std::endl;
+	// std::cout << ite->first << std::endl;
+	// it++;
+	// ite++;
+	// std::cout << it->first << std::endl;
+	// std::cout << ite->first << std::endl;
+	// it++;
+	// ite++;
+	// std::cout << it->first << std::endl;
+	// std::cout << ite->first << std::endl;
+	// it++;
+	// ite++;
+	// std::cout << it->first << std::endl;
+	// std::cout << ite->first << std::endl;
+	
+	// ft::map<char, int>::iterator it;
+	
+	/////////////////////////////////////////
+	// assign const to non const
+	// ft::map<int, char>::iterator iz;
+	// ft::map<int, char>::iterator izz(mp.begin());
+	// ft::map<int, char>::const_iterator iv;
+	// ft::map<int, char>::const_iterator iv(mp.begin());
+	// ft::map<int, char>::const_iterator ivv(izz);
+	// ft::map<int, char>::iterator izm(iv);
+	
+	// conversion from non const to const and vice versa
+	// iv = mp.begin();
+	// iz = mp.begin();
+	// const = const
+	// ivv = iv;
+	// non = non
+	// izz = iz;
+	// const = non
+	// iv = iz;
+	// non = const
+	// iz = iv;
+	
+	// std::list<std::pair<int, char> > lst2;
+	// for (unsigned int i = 0; i < lst_size; ++i)
+		// lst2.push_back(std::pair<int, char>(2.5 + i, i + 1));
+
+	// std::map<int, char> mp3(lst2.begin(), lst2.end());
+	// std::map<int, char>::iterator itx;
+	// std::map<int, char>::iterator itxx(mp3.begin());
+	// std::map<int, char>::const_iterator itp(mp3.begin());
+	// std::map<int, char>::const_iterator itp1(itxx);
+	// std::map<int, char>::iterator itp2(itp);
+	
+	// conversion from non const to const and vice versa
+	// itp = mp3.begin();
+	// itx = mp3.begin();
+	// const = const
+	// itp1 = itp;
+	// non = non
+	// itxx = itx;
+	// const = non
+	// itp = itx;
+	// non = const
+	// itx = itp;
+	
+	
+	
+	/////////////////////////////////////////
+	
+	// ft::map<int, std::string> const cm;
+	// ft::map<int, std::string>::iterator io = cm.begin();
+	
+	// std::map<int, std::string> const scm;
+	// std::map<int, std::string>::iterator sio = scm.begin();
+	
+	// ft::map<char, int>::iterator pp;
+	// ft::map<char, float>::const_iterator ppq;
+
+	// pp != ppq;
+
+	// std::map<char, int>::iterator lol;
+	// std::map<char, float>::const_iterator loll;
+
+	// std::cout << (lol != loll) << std::endl;
+	
+	// typedef ft::pair<const int, int> T3
+	
+	// std::list<ft::pair<const int, int> > lst;
+	// unsigned int lst_size = 10;
+	// for (unsigned int i = 0; i < lst_size; ++i)
+		// lst.push_back(ft::pair<const int, int>(i + 1, (i + 1) * 3));
+	// ft::map<const int, int> mp(lst.begin(), lst.end());
+	
+	
+
 	return (0);
 }

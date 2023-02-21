@@ -23,13 +23,13 @@ struct case_insensitive {
 template <class Pred>
 void	ft_sort(TESTED_NAMESPACE::list<TESTED_TYPE> &lst, Pred pred)
 {
-	lst.sort(pred);
+	lst.sortNode(pred);
 	printSize(lst);
 }
 
 void	ft_sort(TESTED_NAMESPACE::list<TESTED_TYPE> &lst)
 {
-	lst.sort();
+	lst.sortNode();
 	printSize(lst);
 }
 
