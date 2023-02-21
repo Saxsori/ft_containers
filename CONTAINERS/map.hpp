@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: dfurneau <dfurneau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 15:43:23 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/20 18:57:33 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/21 21:20:36 by dfurneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,9 +176,7 @@ namespace ft
 				for (iterator it = first; it != last; it++)
 					keys.push_back(it->first);
 				for (size_t i = 0; i < keys.size(); i++)
-				{
 					_tree.erase(_tree.find(keys[i])->data);
-				}
 				
 			}
 			void							swap(map& x)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   copy.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: dfurneau <dfurneau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 21:41:20 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/20 18:36:23 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/21 21:00:18 by dfurneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,65 @@
 #include <list>
 #include "../../CONTAINERS/map.hpp"
 
+
+
+bool	comp(int a, int b)
+{
+	return a < b;
+}
+
+class value_compare
+{
+	public:
+	value_compare(){}
+	bool operator()(const int& x, const int& y) const{return comp(x, y);}
+};
+
+
 int main ()
 {
 	// std::list <std::pair<const int, int> > lst2;
-	std::list <ft::pair<const int, int> > lst;
+	// std::list <ft::pair<const int, int> > lst;
 	// std::list <ft::pair<const int, int> > lst1;
 	
-    unsigned int lst_size = 10;
-    for (unsigned int i = 0; i < lst_size; ++i)
-        lst.push_back(ft::pair<const int, int>(i + 1, (i + 1) * 3));
-    ft::map <int, int> mp(lst.begin(), lst.end());
-    ft::map<int, int>::const_iterator it = mp.begin(), ite = mp.end();
+    // unsigned int lst_size = 10;
+    // for (unsigned int i = 0; i < lst_size; ++i)
+    //     lst.push_back(ft::pair<const int, int>(i + 1, (i + 1) * 3));
+    // ft::map <int, int> mp(lst.begin(), lst.end());
+    // ft::map<int, int>::const_iterator it = mp.begin(), ite = mp.end();
 	// std::cout << mp.begin()->first << std::endl;
 	// ft::map<int, int>::const_iterator it3 = ite;
 	// std::cout << (--it3)->first << std::endl;
-    for (; it != ite; it++)
-    {
-		std::cout << "content" << std::endl;
-        std::cout << it->first << " " << it->second << std::endl;
-    }
+    // for (; it != ite; it++)
+    // {
+	// 	std::cout << "content" << std::endl;
+    //     std::cout << it->first << " " << it->second << std::endl;
+    // }
 
+	// ft::map<int, int> mp;
+	// std::map<int, int> mp1;
+
+
+	// mp.insert(ft::make_pair<int, int>(1, 3));
+
+	// mp1.insert(std::make_pair<int, int>(1, 3));
+	
+	// ft::map<int, int> testMap;
+
+    // for(int i = 0; i < 10000000; ++i)
+    // {
+    //     testMap.insert(ft::make_pair(i, i+1));
+    // }
+    // testMap.erase(testMap.begin(), testMap.end());
+
+	ft::binary_search_tree<ft::pair<const int, int> , value_compare, std::allocator<ft::pair<const int, int> > > bst;
+
+	
+    for(int i = 0; i < 5000; ++i)
+    {
+		bst.insert(ft::make_pair <const int, int> (i, i+1));
+		std::cout << i << std::endl;
+    }
 	
     // ft::map<int, int>::iterator tryit = mp.begin();
 
