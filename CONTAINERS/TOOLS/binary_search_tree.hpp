@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   binary_search_tree.hpp                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: dfurneau <dfurneau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:09:17 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/20 19:00:56 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/21 00:01:48 by dfurneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -445,8 +445,10 @@ namespace ft
 		public:
 			std::vector <ft::node<data_type> *>		_orderedTree;
 			mutable int counter;
+			bool		isShallowCopy;
 			binary_search_tree(void):_comp()
 			{
+				isShallowCopy = false;
 				_nodeSearched = NULL;
 				_root = NULL;
 				_size = 0;
@@ -463,13 +465,11 @@ namespace ft
 			}
 			binary_search_tree(const binary_search_tree &x):_nodeSearched(NULL),_root(NULL),_comp(),_size(0),_pastTheEnd(NULL)
 			{
-				if (this != &x)
-				{
-					_size = x._size;
-					_comp = x._comp;
-					_root = x._root;
-					_pastTheEnd = x._pastTheEnd;
-				}
+				_size = x._size;
+				_comp = x._comp;
+				_root = x._root;
+				_pastTheEnd = x._pastTheEnd;
+				isShallowCopy = true;
 			}
 			void			_inOrderIteartion(ft::node<data_type> *node, ft::node<data_type> *PTE)
 			{
@@ -481,19 +481,34 @@ namespace ft
 			}
 			~binary_search_tree()
 			{
-				// static int i;
-				// i++;
-				// std::cout << ">>>>>>>>>> ~binary_search_tree" << std::endl;
-				// if (_root)
-				// {
-				// 	// _deleteTree(_root);
-				// 	// _root = NULL;
-				// 	std::cout << "TREE STILL EXIST" << std::endl;
-				// }
-				// if (_root == _pastTheEnd)
-				// {
-				// 	std::cout << "PAST THE END ONLY REMAINS" << std::endl;
-				// }
+				if (!isShallowCopy)
+				{
+					if (_pastTheEnd)
+					{
+						if (_root == _pastTheEnd)
+						{
+							_allocData.destroy(&_pastTheEnd->data);
+							_allocNode.deallocate(_pastTheEnd, 1);
+							_pastTheEnd = NULL;
+							_root = NULL;
+						}
+						else
+						{
+							ft::node<data_type> *node;
+							node = getNode(_root, MAX);
+							if (node->right && node->right == _pastTheEnd)
+								node->right = NULL;
+							_allocData.destroy(&_pastTheEnd->data);
+							_allocNode.deallocate(_pastTheEnd, 1);
+							_pastTheEnd = NULL;
+						}
+					}
+					if (_root)
+					{
+						_deleteTree(_root);
+						_root = NULL;
+					}
+				}
 			}
 			void						swap(binary_search_tree &x)
 			{
