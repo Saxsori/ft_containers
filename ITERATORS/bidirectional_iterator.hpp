@@ -6,7 +6,7 @@
 /*   By: dfurneau <dfurneau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 15:57:11 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/21 00:06:58 by dfurneau         ###   ########.fr       */
+/*   Updated: 2023/02/21 00:22:58 by dfurneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,16 @@ namespace ft
 	class map_iterator<T, Tree, false>
 	{	
 		public:
-		typedef	Tree					tree;
+		typedef T				value_type;
+		typedef T*				pointer;
+		typedef T&				reference;
+		typedef	Tree			tree;
 		typedef ft::node<T>*	node;
-		// typedef typename Tree::Node		node;
-		mutable node 							_currentNode;
+		mutable node 			_currentNode;
 		map_iterator(void)
 		{
 			_currentNode = NULL;
 		}
-		// map_iterator(node _node): _currentNode(_node){}
 		map_iterator(node _node)
 		{
 			_currentNode = _node;
@@ -59,15 +60,16 @@ namespace ft
 	class map_iterator<T, Tree, true>
 	{
 		public:
-		typedef	Tree					tree;
-		
+		typedef const T			value_type;
+		typedef const T*		pointer;
+		typedef const T&		reference;
+		typedef	Tree			tree;
 		typedef ft::node<T>*	node;
-		mutable node 							_currentNode;
+		mutable node 			_currentNode;
 		map_iterator(void)
 		{
 			_currentNode = NULL;
 		}
-		// map_iterator(node _node): _currentNode(_node){}
 		map_iterator(node _node)
 		{
 			_currentNode = _node;
@@ -87,9 +89,6 @@ namespace ft
 	class bidirectional_iterator:public ft::map_iterator <T, ft::binary_search_tree<T, key_compare, allocator_type>, is_const>
 	{
 		public:
-			typedef T																			value_type;
-			typedef T*																			pointer;
-			typedef T&																			reference;
 			typedef std::ptrdiff_t																difference_type;
 			typedef ft::bidirectional_iterator_tag												iterator_category;
 			typedef ft::binary_search_tree<T, key_compare, allocator_type>						tree;
@@ -134,10 +133,6 @@ namespace ft
 				_tree = other._tree;
 			}
 			~bidirectional_iterator(void){}
-			// operator map_iterator<T, tree, is_const>()
-			// {
-			// 	return map_iterator<T, tree, is_const>(this->_currentNode);
-			// }
 			// * Assignment operator
 			bidirectional_iterator &operator=(const bidirectional_iterator &other)
 			{
@@ -146,14 +141,6 @@ namespace ft
 				_tree = other._tree;
 				return (*this);
 			}
-			// this worked
-			// bidirectional_iterator& operator=(const bidirectional_iterator<T, key_compare, allocator_type, false>& other) const
-			// {
-			// 	base::_currentNode = other._currentNode;
-			// 	_currentPos = other._currentPos;
-			// 	_tree = other._tree;
-			// 	return *this;
-			// }
 			// * Dereference operators
 			// * Increment/decrement operators
 			bidirectional_iterator&		operator++(void){_tree.sortAll(); this->_currentNode = _tree.search_node(this->_currentPos + 1); this->_currentPos++; return *this;}
