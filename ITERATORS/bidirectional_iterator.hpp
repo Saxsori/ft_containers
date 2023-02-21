@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bidirectional_iterator.hpp                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: dfurneau <dfurneau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 15:57:11 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/20 03:29:09 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/21 00:06:58 by dfurneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ namespace ft
 				_tree = other._tree;
 			}
 
-			bidirectional_iterator(const bidirectional_iterator<T, key_compare, allocator_type, true> &other):map_iterator<T, tree, is_const>()
+			bidirectional_iterator(const bidirectional_iterator<T, key_compare, allocator_type, true> &other):map_iterator<T, tree, true>()
 			{
 				base::_currentNode = other._currentNode;
 				_currentPos = other._currentPos;
