@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   testBST.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: aaljaber <aaljaber@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 23:07:57 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/13 04:47:50 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/25 15:56:24 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../CONTAINERS/TOOLS/binary_search_tree.hpp"
+#include "../../CONTAINERS/TOOLS/binary_search_tree_map_map.hpp"
 #include "../../CONTAINERS/TOOLS/utility.hpp"
 #include <iomanip>
 # define BBLK "\e[1;30m"
@@ -101,7 +101,7 @@ void printTree(ft::node<first_type>* root, Trunk *prev, bool isLeft)
 // int main()
 // {
 // 	typedef	ft::pair<int, std::string>  map_type;
-// 	ft::binary_search_tree<int, std::string, value_compare, std::allocator<map_type> > bst;
+// 	ft::binary_search_tree_map<int, std::string, value_compare, std::allocator<map_type> > bst;
 	
 // 	bst.insert(ft::make_pair <int, std::string> (10, "one"));
 // 	bst.insert(ft::make_pair <int, std::string> (18, "two"));

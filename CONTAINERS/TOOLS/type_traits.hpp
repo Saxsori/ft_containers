@@ -3,12 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   type_traits.hpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: aaljaber <aaljaber@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 14:56:53 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/18 18:32:23 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/25 17:57:15 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#ifndef TYPE_TRAITS_HPP
+#define TYPE_TRAITS_HPP
 
 namespace ft 
 {
@@ -76,3 +79,5 @@ namespace ft
 	template <> struct is_integral<long long>{ static const bool value = true; };
 	template <> struct is_integral<unsigned long long>{ static const bool value = true; };
 }
+
+#endif

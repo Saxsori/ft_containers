@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   copy.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dfurneau <dfurneau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aaljaber <aaljaber@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 21:41:20 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/25 09:22:01 by dfurneau         ###   ########.fr       */
+/*   Updated: 2023/02/25 15:56:24 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int main ()
     // }
     // testMap.erase(testMap.begin(), testMap.end());
 
-	ft::binary_search_tree<ft::pair<const int, int> , value_compare, std::allocator<ft::pair<const int, int> > > bst;
+	ft::binary_search_tree_map<ft::pair<const int, int> , value_compare, std::allocator<ft::pair<const int, int> > > bst;
 
 	bst.insert(ft::make_pair <const int, int> (22, 2));
 	// bst.insert(ft::make_pair <const int, int> (33, 3));

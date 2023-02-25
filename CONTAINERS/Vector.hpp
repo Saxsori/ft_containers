@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: aaljaber <aaljaber@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:37:18 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/30 06:35:43 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/25 17:58:03 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ namespace ft
 			/*						MEMBER 	TYPES							*/
 			typedef	T													value_type;
 			typedef	Alloc												allocator_type;
-			typedef	 size_t												size_type;
-			typedef  std::ptrdiff_t										difference_type;
+			typedef size_t												size_type;
+			typedef std::ptrdiff_t										difference_type;
 			typedef value_type&											reference;
 			typedef	const value_type&									const_reference;
 			typedef value_type*											pointer;

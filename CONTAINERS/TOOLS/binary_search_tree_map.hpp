@@ -1,22 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   binary_search_tree.hpp                             :+:      :+:    :+:   */
+/*   binary_search_tree_map.hpp                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dfurneau <dfurneau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aaljaber <aaljaber@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:09:17 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/25 12:28:05 by dfurneau         ###   ########.fr       */
+/*   Updated: 2023/02/25 17:45:04 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BINARY_SEARCH_TREE_HPP
-# define BINARY_SEARCH_TREE_HPP
+#ifndef BINARY_SEARCH_TREE_MAP_HPP
+# define BINARY_SEARCH_TREE_MAP_HPP
 
 #include <iostream>
 #include <memory>
 #include "./utility.hpp"
 #include "./algorithm.hpp"
+#include "./tree_tools.hpp"
 
 #define BLACK 'b'
 #define RED 'r'
@@ -26,28 +27,13 @@
 #define EQUAL 3
 
 /*
-	** binary_search_tree
+	** binary_search_tree_map
 	
 */
 namespace ft
-{
-	template <class data_type>
-	struct node
-	{
-		data_type			data;
-		node				*parent;
-		node				*left;
-		node				*right;
-		int					color;
-		int					pos;
-		bool				isPastTheEnd;
-		template <class T>
-		node(ft::node<T> &node):data(node.data), parent(node.parent), left(node.left), right(node.right), color(node.color), pos(0){}
-		
-	};
-	
+{	
 	template <class data_type, class key_compare, class allocator>
-	class binary_search_tree
+	class binary_search_tree_map
 	{
 		public:
 			typedef ft::node<data_type>*					Node;
@@ -448,7 +434,7 @@ namespace ft
 			
 		public:
 			mutable int counter;
-			binary_search_tree(void):_comp()
+			binary_search_tree_map(void):_comp()
 			{
 				_isShallowCopy = false;
 				_nodeSearched = NULL;
@@ -456,7 +442,7 @@ namespace ft
 				_size = 0;
 				_pastTheEnd = _createPastTheEnd();
 			}
-			binary_search_tree(const binary_search_tree &x):_nodeSearched(NULL),_root(NULL),_comp(),_size(0),_pastTheEnd(NULL)
+			binary_search_tree_map(const binary_search_tree_map &x):_nodeSearched(NULL),_root(NULL),_comp(),_size(0),_pastTheEnd(NULL)
 			{
 				_size = x._size;
 				_comp = x._comp;
@@ -464,7 +450,7 @@ namespace ft
 				_pastTheEnd = x._pastTheEnd;
 				_isShallowCopy = true;
 			}
-			~binary_search_tree()
+			~binary_search_tree_map()
 			{
 				if (!_isShallowCopy)
 				{
@@ -481,7 +467,7 @@ namespace ft
 					}
 				}
 			}
-			void						swap(binary_search_tree &x)
+			void						swap(binary_search_tree_map &x)
 			{
 				ft::node<data_type>								*T_nodeSearched;
 				ft::node<data_type>								*T_root;

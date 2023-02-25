@@ -15,10 +15,12 @@ void	ft_bound(SET &st, const T1 &param)
 
 	std::cout << "\t-- [" << iter++ << "] --" << std::endl;
 	std::cout << "with key [" << param << "]:" << std::endl;
-	it[0] = st.lower_bound(param); it[1] = st.upper_bound(param);
-	ft_range = st.equal_range(param);
+	it[0] = st.lower_bound(param); 
 	std::cout << "lower_bound: " << (it[0] == ite ? "end()" : printPair(it[0], false)) << std::endl;
+	std::cout << "bye" << std::endl;
+	it[1] = st.upper_bound(param);
 	std::cout << "upper_bound: " << (it[1] == ite ? "end()" : printPair(it[1], false)) << std::endl;
+	ft_range = st.equal_range(param);
 	std::cout << "equal_range: " << (ft_range.first == it[0] && ft_range.second == it[1]) << std::endl;
 }
 
@@ -30,10 +32,12 @@ void	ft_const_bound(const SET &st, const T1 &param)
 
 	std::cout << "\t-- [" << iter++ << "] (const) --" << std::endl;
 	std::cout << "with key [" << param << "]:" << std::endl;
-	it[0] = st.lower_bound(param); it[1] = st.upper_bound(param);
-	ft_range = st.equal_range(param);
+	it[0] = st.lower_bound(param); 
 	std::cout << "lower_bound: " << (it[0] == ite ? "end()" : printPair(it[0], false)) << std::endl;
+
+	it[1] = st.upper_bound(param);
 	std::cout << "upper_bound: " << (it[1] == ite ? "end()" : printPair(it[1], false)) << std::endl;
+	ft_range = st.equal_range(param);
 	std::cout << "equal_range: " << (ft_range.first == it[0] && ft_range.second == it[1]) << std::endl;
 }
 
@@ -55,6 +59,7 @@ int		main(void)
 	printSize(st);
 
 	ft_bound(st, 5);
+	std::cout << "bye" << std::endl;
 	ft_bound(st, 7);
 
 	printSize(st);
