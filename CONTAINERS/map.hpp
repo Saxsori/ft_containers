@@ -6,7 +6,7 @@
 /*   By: dfurneau <dfurneau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 15:43:23 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/21 21:20:36 by dfurneau         ###   ########.fr       */
+/*   Updated: 2023/02/25 09:26:44 by dfurneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,8 +114,18 @@ namespace ft
 			size_type						size(void)const{return _tree.size();}
 			size_type						max_size(void)const{return _tree.max_size();}
 			/*					Iterator						*/
-			iterator						begin(void){return iterator(_tree, _tree.getNode(_tree.root(), MIN));}
-			const_iterator					begin(void)const{return const_iterator(_tree, _tree.getNode(_tree.root(), MIN));}
+			iterator						begin(void)
+			{
+				if (_tree.root() == NULL)
+					return iterator(_tree, _tree.getPastTheEnd());
+				return iterator(_tree, _tree.getNode(_tree.root(), MIN));
+			}
+			const_iterator					begin(void)const
+			{
+				if (_tree.root() == NULL)
+					return const_iterator(_tree, _tree.getPastTheEnd());
+				return const_iterator(_tree, _tree.getNode(_tree.root(), MIN));
+			}
 				
 			iterator						end(void){return iterator(_tree, _tree.getPastTheEnd());}
 			const_iterator					end(void)const{return const_iterator(_tree, _tree.getPastTheEnd());}
@@ -137,7 +147,6 @@ namespace ft
 			
 			ft::pair<iterator,bool>			insert(const value_type& val)
 			{
-				// std::cout << "insert" << std::endl;
 				if (_tree.find(val.first) == NULL || _tree.find(val.first) == _tree.getPastTheEnd())
 				{
 					_tree.insert(val);
@@ -238,11 +247,11 @@ namespace ft
 					return (iterator(_tree, _tree.getPastTheEnd()));
 				else
 				{
-					if (_tree.find(k)->pos == _tree.getNode(_tree.root(), MAX)->pos)
+					if (_tree.find(k) == _tree.getNode(_tree.root(), MAX))
 
 						return iterator(_tree, _tree.find(k));
 					else
-						return iterator(_tree, _tree.search_node(_tree.find(k)->pos + 1));
+						return iterator(_tree, _tree.incrementNodeByOne(_tree.find(k)));
 				}
 			}
 			const_iterator					upper_bound(const key_type& k)const
@@ -253,10 +262,10 @@ namespace ft
 					return (const_iterator(_tree, _tree.getPastTheEnd()));
 				else
 				{
-					if (_tree.find(k)->pos == _tree.getNode(_tree.root(), MAX)->pos)
+					if (_tree.find(k) == _tree.getNode(_tree.root(), MAX))
 						return const_iterator(_tree, _tree.find(k));
 					else
-						return const_iterator(_tree, _tree.search_node(_tree.find(k)->pos + 1));
+						return const_iterator(_tree, _tree.incrementNodeByOne(_tree.find(k)));
 				}	
 			}
 			ft::pair<const_iterator,const_iterator> equal_range(const key_type& k) const

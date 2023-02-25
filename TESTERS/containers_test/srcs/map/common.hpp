@@ -26,7 +26,9 @@ void	printSize(T_MAP const &mp, bool print_content = 1)
 		typename T_MAP::const_iterator it = mp.begin(), ite = mp.end();
 		std::cout << std::endl << "Content is:" << std::endl;
 		for (; it != ite; ++it)
+		{
 			std::cout << "- " << printPair(it, false) << std::endl;
+		}
 	}
 	std::cout << "###############################################" << std::endl;
 }

@@ -6,7 +6,7 @@
 /*   By: dfurneau <dfurneau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 21:41:20 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/23 03:13:20 by dfurneau         ###   ########.fr       */
+/*   Updated: 2023/02/25 09:22:01 by dfurneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,16 +69,16 @@ int main ()
 	ft::binary_search_tree<ft::pair<const int, int> , value_compare, std::allocator<ft::pair<const int, int> > > bst;
 
 	bst.insert(ft::make_pair <const int, int> (22, 2));
-	bst.insert(ft::make_pair <const int, int> (33, 3));
-	bst.insert(ft::make_pair <const int, int> (88, 554));
-	bst.insert(ft::make_pair <const int, int> (19, 774));	
-	bst.insert(ft::make_pair <const int, int> (26, 446));	
-	bst.insert(ft::make_pair <const int, int> (37, 344));	
-	bst.insert(ft::make_pair <const int, int> (1, 433));	
-	bst.insert(ft::make_pair <const int, int> (2, 34));	
-	bst.insert(ft::make_pair <const int, int> (3, 42));	
-	bst.insert(ft::make_pair <const int, int> (10, 4));	
-	bst.insert(ft::make_pair <const int, int> (38, 242));	
+	// bst.insert(ft::make_pair <const int, int> (33, 3));
+	// bst.insert(ft::make_pair <const int, int> (88, 554));
+	// bst.insert(ft::make_pair <const int, int> (19, 774));	
+	// bst.insert(ft::make_pair <const int, int> (26, 446));	
+	// bst.insert(ft::make_pair <const int, int> (37, 344));	
+	// bst.insert(ft::make_pair <const int, int> (1, 433));	
+	// bst.insert(ft::make_pair <const int, int> (2, 34));	
+	// bst.insert(ft::make_pair <const int, int> (3, 42));	
+	// bst.insert(ft::make_pair <const int, int> (10, 4));	
+	// bst.insert(ft::make_pair <const int, int> (38, 242));	
 	
 		
     // for(int i = 0; i < 4; ++i)
@@ -101,13 +101,13 @@ int main ()
 	// 	node = bst.incrementNodeByOne(node);
 	// }
 
-	node = bst.getNode(bst.root(), 2);
+	node = bst.getNode(bst.root(), 1);
 
-	for (int i = 0; i < 11; i++)
+	for (int i = 0; i < 2; i++)
 	{
 		std::cout << "content: " << node->data.first << std::endl;
 		// std::cout << i << std::endl;
-		node = bst.decrementNodeByOne(node);
+		node = bst.incrementNodeByOne(node);
 	}
 	
 	

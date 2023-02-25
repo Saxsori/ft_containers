@@ -43,6 +43,7 @@ int		main(void)
 	mp[10] = "Hello";
 	mp[11] = "Hi there";
 	printSize(mp);
+	std::cout << "hhhh" << std::endl;
 	ft_erase(mp, --(--(--mp.end())), mp.end());
 
 	mp[12] = "ONE";
