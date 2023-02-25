@@ -6,7 +6,7 @@
 /*   By: dfurneau <dfurneau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:09:17 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/25 09:25:12 by dfurneau         ###   ########.fr       */
+/*   Updated: 2023/02/25 12:28:05 by dfurneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <iostream>
 #include <memory>
 #include "./utility.hpp"
+#include "./algorithm.hpp"
 
 #define BLACK 'b'
 #define RED 'r'
@@ -23,12 +24,6 @@
 #define MIN 1
 #define MAX 2
 #define EQUAL 3
-#include "../vector.hpp"
-
-#include <vector>
-
-// #define DESTROY 4
-// #define DESTROY 4
 
 /*
 	** binary_search_tree
@@ -100,7 +95,6 @@ namespace ft
 				/* first delete both subtrees */
 				_deleteTree(node->left);
 				_deleteTree(node->right);
-				// std::cout << "Deleting node: " << node->data->first << std::endl;
 				_allocData.destroy(&node->data);
 				_allocNode.deallocate(node, 1);
 			}
@@ -306,7 +300,6 @@ namespace ft
 					return;
 				if (node->parent->left == node)
 				{
-				
 					// if the sibling was nill or black and his children were black
 					// ! note if one of them was null ... if bro was null or black && his children was either black or nill
 					if (node->parent->right && node->parent->right->color == BLACK && _isBlackNode(node->parent->right->right) && _isBlackNode(node->parent->right->left))
@@ -383,7 +376,6 @@ namespace ft
 			}
 			ft::node<data_type>		*_createPastTheEnd(void)
 			{
-				// std::cout << "calling PTE" << std::endl;
 				ft::node<data_type>	*node;
 				node = _allocNode.allocate(1);
 				_allocData.construct(&node->data, data_type());
@@ -394,6 +386,64 @@ namespace ft
 				node->pos = _size;
 				node->isPastTheEnd = true;
 				return (node);
+			}
+			ft::node<data_type>			*_findGreatGrandFather(ft::node<data_type> *node) const
+			{
+				ft::node<data_type>	*firstNode = node;
+				while (true)
+				{
+					if (node->parent && _comp(node->data.first, node->parent->data.first))
+						return (node->parent);
+					else if (!node->parent)
+					{
+						if (_comp(node->data.first, firstNode->data.first))
+							return _pastTheEnd;
+						else
+							return node;
+					}
+					node = node->parent;
+				}
+			}
+			ft::node<data_type>			*_findLeftMost(ft::node<data_type> *node) const
+			{
+				while (true)
+				{
+					if (!_isNode(node->left))
+						return (node);
+					node = node->left;
+				}
+			}
+			bool	_isNode(ft::node<data_type> *node) const
+			{
+				if (node == NULL || node == _pastTheEnd)
+					return false;
+				return true;
+			}
+			ft::node<data_type>			*_findYoungGrandFather(ft::node<data_type> *node) const
+			{
+				ft::node<data_type>	*firstNode = node;
+				while (true)
+				{
+					if (node->parent && _comp(node->parent->data.first, node->data.first))
+						return (node->parent);
+					else if (!node->parent)
+					{
+						if (_comp(firstNode->data.first, node->data.first))
+							return NULL;
+						else
+							return node;
+					}
+					node = node->parent;
+				}
+			}
+			ft::node<data_type>			*_findRightMost(ft::node<data_type> *node) const
+			{
+				while (true)
+				{
+					if (!_isNode(node->right))
+						return (node);
+					node = node->right;
+				}
 			}
 			
 		public:
@@ -468,24 +518,6 @@ namespace ft
 			ft::node<data_type>			*root(void) const {return _root;}
 			size_t						size(void) const {return _size;}
 			size_t						max_size(void) const {return _allocNode.max_size();}
-			void						repos(ft::node<data_type> *traversal, ft::node<data_type> *node, int pos) const
-			{
-				if (!traversal)
-					return ;
-				repos(traversal->left, node, pos);
-				if (traversal->pos >= pos)
-					traversal->pos += 1;
-				if (traversal == node)
-					traversal->pos = pos;
-				repos(traversal->right, node, pos);
-			}
-			void						sortAll(void) const
-			{
-				for (size_t i = 0; i < _size; i++)
-					search_node(i);
-				if (_pastTheEnd)
-					_pastTheEnd->pos = _size;
-			}
 			template <class key_type>
 			ft::node<data_type>			*find(const key_type& key) const
 			{
@@ -500,25 +532,6 @@ namespace ft
 						return node;
 				}
 				return NULL;
-			}
-			ft::node<data_type>			*search_node(int pos) const
-			{
-				this->counter = 0;
-				sortNode(_root, pos);
-				return (_nodeSearched);
-			}
-			void						sortNode(ft::node<data_type> *node, int pos = 0) const
-			{
-				if (node == NULL)
-					return;
-				sortNode(node->left, pos);
-				if (this->counter == pos)
-				{
-					_nodeSearched = node;
-					node->pos = pos;
-				}
-				this->counter++;
-				sortNode(node->right, pos);
 			}
 			ft::node<data_type>			*getPastTheEnd(void) const {return _pastTheEnd;}
 			ft::node<data_type>			*getNode(ft::node<data_type> *node, int option) const
@@ -650,49 +663,6 @@ namespace ft
 			{
 				erase(getNode(data));
 			}
-			template <class valAlloc>
-			void			replaceVal(data_type data)
-			{
-				valAlloc allocSec;
-				ft::node<data_type>	*node = getNode(data);
-				if (node)
-				{
-					allocSec.destroy(&node->data.second);
-					allocSec.construct(&node->data.second, data.second);
-				}
-			}
-			bool	_isNode(ft::node<data_type> *node) const
-			{
-				if (node == NULL || node == _pastTheEnd)
-					return false;
-				return true;
-			}
-			ft::node<data_type>			*_findYoungGrandFather(ft::node<data_type> *node) const
-			{
-				ft::node<data_type>	*firstNode = node;
-				while (true)
-				{
-					if (node->parent && _comp(node->parent->data.first, node->data.first))
-						return (node->parent);
-					else if (!node->parent)
-					{
-						if (_comp(firstNode->data.first, node->data.first))
-							return NULL;
-						else
-							return node;
-					}
-					node = node->parent;
-				}
-			}
-			ft::node<data_type>			*_findRightMost(ft::node<data_type> *node) const
-			{
-				while (true)
-				{
-					if (!_isNode(node->right))
-						return (node);
-					node = node->right;
-				}
-			}
 			ft::node<data_type>			*decrementNodeByOne(ft::node<data_type> *node) const
 			{
 				if (!node)
@@ -708,32 +678,6 @@ namespace ft
 				else if (_isNode(node->left) && _isNode(node->left->right))
 					return (_findRightMost(node->left));
 				return (NULL);
-			}
-			ft::node<data_type>			*_findGreatGrandFather(ft::node<data_type> *node) const
-			{
-				ft::node<data_type>	*firstNode = node;
-				while (true)
-				{
-					if (node->parent && _comp(node->data.first, node->parent->data.first))
-						return (node->parent);
-					else if (!node->parent)
-					{
-						if (_comp(node->data.first, firstNode->data.first))
-							return _pastTheEnd;
-						else
-							return node;
-					}
-					node = node->parent;
-				}
-			}
-			ft::node<data_type>			*_findLeftMost(ft::node<data_type> *node) const
-			{
-				while (true)
-				{
-					if (!_isNode(node->left))
-						return (node);
-					node = node->left;
-				}
 			}
 			ft::node<data_type>			*incrementNodeByOne(ft::node<data_type> *node) const
 			{
