@@ -6,7 +6,7 @@
 /*   By: dfurneau <dfurneau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 15:43:23 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/25 09:26:44 by dfurneau         ###   ########.fr       */
+/*   Updated: 2023/02/25 12:31:57 by dfurneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include "../ITERATORS/bidirectional_reverse_iterator.hpp"
 #define MIN 1
 #define MAX 2
-#include <vector>
+#include "./Vector.hpp"
 namespace ft
 {
 	/*
@@ -181,7 +181,7 @@ namespace ft
 			}
 			void							erase(iterator first, iterator last)
 			{
-				std::vector<key_type> keys;
+				ft::vector<key_type> keys;
 				for (iterator it = first; it != last; it++)
 					keys.push_back(it->first);
 				for (size_t i = 0; i < keys.size(); i++)
