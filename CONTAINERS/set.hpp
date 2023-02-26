@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 15:29:20 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/25 22:26:00 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/26 10:42:22 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ namespace ft
 			typedef std::size_t																		size_type;
 			typedef ft::node<value_type>															node_type;	
 			typedef ft::binary_search_tree_set<value_type, key_compare, allocator_type>				tree_type;
-			typedef ft::set_iterator<value_type, key_compare, tree_type, allocator_type, false>		iterator;
+			typedef ft::set_iterator<value_type, key_compare, tree_type, allocator_type, true>		iterator;
 			typedef ft::set_iterator<value_type, key_compare, tree_type, allocator_type, true>		const_iterator;
 			typedef ft::bidirectional_reverse_iterator<iterator>									reverse_iterator;
 			typedef ft::bidirectional_reverse_iterator<const_iterator>								const_reverse_iterator;

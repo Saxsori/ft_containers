@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 21:41:20 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/25 15:56:24 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/26 10:19:28 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@ class value_compare
 int main ()
 {
 	// std::list <std::pair<const int, int> > lst2;
-	// std::list <ft::pair<const int, int> > lst;
+	std::list <ft::pair<const int, int> > lst;
 	// std::list <ft::pair<const int, int> > lst1;
 	
-    // unsigned int lst_size = 10;
-    // for (unsigned int i = 0; i < lst_size; ++i)
-    //     lst.push_back(ft::pair<const int, int>(i + 1, (i + 1) * 3));
-    // ft::map <int, int> mp(lst.begin(), lst.end());
+    unsigned int lst_size = 10;
+    for (unsigned int i = 0; i < lst_size; ++i)
+        lst.push_back(ft::pair<const int, int>(i + 1, (i + 1) * 3));
+    ft::map <int, int> mp(lst.begin(), lst.end());
     // ft::map<int, int>::const_iterator it = mp.begin(), ite = mp.end();
 	// std::cout << mp.begin()->first << std::endl;
 	// ft::map<int, int>::const_iterator it3 = ite;
@@ -66,9 +66,9 @@ int main ()
     // }
     // testMap.erase(testMap.begin(), testMap.end());
 
-	ft::binary_search_tree_map<ft::pair<const int, int> , value_compare, std::allocator<ft::pair<const int, int> > > bst;
+	// ft::binary_search_tree_map<ft::pair<const int, int> , value_compare, std::allocator<ft::pair<const int, int> > > bst;
 
-	bst.insert(ft::make_pair <const int, int> (22, 2));
+	// bst.insert(ft::make_pair <const int, int> (22, 2));
 	// bst.insert(ft::make_pair <const int, int> (33, 3));
 	// bst.insert(ft::make_pair <const int, int> (88, 554));
 	// bst.insert(ft::make_pair <const int, int> (19, 774));	
@@ -91,7 +91,7 @@ int main ()
 
 	// tryit->second = 10000000;
 
-	ft::node <ft::pair<const int, int> > *node;
+	// ft::node <ft::pair<const int, int> > *node;
 	// node = bst.getNode(bst.root(), 1);
 
 	// for (int i = 0; i < 4; i++)
@@ -101,14 +101,14 @@ int main ()
 	// 	node = bst.incrementNodeByOne(node);
 	// }
 
-	node = bst.getNode(bst.root(), 1);
+	// node = bst.getNode(bst.root(), 1);
 
-	for (int i = 0; i < 2; i++)
-	{
-		std::cout << "content: " << node->data.first << std::endl;
+	// for (int i = 0; i < 2; i++)
+	// {
+	// 	std::cout << "content: " << node->data.first << std::endl;
 		// std::cout << i << std::endl;
-		node = bst.incrementNodeByOne(node);
-	}
+		// node = bst.incrementNodeByOne(node);
+	// }
 	
 	
 

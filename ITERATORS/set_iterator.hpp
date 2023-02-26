@@ -6,49 +6,18 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 20:01:49 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/25 20:36:56 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/26 10:44:57 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SET_ITERATOR_HPP
 #define SET_ITERATOR_HPP
-// #include "./bidirectional_iterator.hpp"
+#include "./bidirectional_iterator.hpp"
 # include "../CONTAINERS/TOOLS/binary_search_tree_map.hpp"
 #include "./iterator.hpp"
 
 namespace ft
 {
-	template<class T, class Tree, bool is_const> class bidirectional_iterator {};
-	template<class T, class Tree>
-	class bidirectional_iterator<T, Tree, false>
-	{	
-		public:
-		typedef const T				value_type;
-		typedef const T*				pointer;
-		typedef const T&				reference;
-		typedef ft::node<T>*	node;
-		mutable node 			_currentNode;
-		bidirectional_iterator(void) {_currentNode = NULL;}
-		bidirectional_iterator(node _node) {_currentNode = _node;}
-		const T& operator*(void) const {return (_currentNode->data);}
-		const T* operator->(void) const {return (&_currentNode->data);}	
-		~bidirectional_iterator(void) {}
-	};
-	template<class T, class Tree>
-	class bidirectional_iterator<T, Tree, true>
-	{
-		public:
-		typedef const T			value_type;
-		typedef const T*		pointer;
-		typedef const T&		reference;
-		typedef ft::node<T>*	node;
-		mutable node 			_currentNode;
-		bidirectional_iterator(void) {_currentNode = NULL;}
-		bidirectional_iterator(node _node) {_currentNode = _node;}
-		const T& operator*(void) const {return (_currentNode->data);}
-		const T* operator->(void) const {return (&_currentNode->data);}
-		~bidirectional_iterator(void) {}
-	};
 	template <class T, class key_compare, class tree_type, class allocator_type, bool is_const>
 	class set_iterator:public ft::bidirectional_iterator <T, tree_type, is_const>
 	{
@@ -101,13 +70,14 @@ namespace ft
 	bool	operator!=(const ft::set_iterator<pair1, comp1, tree_type1, alloc1, isC1> &lhs, const ft::set_iterator<pair2, comp2, tree_type2, alloc2, isC2> &rhs){return (lhs._currentNode != rhs._currentNode);}
 	template<class pair1, class pair2, class comp1, class comp2, class alloc1, class alloc2, class tree_type1, class tree_type2, bool isC1, bool isC2>
 	bool	operator==(const ft::set_iterator<pair1, comp1, tree_type1, alloc1, isC1> &lhs, const ft::set_iterator<pair2, comp2, tree_type2, alloc2, isC2> &rhs){return (lhs._currentNode == rhs._currentNode);}
-	// template<class pair1, class pair2, class comp1, class comp2,  class alloc1, class alloc2, bool isC1, bool isC2>
-	// bool	operator<=(const ft::set_iterator<pair1, comp1, alloc1, isC1> &lhs, const ft::set_iterator<pair2, comp2, alloc2, isC2> &rhs){return (lhs._currentNode <= rhs._currentNode);}
-	// template<class pair1, class pair2, class comp1, class comp2,  class alloc1, class alloc2, bool isC1, bool isC2>
-	// bool	operator>=(const ft::set_iterator<pair1, comp1, alloc1, isC1> &lhs, const ft::set_iterator<pair2, comp2, alloc2, isC2> &rhs){return (lhs._currentNode >= rhs._currentNode);}
-	// template<class pair1, class pair2, class comp1, class comp2,  class alloc1, class alloc2, bool isC1, bool isC2>
-	// bool	operator<(const ft::set_iterator<pair1, comp1, alloc1, isC1> &lhs, const ft::set_iterator<pair2, comp2, alloc2, isC2> &rhs){return (lhs._currentNode < rhs._currentNode);}
-	// template<class pair1, class pair2, class comp1, class comp2,  class alloc1, class alloc2, bool isC1, bool isC2>
-	// bool	operator>(const ft::set_iterator<pair1, comp1, alloc1, isC1> &lhs, const ft::set_iterator<pair2, comp2, alloc2, isC2> &rhs){return (lhs._currentNode > rhs._currentNode);}
+	template<class pair1, class pair2, class comp1, class comp2, class alloc1, class alloc2, class tree_type1, class tree_type2, bool isC1, bool isC2>
+	bool	operator>=(const ft::set_iterator<pair1, comp1, tree_type1, alloc1, isC1> &lhs, const ft::set_iterator<pair2, comp2, tree_type2, alloc2, isC2> &rhs){return (lhs._currentNode >= rhs._currentNode);}
+	template<class pair1, class pair2, class comp1, class comp2, class alloc1, class alloc2, class tree_type1, class tree_type2, bool isC1, bool isC2>
+	bool	operator<=(const ft::set_iterator<pair1, comp1, tree_type1, alloc1, isC1> &lhs, const ft::set_iterator<pair2, comp2, tree_type2, alloc2, isC2> &rhs){return (lhs._currentNode <= rhs._currentNode);}
+	template<class pair1, class pair2, class comp1, class comp2, class alloc1, class alloc2, class tree_type1, class tree_type2, bool isC1, bool isC2>
+	bool	operator<(const ft::set_iterator<pair1, comp1, tree_type1, alloc1, isC1> &lhs, const ft::set_iterator<pair2, comp2, tree_type2, alloc2, isC2> &rhs){return (lhs._currentNode < rhs._currentNode);}
+	template<class pair1, class pair2, class comp1, class comp2, class alloc1, class alloc2, class tree_type1, class tree_type2, bool isC1, bool isC2>
+	bool	operator>(const ft::set_iterator<pair1, comp1, tree_type1, alloc1, isC1> &lhs, const ft::set_iterator<pair2, comp2, tree_type2, alloc2, isC2> &rhs){return (lhs._currentNode > rhs._currentNode);}
+
 }
 #endif

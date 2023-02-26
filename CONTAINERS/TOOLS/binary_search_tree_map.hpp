@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:09:17 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/25 17:45:04 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/26 10:45:50 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -433,17 +433,18 @@ namespace ft
 			}
 			
 		public:
-			mutable int counter;
 			binary_search_tree_map(void):_comp()
 			{
-				_isShallowCopy = false;
+				// std::cout << "default" << std::endl;
 				_nodeSearched = NULL;
 				_root = NULL;
 				_size = 0;
 				_pastTheEnd = _createPastTheEnd();
+				_isShallowCopy = false;
 			}
 			binary_search_tree_map(const binary_search_tree_map &x):_nodeSearched(NULL),_root(NULL),_comp(),_size(0),_pastTheEnd(NULL)
 			{
+				// std::cout << "copy" << std::endl;
 				_size = x._size;
 				_comp = x._comp;
 				_root = x._root;
@@ -452,20 +453,25 @@ namespace ft
 			}
 			~binary_search_tree_map()
 			{
-				if (!_isShallowCopy)
+				if (_isShallowCopy == false)
 				{
-					if (_pastTheEnd)
-					{
-						_allocData.destroy(&_pastTheEnd->data);
-						_allocNode.deallocate(_pastTheEnd, 1);
-						_pastTheEnd = NULL;
-					}
 					if (_root)
 					{
 						_deleteTree(_root);
 						_root = NULL;
 					}
+					// std::cout << "free default" << std::endl;
+					if (_pastTheEnd)
+					{
+						// _allocData.destroy(&_pastTheEnd->data);
+						// delete _pastTheEnd;
+						_allocNode.deallocate(_pastTheEnd, 1);
+						_pastTheEnd = NULL;
+					}
 				}
+				// else
+				// 	std::cout << "free copy" << std::endl;
+				// std::cout << "--------" << std::endl;
 			}
 			void						swap(binary_search_tree_map &x)
 			{

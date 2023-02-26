@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 15:43:23 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/25 22:23:30 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/26 10:29:12 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ namespace ft
 			typedef ft::bidirectional_reverse_iterator<const_iterator>								const_reverse_iterator;
 			
 			/*  			Constructors and destructor			*/
-			explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()):_comp(comp), _alloc(alloc),_tree(){}
+			explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()):_comp(comp), _alloc(alloc){}
             map(const map& x)
             {
                 *this = x;
