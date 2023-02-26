@@ -1,0 +1,15 @@
+myVector[0]: 1
+myVector.at(1): 2
+myVector.front(): 1
+myVector.back(): 3
+myVector.size(): 3
+myVector.max_size(): 2305843009213693951
+myVector.capacity(): 4
+myVector.empty(): 0
+myVector.capacity() after reserve: 10
+myVector.size() after resize: 5
+myOtherVector[0]: 42
+myVector[1]: 4
+myVector[2]: 3
+myVector[0]: 5
+myVector.size() after clear: 0

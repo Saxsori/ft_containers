@@ -1,0 +1,20 @@
+myMap is empty: 1
+myMap2 size is: 5
+myMap3 size is: 5
+myMap size after assignment: 5
+The first element of myMap is: One
+The last element of myMap is: Five
+The elements of myMap are: (1,One) (2,Two) (3,Three) (4,Four) (5,Five) 
+myMap is empty: 0
+myMap size is: 5
+myMap max size is: 128102389400760775
+The value of key 1 is: First
+myMap size after insertions: 8
+myMap size after erasing key 6: 7
+Swapped myMap: (1,One) (2,Two) (3,Three) (4,Four) (5,Five) 
+Swapped myMap2: (1,First) (2,Two) (3,Three) (4,Four) (5,Five) (7,Seven) (8,Eight) 
+Key 2 is present in myMap with value: Two
+Key 3 appears 1 times in myMap
+Lower bound of key 4 in myMap is: Four
+Upper bound of key 4 in myMap is: Five
+All values with key 5 in myMap are: Five 

@@ -1,0 +1,19 @@
+mySet is empty: 1
+mySet2 size is: 5
+mySet3 size is: 5
+mySet size after assignment: 5
+The first element of mySet is: 1
+The last element of mySet is: 5
+The elements of mySet are: (1,1) (2,2) (3,3) (4,4) (5,5) 
+mySet is empty: 0
+mySet size is: 5
+mySet max size is: 230584300921369395
+mySet size after insertions: 8
+mySet size after erasing key 6: 7
+Swapped mySet: (1) (2) (3) (4) (5) 
+Swapped mySet2: (1) (2) (3) (4) (5) (7) (8) 
+Key 2 is present in mySet with value: 2
+Key 3 appears 1 times in mySet
+Lower bound of key 4 in mySet is: 4
+Upper bound of key 4 in mySet is: 5
+All values with key 5 in mySet are: 5 
