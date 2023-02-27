@@ -24,9 +24,9 @@
 
 namespace ft
 {
-	template<class T, class Tree, bool is_const> class bidirectional_iterator {};
-	template<class T, class Tree>
-	class bidirectional_iterator<T, Tree, false>
+	template<class T, bool is_const> class bidirectional_iterator {};
+	template<class T>
+	class bidirectional_iterator<T, false>
 	{	
 		public:
 		typedef T				value_type;
@@ -40,8 +40,8 @@ namespace ft
 		T* operator->(void) const {return (&_currentNode->data);}	
 		~bidirectional_iterator(void) {}
 	};
-	template<class T, class Tree>
-	class bidirectional_iterator<T, Tree, true>
+	template<class T>
+	class bidirectional_iterator<T, true>
 	{
 		public:
 		typedef const T			value_type;

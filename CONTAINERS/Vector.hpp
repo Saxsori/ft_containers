@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaljaber <aaljaber@student.42abudhabi.a    +#+  +:+       +#+        */
+/*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:37:18 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/25 17:58:03 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/27 12:11:46 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -380,7 +380,7 @@ namespace ft
 	};
 	
 	// !						NON-MEMBER FUNCTION OVERLOADS						//
-	
+
 	// ? relational operators
 	template <class T>
 	bool operator==(const ft::vector<T>& lhs, const ft::vector<T>& rhs)

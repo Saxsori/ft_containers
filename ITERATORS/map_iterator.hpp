@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_iterator.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaljaber <aaljaber@student.42abudhabi.a    +#+  +:+       +#+        */
+/*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 19:55:33 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/25 20:01:21 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/27 19:27:53 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,17 @@
 namespace ft
 {
 	template <class T, class key_compare, class tree_type, class allocator_type, bool is_const>
-	class map_iterator:public ft::bidirectional_iterator <T, tree_type, is_const>
+	class map_iterator:public ft::bidirectional_iterator <T, is_const>
 	{
 		public:
 			typedef std::ptrdiff_t																difference_type;
 			typedef ft::bidirectional_iterator_tag												iterator_category;
-			typedef typename ft::bidirectional_iterator<T, tree_type, is_const>::node							node;
-			typedef ft::bidirectional_iterator<T, tree_type, is_const> 										base;
+			typedef typename ft::bidirectional_iterator<T, is_const>::node							node;
+			typedef ft::bidirectional_iterator<T, is_const> 										base;
 			mutable tree_type																		_tree;	
-			map_iterator(void): bidirectional_iterator<T, tree_type, is_const>(), _tree(){}
-			map_iterator(tree_type Tree, node _node):bidirectional_iterator<T, tree_type, is_const>()
+			map_iterator(void){}
+			map_iterator(tree_type Tree, node _node):bidirectional_iterator<T, is_const>(),_tree(Tree)
 			{
-				_tree = Tree;
 				if (!_node)
 					this->_currentNode = NULL;
 				else
@@ -40,26 +39,18 @@ namespace ft
 				but without the true overload .. for some reason it doesn't know where to go
 				and enters an infinite loop
 			*/
-			map_iterator(const map_iterator<T, key_compare, tree_type, allocator_type, false> &other):bidirectional_iterator<T, tree_type, is_const>()
-			{
-				base::_currentNode = other._currentNode;
-				_tree = other._tree;
-			}
+			map_iterator(const map_iterator<T, key_compare, tree_type, allocator_type, false> &other):bidirectional_iterator<T, is_const>(other._currentNode), _tree(other._tree){}
 
-			map_iterator(const map_iterator<T, key_compare, tree_type, allocator_type, true> &other):bidirectional_iterator<T, tree_type, true>()
-			{
-				base::_currentNode = other._currentNode;
-				_tree = other._tree;
-			}
+			map_iterator(const map_iterator<T, key_compare, tree_type, allocator_type, true> &other):bidirectional_iterator<T, true>(other._currentNode), _tree(other._tree){}
 			~map_iterator(void){}
 			// * Assignment operator
 			map_iterator &operator=(const map_iterator &other) {base::_currentNode = other._currentNode; _tree = other._tree; return (*this);}
 			// * Dereference operators
 			// * Increment/decrement operators
-			map_iterator&		operator++(void){this->_currentNode = _tree.incrementNodeByOne(this->_currentNode); return *this;}
-			map_iterator&		operator--(void){this->_currentNode = _tree.decrementNodeByOne(this->_currentNode); return *this;}
-			map_iterator		operator++(int){map_iterator tmp = *this; this->_currentNode = _tree.incrementNodeByOne(this->_currentNode); return tmp;}
-			map_iterator		operator--(int){map_iterator tmp = *this; this->_currentNode = _tree.decrementNodeByOne(this->_currentNode); return tmp;}
+			map_iterator&				operator++(void){this->_currentNode = _tree.incrementNodeByOne(this->_currentNode); return *this;}
+			map_iterator&				operator--(void){this->_currentNode = _tree.decrementNodeByOne(this->_currentNode); return *this;}
+			map_iterator				operator++(int){map_iterator tmp = *this; this->_currentNode = _tree.incrementNodeByOne(this->_currentNode); return tmp;}
+			map_iterator				operator--(int){map_iterator tmp = *this; this->_currentNode = _tree.decrementNodeByOne(this->_currentNode); return tmp;}
 			// * Comparison operators
 			bool						operator!=(const map_iterator &other) const{ return (this->_currentNode != other._currentNode);}			
 			bool						operator==(const map_iterator &other) const{ return (this->_currentNode == other._currentNode);}
