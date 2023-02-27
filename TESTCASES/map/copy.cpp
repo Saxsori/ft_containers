@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   copy.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaljaber <aaljaber@student.42abudhabi.a    +#+  +:+       +#+        */
+/*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 21:41:20 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/26 10:19:28 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/27 10:41:23 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ int main ()
 	std::list <ft::pair<const int, int> > lst;
 	// std::list <ft::pair<const int, int> > lst1;
 	
-    unsigned int lst_size = 10;
+	std::cout << "BOO " << std::endl;
+    unsigned int lst_size = 1;
     for (unsigned int i = 0; i < lst_size; ++i)
         lst.push_back(ft::pair<const int, int>(i + 1, (i + 1) * 3));
     ft::map <int, int> mp(lst.begin(), lst.end());

@@ -7,7 +7,7 @@ The last element of mySet is: 5
 The elements of mySet are: (1,1) (2,2) (3,3) (4,4) (5,5) 
 mySet is empty: 0
 mySet size is: 5
-mySet max size is: 230584300921369395
+mySet max size is: 576460752303423487
 mySet size after insertions: 8
 mySet size after erasing key 6: 7
 Swapped mySet: (1) (2) (3) (4) (5) 

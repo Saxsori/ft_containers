@@ -7,7 +7,7 @@ The last element of myMap is: Five
 The elements of myMap are: (1,One) (2,Two) (3,Three) (4,Four) (5,Five) 
 myMap is empty: 0
 myMap size is: 5
-myMap max size is: 128102389400760775
+myMap max size is: 288230376151711743
 The value of key 1 is: First
 myMap size after insertions: 8
 myMap size after erasing key 6: 7

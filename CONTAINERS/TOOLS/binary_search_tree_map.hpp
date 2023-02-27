@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   binary_search_tree_map.hpp                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaljaber <aaljaber@student.42abudhabi.a    +#+  +:+       +#+        */
+/*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:09:17 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/26 10:45:50 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/27 10:37:33 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -453,6 +453,7 @@ namespace ft
 			}
 			~binary_search_tree_map()
 			{
+				// std::cout<< "HERE ALKA1" << std::endl; 
 				if (_isShallowCopy == false)
 				{
 					if (_root)
@@ -465,6 +466,7 @@ namespace ft
 					{
 						// _allocData.destroy(&_pastTheEnd->data);
 						// delete _pastTheEnd;
+						// std::cout<< "HERE ALKA" << std::endl; 
 						_allocNode.deallocate(_pastTheEnd, 1);
 						_pastTheEnd = NULL;
 					}
