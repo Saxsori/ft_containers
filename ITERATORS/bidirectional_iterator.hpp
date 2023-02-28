@@ -20,6 +20,9 @@
 	it allows to iterate over a container in a bidirectional manner
 	which means that it can be incremented and decremented by 1
 	which is not the case with random_access_iterator
+
+	I used the template specialization to solve the converting
+	btwn cons and non const iterators
 */
 
 namespace ft
@@ -37,7 +40,7 @@ namespace ft
 		bidirectional_iterator(void) {_currentNode = NULL;}
 		bidirectional_iterator(node _node) {_currentNode = _node;}
 		T& operator*(void) const {return (_currentNode->data);}
-		T* operator->(void) const {return (&_currentNode->data);}	
+		T* operator->(void) const {return (&_currentNode->data);}
 		~bidirectional_iterator(void) {}
 	};
 	template<class T>

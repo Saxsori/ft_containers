@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 21:41:20 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/27 19:15:08 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/28 06:00:44 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ int main ()
         lst.push_back(ft::pair<const int, int>(i + 1, (i + 1) * 3));
     ft::map <int, int> mp(lst.begin(), lst.end());
     ft::map<int, int>::const_iterator it = mp.begin();
+	
+	
 	// std::cout << mp.begin()->first << std::endl;
 	// ft::map<int, int>::const_iterator it3 = ite;
 	// std::cout << (--it3)->first << std::endl;

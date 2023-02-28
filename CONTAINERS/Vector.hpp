@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 12:37:18 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/27 12:11:46 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/28 05:20:50 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -331,7 +331,7 @@ namespace ft
 				* so without the explicit keyword, the class allows implicit type conversions from int to vector
 			*/
 			// ? default constructor
-			explicit vector  (const allocator_type& alloc = allocator_type()):_allocator(alloc), _data(NULL), _size(0), _capacity(0){}
+			explicit vector(const allocator_type& alloc = allocator_type()):_allocator(alloc), _data(NULL), _size(0), _capacity(0){}
 			// ? fill constructor
 			explicit vector(size_type count, const_reference value = T(), const allocator_type& alloc = allocator_type()):_data(NULL), _size(0), _capacity(0)
 			{
@@ -344,7 +344,7 @@ namespace ft
 			}
 			// ? copy constructor
 			vector(const vector& other){*this = other;}
-			vector	&operator=(const vector& other)
+			vector &operator=(const vector& other)
 			{
 				_data = _allocator.allocate(other.capacity());
 				for (size_t i = 0; i < other.size(); i++)

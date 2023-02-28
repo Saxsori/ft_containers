@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 20:43:38 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/01/30 00:21:31 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/28 05:29:44 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ namespace ft
 				ft::vector<TESTED_TYPE>::const_iterator it_bar(foo.begin());
 				and 
 				ft::vector<TESTED_TYPE>::const_iterator it_foo = foo.begin();
+				which is the converting between the const and the non const
 			*/
 			template <class U> random_access_iterator(const random_access_iterator<U> &other):_ptr(NULL){_ptr = other.getPointer();}
 			random_access_iterator(const random_access_iterator &other):_ptr(NULL){*this = other;}

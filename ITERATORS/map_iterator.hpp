@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 19:55:33 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/27 19:27:53 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/28 06:15:40 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,26 +25,18 @@ namespace ft
 			typedef ft::bidirectional_iterator_tag												iterator_category;
 			typedef typename ft::bidirectional_iterator<T, is_const>::node							node;
 			typedef ft::bidirectional_iterator<T, is_const> 										base;
+			
 			mutable tree_type																		_tree;	
+			
 			map_iterator(void){}
-			map_iterator(tree_type Tree, node _node):bidirectional_iterator<T, is_const>(),_tree(Tree)
-			{
-				if (!_node)
-					this->_currentNode = NULL;
-				else
-					this->_currentNode = _node;
-			}
-			/*
-				when having this only it doens't compile error .. and pass all the cases
-				but without the true overload .. for some reason it doesn't know where to go
-				and enters an infinite loop
-			*/
+			map_iterator(tree_type Tree, node _node):bidirectional_iterator<T, is_const>(_node),_tree(Tree){}
+			
 			map_iterator(const map_iterator<T, key_compare, tree_type, allocator_type, false> &other):bidirectional_iterator<T, is_const>(other._currentNode), _tree(other._tree){}
 
 			map_iterator(const map_iterator<T, key_compare, tree_type, allocator_type, true> &other):bidirectional_iterator<T, true>(other._currentNode), _tree(other._tree){}
 			~map_iterator(void){}
 			// * Assignment operator
-			map_iterator &operator=(const map_iterator &other) {base::_currentNode = other._currentNode; _tree = other._tree; return (*this);}
+			map_iterator&				operator=(const map_iterator &other) {this->_currentNode = other._currentNode; _tree = other._tree; return (*this);}
 			// * Dereference operators
 			// * Increment/decrement operators
 			map_iterator&				operator++(void){this->_currentNode = _tree.incrementNodeByOne(this->_currentNode); return *this;}
@@ -60,13 +52,15 @@ namespace ft
 	bool	operator!=(const ft::map_iterator<pair1, comp1, tree_type1, alloc1, isC1> &lhs, const ft::map_iterator<pair2, comp2, tree_type2, alloc2, isC2> &rhs){return (lhs._currentNode != rhs._currentNode);}
 	template<class pair1, class pair2, class comp1, class comp2, class alloc1, class alloc2, class tree_type1, class tree_type2, bool isC1, bool isC2>
 	bool	operator==(const ft::map_iterator<pair1, comp1, tree_type1, alloc1, isC1> &lhs, const ft::map_iterator<pair2, comp2, tree_type2, alloc2, isC2> &rhs){return (lhs._currentNode == rhs._currentNode);}
-	// template<class pair1, class pair2, class comp1, class comp2,  class alloc1, class alloc2, bool isC1, bool isC2>
-	// bool	operator<=(const ft::map_iterator<pair1, comp1, alloc1, isC1> &lhs, const ft::map_iterator<pair2, comp2, alloc2, isC2> &rhs){return (lhs._currentNode <= rhs._currentNode);}
-	// template<class pair1, class pair2, class comp1, class comp2,  class alloc1, class alloc2, bool isC1, bool isC2>
-	// bool	operator>=(const ft::map_iterator<pair1, comp1, alloc1, isC1> &lhs, const ft::map_iterator<pair2, comp2, alloc2, isC2> &rhs){return (lhs._currentNode >= rhs._currentNode);}
-	// template<class pair1, class pair2, class comp1, class comp2,  class alloc1, class alloc2, bool isC1, bool isC2>
-	// bool	operator<(const ft::map_iterator<pair1, comp1, alloc1, isC1> &lhs, const ft::map_iterator<pair2, comp2, alloc2, isC2> &rhs){return (lhs._currentNode < rhs._currentNode);}
-	// template<class pair1, class pair2, class comp1, class comp2,  class alloc1, class alloc2, bool isC1, bool isC2>
-	// bool	operator>(const ft::map_iterator<pair1, comp1, alloc1, isC1> &lhs, const ft::map_iterator<pair2, comp2, alloc2, isC2> &rhs){return (lhs._currentNode > rhs._currentNode);}
+	
+	template<class pair1, class pair2, class comp1, class comp2, class alloc1, class alloc2, class tree_type1, class tree_type2, bool isC1, bool isC2>
+	bool	operator<=(const ft::map_iterator<pair1, comp1, tree_type1, alloc1, isC1> &lhs, const ft::map_iterator<pair2, comp2, tree_type2, alloc2, isC2> &rhs){return (lhs._currentNode <= rhs._currentNode);}
+	template<class pair1, class pair2, class comp1, class comp2, class alloc1, class alloc2, class tree_type1, class tree_type2, bool isC1, bool isC2>
+	bool	operator>=(const ft::map_iterator<pair1, comp1, tree_type1, alloc1, isC1> &lhs, const ft::map_iterator<pair2, comp2, tree_type2, alloc2, isC2> &rhs){return (lhs._currentNode >= rhs._currentNode);}
+
+	template<class pair1, class pair2, class comp1, class comp2, class alloc1, class alloc2, class tree_type1, class tree_type2, bool isC1, bool isC2>
+	bool	operator<(const ft::map_iterator<pair1, comp1, tree_type1, alloc1, isC1> &lhs, const ft::map_iterator<pair2, comp2, tree_type2, alloc2, isC2> &rhs){return (lhs._currentNode < rhs._currentNode);}
+	template<class pair1, class pair2, class comp1, class comp2, class alloc1, class alloc2, class tree_type1, class tree_type2, bool isC1, bool isC2>
+	bool	operator>(const ft::map_iterator<pair1, comp1, tree_type1, alloc1, isC1> &lhs, const ft::map_iterator<pair2, comp2, tree_type2, alloc2, isC2> &rhs){return (lhs._currentNode > rhs._currentNode);}
 }
 #endif

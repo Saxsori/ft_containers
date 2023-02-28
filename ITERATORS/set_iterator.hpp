@@ -6,7 +6,7 @@
 /*   By: aaljaber <aaljaber@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 20:01:49 by aaljaber          #+#    #+#             */
-/*   Updated: 2023/02/27 19:31:10 by aaljaber         ###   ########.fr       */
+/*   Updated: 2023/02/28 05:32:50 by aaljaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,6 @@ namespace ft
 				else
 					this->_currentNode = _node;
 			}
-			/*
-				when having this only it doens't compile error .. and pass all the cases
-				but without the true overload .. for some reason it doesn't know where to go
-				and enters an infinite loop
-			*/
 			set_iterator(const set_iterator<T, key_compare, tree_type, allocator_type, false> &other):bidirectional_iterator<T, is_const>(other._currentNode), _tree(other._tree){}
 
 			set_iterator(const set_iterator<T, key_compare, tree_type, allocator_type, true> &other):bidirectional_iterator<T, is_const>(other._currentNode), _tree(other._tree) {}
