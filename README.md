@@ -1,6 +1,5 @@
 # ft_containers 🫙
-
-
+Re-implemented the popular STL containers such as map, stack, vector, and set in C++. Through this project, I gained a strong understanding of how templates were used, and how to debug and optimize code that made use of templates, including template specializations, inheritance, and polymorphism. The use of templates for generic programming would have also provided an understanding of the importance of type safety in programming. The implementation also required a deep understanding of various data structures and algorithms, particularly for the implementation of the map using a red-black tree.  The project was made more challenging due to the limitation of using only C++98. Through this project, I developed skills in generic programming, allowing me to write code that can handle multiple types and utilize the full power of C++ templates. The project also provided an opportunity to develop skills in testing and debugging, which involved the creation of a comprehensive test suite and test cases using shell scripts and C++ programs. Overall, this project significantly improved my knowledge and skills in C++ programming, particularly in the area of generic programming.
 
 ## Resources
 
