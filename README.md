@@ -5,7 +5,7 @@ The use of templates for generic programming would have also provided an underst
 
 Through this project, I developed skills in generic programming, allowing me to write code that can handle multiple types and utilize the full power of C++ templates. The project also provided an opportunity to develop skills in testing and debugging, which involved the creation of a comprehensive test suite and test cases using shell scripts and C++ programs. 
 
-Overall, this project significantly improved my knowledge and skills in C++ programming, particularly in the area of generic programming.
+Overall, this project significantly improved my knowledge and skills in C++ programming, particularly in the area of Object-Oriented Programming.
 
 ## Resources
 
